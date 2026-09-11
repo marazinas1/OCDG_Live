@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "@/lib/router-compat";
 
-const ENDPOINT = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-view`;
+const ENDPOINT = `${import.meta.env["VITE_SUPABASE_URL"]}/functions/v1/track-view`;
 
 /**
  * Fire-and-forget first-party pageview ping. No cookies, no storage,

@@ -356,7 +356,7 @@ function AdminUsersInner() {
                   <div className="flex items-center gap-2 w-full sm:w-auto">
                     <Select
                       value={
-                        u.role === "owner" || u.role === "editor" ? u.role : undefined
+                        (u.role === "owner" || u.role === "editor" ? u.role : undefined) as string
                       }
                       disabled={readOnly || setRole.isPending}
                       onValueChange={(v) => changeRole(u, v as ManageableRole)}

@@ -180,7 +180,7 @@ function ImageSlotBox({
   onFile: (file: File) => void;
   onRemove: () => void;
   onAltChange: (alt: string) => void;
-  onMove?: (dir: -1 | 1) => void;
+  onMove?: ((dir: -1 | 1) => void) | undefined;
   uploading: boolean;
   title: string;
   altPrefill: string;
@@ -456,7 +456,7 @@ function FormInner() {
       grouped[img.category]?.push(slot);
     }
     for (const k of Object.keys(grouped)) {
-      grouped[k].sort((a, b) => a.sort_order - b.sort_order);
+      grouped[k]!.sort((a, b) => a.sort_order - b.sort_order);
     }
     // Single-image invariant: hero/card/vision must have at most one row per
     // property. If duplicates exist (from a previously partial save), keep
@@ -468,7 +468,7 @@ function FormInner() {
     for (const single of ["hero", "card", "vision"] as const) {
       const arr = grouped[single] ?? [];
       if (arr.length > 1) {
-        const keep = arr[arr.length - 1];
+        const keep = arr[arr.length - 1]!;
         for (const s of arr) {
           if (s === keep) continue;
           if (s.kind === "existing") {
@@ -592,7 +592,7 @@ function FormInner() {
     const j = index + dir;
     if (j < 0 || j >= cur.length) return;
     const next = [...cur];
-    [next[index], next[j]] = [next[j], next[index]];
+    [next[index], next[j]] = [next[j]!, next[index]!];
     setCategorySlots(cat, next);
   };
 
@@ -610,7 +610,7 @@ function FormInner() {
   };
   const removeFloorPlan = (id: string) => {
     // Also remove any linked floor_plan image slots.
-    const linked = (slotsByCategory.floor_plan ?? []).filter((s) => s.floor_plan_id === id);
+    const linked = (slotsByCategory["floor_plan"] ?? []).filter((s) => s.floor_plan_id === id);
     for (const s of linked) {
       if (s.kind === "existing") {
         setDeletedStoragePaths((p) => [...p, s.storage_path]);
@@ -621,7 +621,7 @@ function FormInner() {
     }
     setSlotsByCategory((prev) => ({
       ...prev,
-      floor_plan: (prev.floor_plan ?? []).filter((s) => s.floor_plan_id !== id),
+      floor_plan: (prev["floor_plan"] ?? []).filter((s) => s.floor_plan_id !== id),
     }));
     setFloorPlans((f) => f.filter((row) => row.id !== id));
     markDirty();
@@ -632,20 +632,20 @@ function FormInner() {
       const j = idx + dir;
       if (idx < 0 || j < 0 || j >= f.length) return f;
       const next = [...f];
-      [next[idx], next[j]] = [next[j], next[idx]];
+      [next[idx], next[j]] = [next[j]!, next[idx]!];
       return next;
     });
     markDirty();
   };
 
   const floorPlanImageFor = (fpId: string): ImageSlot | undefined =>
-    (slotsByCategory.floor_plan ?? []).find((s) => s.floor_plan_id === fpId);
+    (slotsByCategory["floor_plan"] ?? []).find((s) => s.floor_plan_id === fpId);
 
   const setFloorPlanImage = (fpId: string, file: File) => {
     const existing = floorPlanImageFor(fpId);
     if (existing) {
       // Replace
-      const cur = slotsByCategory.floor_plan ?? [];
+      const cur = slotsByCategory["floor_plan"] ?? [];
       const idx = cur.indexOf(existing);
       replaceSlot("floor_plan", idx, file);
     } else {
@@ -656,7 +656,7 @@ function FormInner() {
   const removeFloorPlanImage = (fpId: string) => {
     const existing = floorPlanImageFor(fpId);
     if (!existing) return;
-    const cur = slotsByCategory.floor_plan ?? [];
+    const cur = slotsByCategory["floor_plan"] ?? [];
     const idx = cur.indexOf(existing);
     removeSlotAt("floor_plan", idx);
   };
@@ -791,7 +791,7 @@ function FormInner() {
       // Assign sort order per-category based on array position.
       const positionByCategory: Record<string, number> = {};
       for (const cat of Object.keys(slotsByCategory)) {
-        slotsByCategory[cat].forEach((slot, index) => {
+        slotsByCategory[cat]?.forEach((slot, index) => {
           positionByCategory[`${cat}:${index}`] = index;
         });
       }
@@ -799,7 +799,7 @@ function FormInner() {
       for (const cat of Object.keys(slotsByCategory)) {
         const cur = slotsByCategory[cat] ?? [];
         for (let i = 0; i < cur.length; i++) {
-          const slot = cur[i];
+          const slot = cur[i]!;
           if (slot.kind === "pending") {
             const { storage_path } = await uploadImage({
               file: slot.file,
@@ -1252,7 +1252,7 @@ function FormInner() {
                       value={f.label}
                       onChange={(e) => {
                         const next = [...visionFloors];
-                        next[i] = { ...next[i], label: e.target.value };
+                        next[i] = { ...next[i]!, label: e.target.value };
                         setVisionFloors(next);
                         markDirty();
                       }}
@@ -1275,7 +1275,7 @@ function FormInner() {
                     value={f.body}
                     onChange={(e) => {
                       const next = [...visionFloors];
-                      next[i] = { ...next[i], body: e.target.value };
+                      next[i] = { ...next[i]!, body: e.target.value };
                       setVisionFloors(next);
                       markDirty();
                     }}
@@ -1305,7 +1305,7 @@ function FormInner() {
                   value={h.value}
                   onChange={(e) => {
                     const next = [...highlights];
-                    next[i] = { ...next[i], value: e.target.value };
+                    next[i] = { ...next[i]!, value: e.target.value };
                     setHighlights(next);
                     markDirty();
                   }}
@@ -1315,7 +1315,7 @@ function FormInner() {
                   value={h.label}
                   onChange={(e) => {
                     const next = [...highlights];
-                    next[i] = { ...next[i], label: e.target.value };
+                    next[i] = { ...next[i]!, label: e.target.value };
                     setHighlights(next);
                     markDirty();
                   }}
@@ -1568,7 +1568,7 @@ function FormInner() {
                       onFile={(file) => setFloorPlanImage(fp.id, file)}
                       onRemove={() => removeFloorPlanImage(fp.id)}
                       onAltChange={(alt) => {
-                        const cur = slotsByCategory.floor_plan ?? [];
+                        const cur = slotsByCategory["floor_plan"] ?? [];
                         const idx2 = cur.findIndex((s) => s.floor_plan_id === fp.id);
                         if (idx2 >= 0) updateSlotAlt("floor_plan", idx2, alt);
                       }}

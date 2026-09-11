@@ -130,8 +130,8 @@ function AssetSlot({
   help: string;
   url: string | null;
   hasUpload: boolean;
-  dark?: boolean;
-  note?: string;
+  dark?: boolean | undefined;
+  note?: string | undefined;
   busy: boolean;
   progress: number;
   onPick: (file: File) => void;
@@ -459,7 +459,7 @@ function SettingsBody() {
       const next = [...list];
       const target = index + delta;
       if (target < 0 || target >= next.length) return list;
-      [next[index], next[target]] = [next[target], next[index]];
+      [next[index], next[target]] = [next[target]!, next[index]!];
       return next;
     });
 

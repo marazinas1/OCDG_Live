@@ -9,7 +9,7 @@ export interface PropertyCarouselItem {
   link: string;
   location: string;
   description: string;
-  price?: string;
+  price?: string | undefined;
   badgeLabel: string;
   badgeColor: string;
 }

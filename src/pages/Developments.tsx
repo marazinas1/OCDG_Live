@@ -74,7 +74,7 @@ const Developments = () => {
     status: DevStatus;
     image: string;
     location: string;
-    price?: string;
+    price?: string | undefined;
     description: string;
   };
 

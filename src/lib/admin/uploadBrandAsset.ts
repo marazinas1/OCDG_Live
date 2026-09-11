@@ -50,7 +50,7 @@ async function encode(file: File, preset: Preset): Promise<Blob> {
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Canvas context unavailable");
     ctx.drawImage(bmp, 0, 0, w, h);
-    blob = await canvas.convertToBlob({ type: preset.type, quality: preset.quality });
+    blob = await canvas.convertToBlob({ type: preset.type, ...(preset.quality !== undefined ? { quality: preset.quality } : {}) });
   } else {
     const canvas = document.createElement("canvas");
     canvas.width = w;

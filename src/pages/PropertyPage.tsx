@@ -168,31 +168,31 @@ const PropertyPage = () => {
     return g;
   }, [images]);
 
-  const heroImage = grouped.hero?.[0] ?? null;
-  const cardImage = grouped.card?.[0] ?? null;
-  const exteriorImages: GalleryImage[] = (grouped.exterior ?? []).map(
+  const heroImage = grouped["hero"]?.[0] ?? null;
+  const cardImage = grouped["card"]?.[0] ?? null;
+  const exteriorImages: GalleryImage[] = (grouped["exterior"] ?? []).map(
     (r) => ({ src: publicUrl(r.storage_path), alt: r.alt_text ?? property?.title ?? "" })
   );
-  const interiorImages: GalleryImage[] = (grouped.interior ?? []).map((r) => ({
+  const interiorImages: GalleryImage[] = (grouped["interior"] ?? []).map((r) => ({
     src: publicUrl(r.storage_path),
     alt: r.alt_text ?? property?.title ?? "",
   }));
-  const photoImages: GalleryImage[] = (grouped.photo ?? []).map((r) => ({
+  const photoImages: GalleryImage[] = (grouped["photo"] ?? []).map((r) => ({
     src: publicUrl(r.storage_path),
     alt: r.alt_text ?? property?.title ?? "",
   }));
   const allGallery = [...exteriorImages, ...interiorImages];
 
-  const visionImageRow = grouped.vision?.[0] ?? null;
+  const visionImageRow = grouped["vision"]?.[0] ?? null;
 
   const floorPlans = property?.floor_plans ?? [];
   const floorPlanImageBy = useMemo(() => {
     const map: Record<string, string> = {};
-    for (const row of grouped.floor_plan ?? []) {
+    for (const row of grouped["floor_plan"] ?? []) {
       if (row.floor_plan_id) map[row.floor_plan_id] = publicUrl(row.storage_path);
     }
     return map;
-  }, [grouped.floor_plan]);
+  }, [grouped["floor_plan"]]);
 
   const [activeFloor, setActiveFloor] = useState<string | null>(null);
   useEffect(() => {
