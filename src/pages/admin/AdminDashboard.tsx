@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { ArrowRight, Building2, ExternalLink, Inbox, Plus, UserCog } from "lucide-react";
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";

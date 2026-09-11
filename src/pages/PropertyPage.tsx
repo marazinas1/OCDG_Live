@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "@/lib/router-compat";
 import { useQuery } from "@tanstack/react-query";
 import {
   Bed,
@@ -16,7 +16,6 @@ import { toast } from "sonner";
 
 import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
-import SEO from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/admin/useAdminAuth";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -123,7 +122,7 @@ const PropertyPage = () => {
   // in a new tab. No DB reads/writes happen in this mode.
   const isPreview = location.pathname === "/admin/preview";
   const previewData = useMemo(() => {
-    if (!isPreview) return null;
+    if (!isPreview || typeof window === "undefined") return null;
     try {
       const raw = localStorage.getItem("admin-preview-property");
       if (!raw) return null;
@@ -389,12 +388,9 @@ const PropertyPage = () => {
 
   return (
     <main className="min-h-screen">
-      <SEO
-        title={`${property.title} — Ocean City Development Group`}
-        description={seoDescription.slice(0, 158)}
-        path={location.pathname}
-        image={cardImage ? publicUrl(cardImage.storage_path) : heroUrl ?? undefined}
-        jsonLd={listingJsonLd}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
       />
       <GlobalNav />
 

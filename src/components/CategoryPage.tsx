@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
-import SEO from "@/components/SEO";
 import PublicPropertyCard from "@/components/PublicPropertyCard";
 import subpageHero from "@/assets/subpage-hero.jpg";
 import { usePublicProperties } from "@/hooks/usePublicProperties";
@@ -62,7 +61,6 @@ const CategoryPage = ({
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO title={seoTitle} description={seoDescription} path={path} />
 
       <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <img

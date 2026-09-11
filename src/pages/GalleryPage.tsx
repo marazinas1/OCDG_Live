@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import GlobalNav from "@/components/GlobalNav";
-import SEO from "@/components/SEO";
 import GlobalFooter from "@/components/GlobalFooter";
 import subpageHero from "@/assets/subpage-hero.jpg";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -219,11 +218,6 @@ const GalleryPage = () => {
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO
-        title={"Gallery — Ocean City Luxury Home Portfolio"}
-        description={"Curated renderings and photography of luxury custom homes by Ocean City Development Group."}
-        path="/gallery"
-      />
 
       <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <img

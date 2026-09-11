@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS } from "@/lib/admin/status";
 import type { PublicPropertyCard as PublicPropertyCardData } from "@/hooks/usePublicProperties";
 

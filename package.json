@@ -73,8 +73,7 @@
     "zod": "^3.25.76",
     "@radix-ui/react-toast": "1.2.6",
     "@supabase/supabase-js": "^2.105.4",
-    "next-themes": "^0.3.0",
-    "react-helmet-async": "2.0.5"
+    "next-themes": "^0.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",

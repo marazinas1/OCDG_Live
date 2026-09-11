@@ -1,7 +1,6 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "@/lib/router-compat";
 import { useState, useEffect } from "react";
 import GlobalNav from "@/components/GlobalNav";
-import SEO from "@/components/SEO";
 import GlobalFooter from "@/components/GlobalFooter";
 import PropertyCarousel from "@/components/PropertyCarousel";
 import PublicPropertyCard from "@/components/PublicPropertyCard";
@@ -154,7 +153,6 @@ const Developments = () => {
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO title={"Developments — Ocean City Custom Homes"} description={"Browse Ocean City Development Group's portfolio: active listings, under contract, and sold luxury coastal homes."} path="/developments" />
 
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
