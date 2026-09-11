@@ -1,0 +1,9 @@
+{"functions": [
+  {"name": "auth-email-hook", "classification": "webhook receiver", "signal": "Supabase Auth email hook with fixed URL configured in auth settings; AGENTS.md mandates edge functions stay", "outcome": "left"},
+  {"name": "handle-email-events", "classification": "webhook receiver", "signal": "receives email-provider delivery events at a fixed URL; AGENTS.md mandates edge functions stay", "outcome": "left"},
+  {"name": "manage-users", "classification": "internal-only", "signal": "called from src/hooks/admin/useAdminUsers.ts, but AGENTS.md explicitly forbids touching it", "outcome": "left"},
+  {"name": "preview-transactional-email", "classification": "internal-only", "signal": "admin email preview tool; AGENTS.md mandates edge functions stay", "outcome": "left"},
+  {"name": "send-inquiry-notification", "classification": "internal-only", "signal": "called from Contact.tsx and PropertyPage.tsx, but AGENTS.md explicitly forbids touching it", "outcome": "left"},
+  {"name": "sitemap", "classification": "custom response", "signal": "serves XML at a fixed public URL referenced by crawlers; AGENTS.md mandates edge functions stay", "outcome": "left"},
+  {"name": "track-view", "classification": "custom response", "signal": "raw /functions/v1/track-view beacon URL in usePageTracking.ts with CORS-sensitive text/plain contract; AGENTS.md mandates edge functions stay", "outcome": "left"}
+]}
