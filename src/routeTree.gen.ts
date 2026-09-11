@@ -15,8 +15,32 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as SoldRouteImport } from './routes/sold'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminSplatRouteImport } from './routes/admin/$'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
+import { Route as AdminInquiriesRouteImport } from './routes/admin/inquiries'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminPreviewRouteImport } from './routes/admin/preview'
+import { Route as AdminSetPasswordRouteImport } from './routes/admin/set-password'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as DevelopmentsIndexRouteImport } from './routes/developments/index'
 import { Route as DevelopmentsSlugRouteImport } from './routes/developments/$slug'
+import { Route as DevelopmentsActiveListingsRouteImport } from './routes/developments/active-listings'
+import { Route as DevelopmentsComingSoonRouteImport } from './routes/developments/coming-soon'
+import { Route as DevelopmentsCurrentRouteImport } from './routes/developments/current'
+import { Route as DevelopmentsUnderContractRouteImport } from './routes/developments/under-contract'
+import { Route as AdminPropertiesIndexRouteImport } from './routes/admin/properties/index'
+import { Route as AdminPropertiesNewRouteImport } from './routes/admin/properties/new'
+import { Route as DevelopmentsCurrentProjectsIndexRouteImport } from './routes/developments/current-projects/index'
+import { Route as DevelopmentsCurrentProjectsSlugRouteImport } from './routes/developments/current-projects/$slug'
+import { Route as DevelopmentsPastProjectsIndexRouteImport } from './routes/developments/past-projects/index'
+import { Route as DevelopmentsPastProjectsSlugRouteImport } from './routes/developments/past-projects/$slug'
+import { Route as DevelopmentsPropertySlugRouteImport } from './routes/developments/property/$slug'
+import { Route as DevelopmentsSoldIndexRouteImport } from './routes/developments/sold/index'
+import { Route as DevelopmentsSoldSlugRouteImport } from './routes/developments/sold/$slug'
+import { Route as AdminPropertiesIdEditRouteImport } from './routes/admin/properties/$id/edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -48,6 +72,56 @@ const TestimonialsRoute = TestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSplatRoute = AdminSplatRouteImport.update({
+  id: '/admin/$',
+  path: '/admin/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
+  id: '/admin/inquiries',
+  path: '/admin/inquiries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPreviewRoute = AdminPreviewRouteImport.update({
+  id: '/admin/preview',
+  path: '/admin/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSetPasswordRoute = AdminSetPasswordRouteImport.update({
+  id: '/admin/set-password',
+  path: '/admin/set-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
+  id: '/admin/testimonials',
+  path: '/admin/testimonials',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DevelopmentsIndexRoute = DevelopmentsIndexRouteImport.update({
   id: '/developments/',
   path: '/developments/',
@@ -58,6 +132,83 @@ const DevelopmentsSlugRoute = DevelopmentsSlugRouteImport.update({
   path: '/developments/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevelopmentsActiveListingsRoute =
+  DevelopmentsActiveListingsRouteImport.update({
+    id: '/developments/active-listings',
+    path: '/developments/active-listings',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DevelopmentsComingSoonRoute = DevelopmentsComingSoonRouteImport.update({
+  id: '/developments/coming-soon',
+  path: '/developments/coming-soon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevelopmentsCurrentRoute = DevelopmentsCurrentRouteImport.update({
+  id: '/developments/current',
+  path: '/developments/current',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevelopmentsUnderContractRoute =
+  DevelopmentsUnderContractRouteImport.update({
+    id: '/developments/under-contract',
+    path: '/developments/under-contract',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminPropertiesIndexRoute = AdminPropertiesIndexRouteImport.update({
+  id: '/admin/properties/',
+  path: '/admin/properties/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPropertiesNewRoute = AdminPropertiesNewRouteImport.update({
+  id: '/admin/properties/new',
+  path: '/admin/properties/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevelopmentsCurrentProjectsIndexRoute =
+  DevelopmentsCurrentProjectsIndexRouteImport.update({
+    id: '/developments/current-projects/',
+    path: '/developments/current-projects/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DevelopmentsCurrentProjectsSlugRoute =
+  DevelopmentsCurrentProjectsSlugRouteImport.update({
+    id: '/developments/current-projects/$slug',
+    path: '/developments/current-projects/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DevelopmentsPastProjectsIndexRoute =
+  DevelopmentsPastProjectsIndexRouteImport.update({
+    id: '/developments/past-projects/',
+    path: '/developments/past-projects/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DevelopmentsPastProjectsSlugRoute =
+  DevelopmentsPastProjectsSlugRouteImport.update({
+    id: '/developments/past-projects/$slug',
+    path: '/developments/past-projects/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DevelopmentsPropertySlugRoute =
+  DevelopmentsPropertySlugRouteImport.update({
+    id: '/developments/property/$slug',
+    path: '/developments/property/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DevelopmentsSoldIndexRoute = DevelopmentsSoldIndexRouteImport.update({
+  id: '/developments/sold/',
+  path: '/developments/sold/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevelopmentsSoldSlugRoute = DevelopmentsSoldSlugRouteImport.update({
+  id: '/developments/sold/$slug',
+  path: '/developments/sold/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPropertiesIdEditRoute = AdminPropertiesIdEditRouteImport.update({
+  id: '/admin/properties/$id/edit',
+  path: '/admin/properties/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,8 +217,32 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/sold': typeof SoldRoute
   '/testimonials': typeof TestimonialsRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/preview': typeof AdminPreviewRoute
+  '/admin/set-password': typeof AdminSetPasswordRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/developments/$slug': typeof DevelopmentsSlugRoute
+  '/developments/active-listings': typeof DevelopmentsActiveListingsRoute
+  '/developments/coming-soon': typeof DevelopmentsComingSoonRoute
+  '/developments/current': typeof DevelopmentsCurrentRoute
+  '/developments/under-contract': typeof DevelopmentsUnderContractRoute
+  '/admin/': typeof AdminIndexRoute
   '/developments/': typeof DevelopmentsIndexRoute
+  '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/developments/current-projects/$slug': typeof DevelopmentsCurrentProjectsSlugRoute
+  '/developments/past-projects/$slug': typeof DevelopmentsPastProjectsSlugRoute
+  '/developments/property/$slug': typeof DevelopmentsPropertySlugRoute
+  '/developments/sold/$slug': typeof DevelopmentsSoldSlugRoute
+  '/admin/properties/': typeof AdminPropertiesIndexRoute
+  '/developments/current-projects/': typeof DevelopmentsCurrentProjectsIndexRoute
+  '/developments/past-projects/': typeof DevelopmentsPastProjectsIndexRoute
+  '/developments/sold/': typeof DevelopmentsSoldIndexRoute
+  '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,8 +251,32 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/sold': typeof SoldRoute
   '/testimonials': typeof TestimonialsRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/preview': typeof AdminPreviewRoute
+  '/admin/set-password': typeof AdminSetPasswordRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/developments/$slug': typeof DevelopmentsSlugRoute
+  '/developments/active-listings': typeof DevelopmentsActiveListingsRoute
+  '/developments/coming-soon': typeof DevelopmentsComingSoonRoute
+  '/developments/current': typeof DevelopmentsCurrentRoute
+  '/developments/under-contract': typeof DevelopmentsUnderContractRoute
+  '/admin': typeof AdminIndexRoute
   '/developments': typeof DevelopmentsIndexRoute
+  '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/developments/current-projects/$slug': typeof DevelopmentsCurrentProjectsSlugRoute
+  '/developments/past-projects/$slug': typeof DevelopmentsPastProjectsSlugRoute
+  '/developments/property/$slug': typeof DevelopmentsPropertySlugRoute
+  '/developments/sold/$slug': typeof DevelopmentsSoldSlugRoute
+  '/admin/properties': typeof AdminPropertiesIndexRoute
+  '/developments/current-projects': typeof DevelopmentsCurrentProjectsIndexRoute
+  '/developments/past-projects': typeof DevelopmentsPastProjectsIndexRoute
+  '/developments/sold': typeof DevelopmentsSoldIndexRoute
+  '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +286,32 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/sold': typeof SoldRoute
   '/testimonials': typeof TestimonialsRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/preview': typeof AdminPreviewRoute
+  '/admin/set-password': typeof AdminSetPasswordRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/developments/$slug': typeof DevelopmentsSlugRoute
+  '/developments/active-listings': typeof DevelopmentsActiveListingsRoute
+  '/developments/coming-soon': typeof DevelopmentsComingSoonRoute
+  '/developments/current': typeof DevelopmentsCurrentRoute
+  '/developments/under-contract': typeof DevelopmentsUnderContractRoute
+  '/admin/': typeof AdminIndexRoute
   '/developments/': typeof DevelopmentsIndexRoute
+  '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/developments/current-projects/$slug': typeof DevelopmentsCurrentProjectsSlugRoute
+  '/developments/past-projects/$slug': typeof DevelopmentsPastProjectsSlugRoute
+  '/developments/property/$slug': typeof DevelopmentsPropertySlugRoute
+  '/developments/sold/$slug': typeof DevelopmentsSoldSlugRoute
+  '/admin/properties/': typeof AdminPropertiesIndexRoute
+  '/developments/current-projects/': typeof DevelopmentsCurrentProjectsIndexRoute
+  '/developments/past-projects/': typeof DevelopmentsPastProjectsIndexRoute
+  '/developments/sold/': typeof DevelopmentsSoldIndexRoute
+  '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,8 +322,32 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/sold'
     | '/testimonials'
+    | '/admin/$'
+    | '/admin/analytics'
+    | '/admin/inquiries'
+    | '/admin/login'
+    | '/admin/preview'
+    | '/admin/set-password'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin/users'
     | '/developments/$slug'
+    | '/developments/active-listings'
+    | '/developments/coming-soon'
+    | '/developments/current'
+    | '/developments/under-contract'
+    | '/admin/'
     | '/developments/'
+    | '/admin/properties/new'
+    | '/developments/current-projects/$slug'
+    | '/developments/past-projects/$slug'
+    | '/developments/property/$slug'
+    | '/developments/sold/$slug'
+    | '/admin/properties/'
+    | '/developments/current-projects/'
+    | '/developments/past-projects/'
+    | '/developments/sold/'
+    | '/admin/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -109,8 +356,32 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/sold'
     | '/testimonials'
+    | '/admin/$'
+    | '/admin/analytics'
+    | '/admin/inquiries'
+    | '/admin/login'
+    | '/admin/preview'
+    | '/admin/set-password'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin/users'
     | '/developments/$slug'
+    | '/developments/active-listings'
+    | '/developments/coming-soon'
+    | '/developments/current'
+    | '/developments/under-contract'
+    | '/admin'
     | '/developments'
+    | '/admin/properties/new'
+    | '/developments/current-projects/$slug'
+    | '/developments/past-projects/$slug'
+    | '/developments/property/$slug'
+    | '/developments/sold/$slug'
+    | '/admin/properties'
+    | '/developments/current-projects'
+    | '/developments/past-projects'
+    | '/developments/sold'
+    | '/admin/properties/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -119,8 +390,32 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/sold'
     | '/testimonials'
+    | '/admin/$'
+    | '/admin/analytics'
+    | '/admin/inquiries'
+    | '/admin/login'
+    | '/admin/preview'
+    | '/admin/set-password'
+    | '/admin/settings'
+    | '/admin/testimonials'
+    | '/admin/users'
     | '/developments/$slug'
+    | '/developments/active-listings'
+    | '/developments/coming-soon'
+    | '/developments/current'
+    | '/developments/under-contract'
+    | '/admin/'
     | '/developments/'
+    | '/admin/properties/new'
+    | '/developments/current-projects/$slug'
+    | '/developments/past-projects/$slug'
+    | '/developments/property/$slug'
+    | '/developments/sold/$slug'
+    | '/admin/properties/'
+    | '/developments/current-projects/'
+    | '/developments/past-projects/'
+    | '/developments/sold/'
+    | '/admin/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,8 +425,32 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   SoldRoute: typeof SoldRoute
   TestimonialsRoute: typeof TestimonialsRoute
+  AdminSplatRoute: typeof AdminSplatRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminInquiriesRoute: typeof AdminInquiriesRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminPreviewRoute: typeof AdminPreviewRoute
+  AdminSetPasswordRoute: typeof AdminSetPasswordRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
   DevelopmentsSlugRoute: typeof DevelopmentsSlugRoute
+  DevelopmentsActiveListingsRoute: typeof DevelopmentsActiveListingsRoute
+  DevelopmentsComingSoonRoute: typeof DevelopmentsComingSoonRoute
+  DevelopmentsCurrentRoute: typeof DevelopmentsCurrentRoute
+  DevelopmentsUnderContractRoute: typeof DevelopmentsUnderContractRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   DevelopmentsIndexRoute: typeof DevelopmentsIndexRoute
+  AdminPropertiesNewRoute: typeof AdminPropertiesNewRoute
+  DevelopmentsCurrentProjectsSlugRoute: typeof DevelopmentsCurrentProjectsSlugRoute
+  DevelopmentsPastProjectsSlugRoute: typeof DevelopmentsPastProjectsSlugRoute
+  DevelopmentsPropertySlugRoute: typeof DevelopmentsPropertySlugRoute
+  DevelopmentsSoldSlugRoute: typeof DevelopmentsSoldSlugRoute
+  AdminPropertiesIndexRoute: typeof AdminPropertiesIndexRoute
+  DevelopmentsCurrentProjectsIndexRoute: typeof DevelopmentsCurrentProjectsIndexRoute
+  DevelopmentsPastProjectsIndexRoute: typeof DevelopmentsPastProjectsIndexRoute
+  DevelopmentsSoldIndexRoute: typeof DevelopmentsSoldIndexRoute
+  AdminPropertiesIdEditRoute: typeof AdminPropertiesIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,6 +497,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestimonialsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/$': {
+      id: '/admin/$'
+      path: '/admin/$'
+      fullPath: '/admin/$'
+      preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/inquiries': {
+      id: '/admin/inquiries'
+      path: '/admin/inquiries'
+      fullPath: '/admin/inquiries'
+      preLoaderRoute: typeof AdminInquiriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/preview': {
+      id: '/admin/preview'
+      path: '/admin/preview'
+      fullPath: '/admin/preview'
+      preLoaderRoute: typeof AdminPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/set-password': {
+      id: '/admin/set-password'
+      path: '/admin/set-password'
+      fullPath: '/admin/set-password'
+      preLoaderRoute: typeof AdminSetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/testimonials': {
+      id: '/admin/testimonials'
+      path: '/admin/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/developments/': {
       id: '/developments/'
       path: '/developments'
@@ -192,6 +581,104 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevelopmentsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/developments/active-listings': {
+      id: '/developments/active-listings'
+      path: '/developments/active-listings'
+      fullPath: '/developments/active-listings'
+      preLoaderRoute: typeof DevelopmentsActiveListingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/coming-soon': {
+      id: '/developments/coming-soon'
+      path: '/developments/coming-soon'
+      fullPath: '/developments/coming-soon'
+      preLoaderRoute: typeof DevelopmentsComingSoonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/current': {
+      id: '/developments/current'
+      path: '/developments/current'
+      fullPath: '/developments/current'
+      preLoaderRoute: typeof DevelopmentsCurrentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/under-contract': {
+      id: '/developments/under-contract'
+      path: '/developments/under-contract'
+      fullPath: '/developments/under-contract'
+      preLoaderRoute: typeof DevelopmentsUnderContractRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/properties/': {
+      id: '/admin/properties/'
+      path: '/admin/properties'
+      fullPath: '/admin/properties/'
+      preLoaderRoute: typeof AdminPropertiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/properties/new': {
+      id: '/admin/properties/new'
+      path: '/admin/properties/new'
+      fullPath: '/admin/properties/new'
+      preLoaderRoute: typeof AdminPropertiesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/current-projects/': {
+      id: '/developments/current-projects/'
+      path: '/developments/current-projects'
+      fullPath: '/developments/current-projects/'
+      preLoaderRoute: typeof DevelopmentsCurrentProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/current-projects/$slug': {
+      id: '/developments/current-projects/$slug'
+      path: '/developments/current-projects/$slug'
+      fullPath: '/developments/current-projects/$slug'
+      preLoaderRoute: typeof DevelopmentsCurrentProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/past-projects/': {
+      id: '/developments/past-projects/'
+      path: '/developments/past-projects'
+      fullPath: '/developments/past-projects/'
+      preLoaderRoute: typeof DevelopmentsPastProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/past-projects/$slug': {
+      id: '/developments/past-projects/$slug'
+      path: '/developments/past-projects/$slug'
+      fullPath: '/developments/past-projects/$slug'
+      preLoaderRoute: typeof DevelopmentsPastProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/property/$slug': {
+      id: '/developments/property/$slug'
+      path: '/developments/property/$slug'
+      fullPath: '/developments/property/$slug'
+      preLoaderRoute: typeof DevelopmentsPropertySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/sold/': {
+      id: '/developments/sold/'
+      path: '/developments/sold'
+      fullPath: '/developments/sold/'
+      preLoaderRoute: typeof DevelopmentsSoldIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developments/sold/$slug': {
+      id: '/developments/sold/$slug'
+      path: '/developments/sold/$slug'
+      fullPath: '/developments/sold/$slug'
+      preLoaderRoute: typeof DevelopmentsSoldSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/properties/$id/edit': {
+      id: '/admin/properties/$id/edit'
+      path: '/admin/properties/$id/edit'
+      fullPath: '/admin/properties/$id/edit'
+      preLoaderRoute: typeof AdminPropertiesIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -202,8 +689,32 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   SoldRoute: SoldRoute,
   TestimonialsRoute: TestimonialsRoute,
+  AdminSplatRoute: AdminSplatRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminInquiriesRoute: AdminInquiriesRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminPreviewRoute: AdminPreviewRoute,
+  AdminSetPasswordRoute: AdminSetPasswordRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminUsersRoute: AdminUsersRoute,
   DevelopmentsSlugRoute: DevelopmentsSlugRoute,
+  DevelopmentsActiveListingsRoute: DevelopmentsActiveListingsRoute,
+  DevelopmentsComingSoonRoute: DevelopmentsComingSoonRoute,
+  DevelopmentsCurrentRoute: DevelopmentsCurrentRoute,
+  DevelopmentsUnderContractRoute: DevelopmentsUnderContractRoute,
+  AdminIndexRoute: AdminIndexRoute,
   DevelopmentsIndexRoute: DevelopmentsIndexRoute,
+  AdminPropertiesNewRoute: AdminPropertiesNewRoute,
+  DevelopmentsCurrentProjectsSlugRoute: DevelopmentsCurrentProjectsSlugRoute,
+  DevelopmentsPastProjectsSlugRoute: DevelopmentsPastProjectsSlugRoute,
+  DevelopmentsPropertySlugRoute: DevelopmentsPropertySlugRoute,
+  DevelopmentsSoldSlugRoute: DevelopmentsSoldSlugRoute,
+  AdminPropertiesIndexRoute: AdminPropertiesIndexRoute,
+  DevelopmentsCurrentProjectsIndexRoute: DevelopmentsCurrentProjectsIndexRoute,
+  DevelopmentsPastProjectsIndexRoute: DevelopmentsPastProjectsIndexRoute,
+  DevelopmentsSoldIndexRoute: DevelopmentsSoldIndexRoute,
+  AdminPropertiesIdEditRoute: AdminPropertiesIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
