@@ -1,43 +1,61 @@
-# Phase 4 — why Contact can't go first, and what to do instead
+# Framework switch — preflight report, stopping before the swap
 
-## The blocker
+No files have been changed. This is the read-only scan you asked for, plus answers to your four questions.
 
-The project is still fully on the old setup: `index.html`, `src/main.tsx`, `src/App.tsx` with React Router, `react-router-dom` in the dependency list, no `src/routes/` directory. I checked all of these just now.
+## 1. Build status
 
-Route-level `head()` and server-rendered HTML only exist once the app itself runs on the new framework. There is no way to convert one page: the server entry, the root document, the router and the page-shell are shared by every page at once. If I hand-built a `src/routes/contact.tsx` today, nothing would load it, and your step-5 check (raw HTML from the server, before any JavaScript) would return the same empty shell it returns now — because the current setup has no server rendering at all.
+`bun run build` finished **green**, exit code 0, built in 10.4s. Only a chunk-size advisory (the analytics page and the main bundle are large) — that is a warning, not an error. The baseline is clean, so any error that appears after the swap is attributable to the swap.
 
-So "one page first" is not a smaller, safer version of the migration. It's a step that cannot produce the result you want to verify.
+## 2. What physically changes
 
-## What I propose instead
+**Removed dependencies:** `react-router-dom`, `react-helmet-async`, `tailwindcss` v3, `autoprefixer`, `postcss`, `@vitejs/plugin-react-swc`, `lovable-tagger`, plus the old React 18 pairing.
 
-Run the framework switch as one operation, using the built-in migration path (the same one used on your other projects), and then treat Contact as the first page you inspect and sign off on.
+**Added:** the TanStack Start framework packages (router, start, the Lovable Vite config wrapper, the server runtime), React 19, Tailwind **v4**.
 
-Order:
+**Yes — Tailwind v3 → v4 is part of this same step**, not a later one. It cannot be separated: the new setup's styling pipeline is v4-only. Your 71 custom design tokens in `src/index.css` and the 98-line Tailwind config get carried over into the new stylesheet, and I sweep for the handful of v4 class renames (`shadow-sm`, `rounded`, `ring`, `outline-none`, border colour default). This is the single biggest visual-regression risk of the whole operation and is where I'll spend the most review time.
 
-1. **Framework switch (one pass).** Preflight scan, clean build check, then the whole app moves over: root document, router, all 14 routes as files, the same URLs, the same look. Your `index.html` tags, page-view tracking hook and any startup code get carried across.
-2. **Contact first for review.** Immediately after, Contact gets the treatment you described: its `SEO` usage replaced by a route-level `head()` with the exact same title/description/OG/canonical values, hardcoded at this stage. No content tables yet.
-3. **Then the remaining 13 pages** follow the pattern Contact establishes, page by page, so you can review each.
+**Deleted files:** `index.html`, `src/main.tsx`, `src/App.tsx`, `src/index.css`, `tailwind.config.ts`, `postcss.config.js`, the two extra tsconfigs, `vitest.config.ts` and `src/test/`.
 
-## Contact specifics (confirmed by reading the file)
+**New `src/routes/` structure** — all 26 route declarations become files, same URLs:
 
-- It has **no** page data loading — the only database work is the form submission itself. So no server loader is needed; it stays a static page plus a form.
-- The submission logic is untouched: the same insert into `leads` and the same call to the inquiry-notification function, in the same order, with the same error handling. I only move the file and swap the meta-tag mechanism.
-- `SEO` component usage is removed from this page only. Every other page keeps using it until its own turn.
+```text
+__root.tsx                          (document head, providers, page tracking)
+index.tsx                           /
+about.tsx  contact.tsx  gallery.tsx  sold.tsx  testimonials.tsx
+developments/index.tsx
+developments/active-listings.tsx  under-contract.tsx  coming-soon.tsx
+developments/current.tsx  sold.tsx
+developments/$slug.tsx              /developments/:slug
+developments/current-projects.$slug.tsx  (+ the 3 other legacy redirect paths)
+admin/login.tsx  index.tsx  properties/index.tsx  properties/new.tsx
+admin/properties/$id.edit.tsx  inquiries.tsx  preview.tsx  testimonials.tsx
+admin/settings.tsx  users.tsx  analytics.tsx  set-password.tsx
+$.tsx                               (404 catch-all)
+```
 
-## Verification I will report
+**Not touched:** the database, all RLS policies, every edge function, `supabase/migrations`, the sitemap script, and all your page components' internals.
 
-- The exact `<head>` the server returns for `/contact`, fetched with curl against the running server, before any JavaScript — shown to you verbatim.
-- Contact rendered side by side against the current version, layout and text unchanged.
-- A real test inquiry submitted through the form, then shown as a row in the leads table (and removed afterwards if you prefer).
-- Clean typecheck.
-- Nothing published.
+**One thing to expect:** TypeScript strictness. Your current config has `strict: false`, `noImplicitAny: false`, `strictNullChecks: false`; the new one turns these on (the router requires it). That produces a wave of type errors on first build which I work through — it's mechanical, not a redesign.
 
-## Risks worth stating plainly
+## 3. Admin panel
 
-- The framework switch touches the whole app in one turn, including the admin panel. It is reversible from chat history.
-- The build must be green before it starts; if it isn't, I stop and tell you rather than migrating onto a broken baseline.
-- Styling is the usual regression risk (the styling engine version changes). I carry over the custom tokens and check the pages visually.
+Functionally it survives. The 10 admin pages, `AdminProtected`, `AdminShell`, the role checks, `manage-users`, sessions and login all keep working — they're ordinary React talking to the backend, and nothing about auth or roles changes.
 
-## Decision needed
+Two mechanical adjustments: navigation calls (`useNavigate`, `Link`, `useParams`) switch to the new router's equivalents, and anything reading `localStorage` at module load gets guarded, because the server now runs the code too. Login and session storage are the main place that matters.
 
-Approving this plan means: run the framework switch now, in one pass, then do Contact as the first reviewed page. If you'd rather keep the switch as a separate approval, say so and I'll stop after the preflight summary.
+**I would still do a separate admin review pass afterwards** — click through login, properties edit, inquiries, settings, users, analytics — before Patrick sees any of it. Type-checking cannot prove a role guard still guards.
+
+## 4. Meta tags, tracking and SEO during the swap
+
+- **`index.html` head content** (title, description, favicons, OG/Twitter tags, the JSON-LD block, the font preconnects, and the preview-noindex script) moves wholesale into the new root document. It keeps working, and from that moment it is **server-rendered** — which is more than it does today.
+- **Page-view tracking** keeps working. The hook currently depends on React Router's location; I rewrite it against the new router with identical behaviour (fires per route change, skips `/admin/*`, same beacon format). No analytics gap.
+- **The `<SEO>` component in 8 files** (Index, About, Contact, Developments, Gallery, Testimonials, PropertyPage, CategoryPage) — this is the honest part. `react-helmet-async` is removed, so those usages must be converted in the same pass or those pages lose their per-page tags. I convert all 8 to route-level `head()` during the swap, carrying the exact same title/description/OG/canonical values, still hardcoded. Nothing regresses; per-page tags simply become server-rendered instead of client-injected.
+- **Property pages** get their `head()` fed by a server loader so a listing's title, description and image are in the raw HTML — the original reason for this migration.
+
+## Then Contact first for review
+
+Right after the swap I present Contact as the reference page: raw `curl` of the server HTML showing the real `<head>`, a side-by-side against the current version, a live test inquiry landing in the leads table, and a clean typecheck. The contact form's insert and notification call are not modified.
+
+## Your decision
+
+Approve to run the swap in one pass (it is revertible from chat history), or tell me to split further — though the only genuinely separable pieces are the post-swap review passes, not the framework/Tailwind/router change itself, which is atomic by nature.
