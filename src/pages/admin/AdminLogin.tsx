@@ -98,7 +98,7 @@ const AdminLogin = () => {
             <div className="mt-6 h-px w-12 bg-charcoal/20" />
           </div>
 
-          <div className="bg-card border border-border-subtle rounded p-8">
+          <div className="bg-card border border-border-subtle rounded-lg p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label
@@ -114,7 +114,7 @@ const AdminLogin = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-background border border-input rounded text-charcoal focus:outline-none focus:ring-1 focus:ring-charcoal transition"
+                  className="w-full px-4 py-3 bg-background border border-input rounded-lg text-charcoal focus:outline-hidden focus:ring-1 focus:ring-charcoal transition"
                 />
               </div>
 
@@ -132,7 +132,7 @@ const AdminLogin = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-background border border-input rounded text-charcoal focus:outline-none focus:ring-1 focus:ring-charcoal transition"
+                  className="w-full px-4 py-3 bg-background border border-input rounded-lg text-charcoal focus:outline-hidden focus:ring-1 focus:ring-charcoal transition"
                 />
               </div>
 
@@ -147,7 +147,7 @@ const AdminLogin = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center px-8 py-3 text-sm font-medium tracking-wider uppercase bg-charcoal text-white rounded hover:bg-charcoal/90 transition disabled:opacity-60"
+                className="w-full inline-flex items-center justify-center px-8 py-3 text-sm font-medium tracking-wider uppercase bg-charcoal text-white rounded-lg hover:bg-charcoal/90 transition disabled:opacity-60"
               >
                 {loading ? "Signing In…" : "Sign In"}
               </button>

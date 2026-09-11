@@ -213,7 +213,7 @@ function ImageSlotBox({
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
         className={
-          "aspect-[4/3] rounded border-2 border-dashed flex items-center justify-center overflow-hidden cursor-pointer transition " +
+          "aspect-[4/3] rounded-lg border-2 border-dashed flex items-center justify-center overflow-hidden cursor-pointer transition " +
           (dragOver ? "border-slate-900 bg-slate-50" : "border-slate-200 bg-slate-50 hover:bg-slate-100")
         }
       >

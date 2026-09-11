@@ -268,7 +268,7 @@ function AdminUsersInner() {
             </div>
             {handover.actionLink && (
               <div className="flex items-center gap-2 mt-3">
-                <code className="flex-1 truncate rounded bg-white border border-amber-200 px-3 py-2 text-xs text-slate-700">
+                <code className="flex-1 truncate rounded-lg bg-white border border-amber-200 px-3 py-2 text-xs text-slate-700">
                   {handover.actionLink}
                 </code>
                 <Button
@@ -282,7 +282,7 @@ function AdminUsersInner() {
             )}
             {handover.password && (
               <div className="flex items-center gap-2 mt-2">
-                <code className="flex-1 truncate rounded bg-white border border-amber-200 px-3 py-2 text-xs text-slate-700">
+                <code className="flex-1 truncate rounded-lg bg-white border border-amber-200 px-3 py-2 text-xs text-slate-700">
                   {handover.password}
                 </code>
                 <Button
