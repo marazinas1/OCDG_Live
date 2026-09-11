@@ -1,7 +1,6 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "@/lib/router-compat";
 import { useState, useEffect } from "react";
 import GlobalNav from "@/components/GlobalNav";
-import SEO from "@/components/SEO";
 import GlobalFooter from "@/components/GlobalFooter";
 import PropertyCarousel from "@/components/PropertyCarousel";
 import PublicPropertyCard from "@/components/PublicPropertyCard";
@@ -29,10 +28,10 @@ const CardSkeleton = () => (
   <div className="card-elegant overflow-hidden h-full flex flex-col">
     <div className="relative aspect-[4/3] bg-muted animate-pulse" />
     <div className="p-6 flex flex-col gap-3">
-      <div className="h-3 w-1/3 bg-muted animate-pulse rounded" />
-      <div className="h-5 w-2/3 bg-muted animate-pulse rounded" />
-      <div className="h-3 w-1/2 bg-muted animate-pulse rounded" />
-      <div className="h-16 w-full bg-muted animate-pulse rounded" />
+      <div className="h-3 w-1/3 bg-muted animate-pulse rounded-lg" />
+      <div className="h-5 w-2/3 bg-muted animate-pulse rounded-lg" />
+      <div className="h-3 w-1/2 bg-muted animate-pulse rounded-lg" />
+      <div className="h-16 w-full bg-muted animate-pulse rounded-lg" />
     </div>
   </div>
 );
@@ -75,7 +74,7 @@ const Developments = () => {
     status: DevStatus;
     image: string;
     location: string;
-    price?: string;
+    price?: string | undefined;
     description: string;
   };
 
@@ -154,7 +153,6 @@ const Developments = () => {
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO title={"Developments — Ocean City Custom Homes"} description={"Browse Ocean City Development Group's portfolio: active listings, under contract, and sold luxury coastal homes."} path="/developments" />
 
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">

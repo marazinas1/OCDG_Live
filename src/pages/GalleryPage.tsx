@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import GlobalNav from "@/components/GlobalNav";
-import SEO from "@/components/SEO";
 import GlobalFooter from "@/components/GlobalFooter";
 import subpageHero from "@/assets/subpage-hero.jpg";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -78,39 +77,39 @@ const ProjectCollage = ({
       <div className="space-y-3 md:space-y-4">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <div className="col-span-2 md:col-span-2 md:row-span-2">
-            <GalleryTile image={ext[0]} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(0))} />
+            <GalleryTile image={ext[0]!} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(0))} />
           </div>
           <div>
-            <GalleryTile image={ext[1]} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(1))} />
+            <GalleryTile image={ext[1]!} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(1))} />
           </div>
           <div>
-            <GalleryTile image={ext[2]} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(2))} />
+            <GalleryTile image={ext[2]!} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(2))} />
           </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <div className="col-span-2 md:col-span-1">
-            <GalleryTile image={ext[3]} aspectClass="aspect-[16/10] md:aspect-square" onClick={() => onImageClick(gi(3))} />
+            <GalleryTile image={ext[3]!} aspectClass="aspect-[16/10] md:aspect-square" onClick={() => onImageClick(gi(3))} />
           </div>
-          <GalleryTile image={ext[4]} aspectClass="aspect-square" onClick={() => onImageClick(gi(4))} />
-          <GalleryTile image={ext[5]} aspectClass="aspect-square" onClick={() => onImageClick(gi(5))} />
+          <GalleryTile image={ext[4]!} aspectClass="aspect-square" onClick={() => onImageClick(gi(4))} />
+          <GalleryTile image={ext[5]!} aspectClass="aspect-square" onClick={() => onImageClick(gi(5))} />
         </div>
 
         <div>
-          <GalleryTile image={int[0]} aspectClass="aspect-[16/10] md:aspect-[21/9]" onClick={() => onImageClick(gi(ext.length))} />
+          <GalleryTile image={int[0]!} aspectClass="aspect-[16/10] md:aspect-[21/9]" onClick={() => onImageClick(gi(ext.length))} />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           <div className="col-span-2 md:col-span-1">
-            <GalleryTile image={int[1]} aspectClass="aspect-[4/3] md:aspect-[3/4]" onClick={() => onImageClick(gi(ext.length + 1))} />
+            <GalleryTile image={int[1]!} aspectClass="aspect-[4/3] md:aspect-[3/4]" onClick={() => onImageClick(gi(ext.length + 1))} />
           </div>
-          <GalleryTile image={int[2]} aspectClass="aspect-[3/4]" onClick={() => onImageClick(gi(ext.length + 2))} />
-          <GalleryTile image={int[3]} aspectClass="aspect-[3/4]" onClick={() => onImageClick(gi(ext.length + 3))} />
+          <GalleryTile image={int[2]!} aspectClass="aspect-[3/4]" onClick={() => onImageClick(gi(ext.length + 2))} />
+          <GalleryTile image={int[3]!} aspectClass="aspect-[3/4]" onClick={() => onImageClick(gi(ext.length + 3))} />
         </div>
 
         <div className="grid grid-cols-2 gap-3 md:gap-4">
-          <GalleryTile image={int[4]} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(ext.length + 4))} />
-          <GalleryTile image={int[5]} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(ext.length + 5))} />
+          <GalleryTile image={int[4]!} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(ext.length + 4))} />
+          <GalleryTile image={int[5]!} aspectClass="aspect-[4/3]" onClick={() => onImageClick(gi(ext.length + 5))} />
         </div>
       </div>
     </div>
@@ -219,11 +218,6 @@ const GalleryPage = () => {
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO
-        title={"Gallery — Ocean City Luxury Home Portfolio"}
-        description={"Curated renderings and photography of luxury custom homes by Ocean City Development Group."}
-        path="/gallery"
-      />
 
       <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <img
@@ -293,11 +287,11 @@ const GalleryPage = () => {
           <button aria-label="Next image" className="absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-colors z-10" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
             <ChevronRight className="w-10 h-10" />
           </button>
-          <img src={allImages[currentIndex].src} alt={allImages[currentIndex].alt} className="max-w-[90vw] max-h-[85vh] object-contain" decoding="async" loading="lazy" onClick={(e) => e.stopPropagation()} />
-          <img src={allImages[(currentIndex + 1) % allImages.length].src} alt="" className="hidden" aria-hidden="true" loading="lazy" decoding="async" />
-          <img src={allImages[(currentIndex - 1 + allImages.length) % allImages.length].src} alt="" className="hidden" aria-hidden="true" loading="lazy" decoding="async" />
+          <img src={allImages[currentIndex]!.src} alt={allImages[currentIndex]!.alt} className="max-w-[90vw] max-h-[85vh] object-contain" decoding="async" loading="lazy" onClick={(e) => e.stopPropagation()} />
+          <img src={allImages[(currentIndex + 1) % allImages.length]!.src} alt="" className="hidden" aria-hidden="true" loading="lazy" decoding="async" />
+          <img src={allImages[(currentIndex - 1 + allImages.length) % allImages.length]!.src} alt="" className="hidden" aria-hidden="true" loading="lazy" decoding="async" />
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
-            <p className="text-white/80 text-sm font-medium">{allImages[currentIndex].project}</p>
+            <p className="text-white/80 text-sm font-medium">{allImages[currentIndex]!.project}</p>
             <p className="text-white/50 text-xs mt-1">{currentIndex + 1} / {allImages.length}</p>
           </div>
         </div>

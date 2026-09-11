@@ -48,7 +48,7 @@ function AdminTestimonialsInner() {
     const target = index + dir;
     if (target < 0 || target >= items.length) return;
     reorder.mutate(
-      { a: items[index], b: items[target] },
+      { a: items[index]!, b: items[target]! },
       { onError: (e) => toast.error(e.message) },
     );
   };

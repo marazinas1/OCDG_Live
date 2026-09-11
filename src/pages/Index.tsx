@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useEffect, useRef, useState, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import GlobalNav from "@/components/GlobalNav";
-import SEO from "@/components/SEO";
 import GlobalFooter from "@/components/GlobalFooter";
 import PropertyCarousel from "@/components/PropertyCarousel";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -38,7 +37,7 @@ function useScrollReveal() {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           el.classList.add("opacity-100", "translate-y-0");
           el.classList.remove("opacity-0", "translate-y-6");
           observer.unobserve(el);
@@ -251,7 +250,6 @@ const Index = () => {
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO title={"Ocean City Development Group | Luxury Coastal Homes"} description={"Premier custom luxury home builder in Ocean City, NJ. Designed by Halliday Architects. View active listings and portfolio."} path="/" />
 
       {/* ─── Hero ─── */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">

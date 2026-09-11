@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 
 export interface PropertyCarouselItem {
   title: string;
@@ -9,7 +9,7 @@ export interface PropertyCarouselItem {
   link: string;
   location: string;
   description: string;
-  price?: string;
+  price?: string | undefined;
   badgeLabel: string;
   badgeColor: string;
 }

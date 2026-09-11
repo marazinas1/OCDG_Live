@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "@/lib/router-compat";
 import { useQuery } from "@tanstack/react-query";
 import {
   Bed,
@@ -16,7 +16,6 @@ import { toast } from "sonner";
 
 import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
-import SEO from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/admin/useAdminAuth";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -123,7 +122,7 @@ const PropertyPage = () => {
   // in a new tab. No DB reads/writes happen in this mode.
   const isPreview = location.pathname === "/admin/preview";
   const previewData = useMemo(() => {
-    if (!isPreview) return null;
+    if (!isPreview || typeof window === "undefined") return null;
     try {
       const raw = localStorage.getItem("admin-preview-property");
       if (!raw) return null;
@@ -169,35 +168,35 @@ const PropertyPage = () => {
     return g;
   }, [images]);
 
-  const heroImage = grouped.hero?.[0] ?? null;
-  const cardImage = grouped.card?.[0] ?? null;
-  const exteriorImages: GalleryImage[] = (grouped.exterior ?? []).map(
+  const heroImage = grouped["hero"]?.[0] ?? null;
+  const cardImage = grouped["card"]?.[0] ?? null;
+  const exteriorImages: GalleryImage[] = (grouped["exterior"] ?? []).map(
     (r) => ({ src: publicUrl(r.storage_path), alt: r.alt_text ?? property?.title ?? "" })
   );
-  const interiorImages: GalleryImage[] = (grouped.interior ?? []).map((r) => ({
+  const interiorImages: GalleryImage[] = (grouped["interior"] ?? []).map((r) => ({
     src: publicUrl(r.storage_path),
     alt: r.alt_text ?? property?.title ?? "",
   }));
-  const photoImages: GalleryImage[] = (grouped.photo ?? []).map((r) => ({
+  const photoImages: GalleryImage[] = (grouped["photo"] ?? []).map((r) => ({
     src: publicUrl(r.storage_path),
     alt: r.alt_text ?? property?.title ?? "",
   }));
   const allGallery = [...exteriorImages, ...interiorImages];
 
-  const visionImageRow = grouped.vision?.[0] ?? null;
+  const visionImageRow = grouped["vision"]?.[0] ?? null;
 
   const floorPlans = property?.floor_plans ?? [];
   const floorPlanImageBy = useMemo(() => {
     const map: Record<string, string> = {};
-    for (const row of grouped.floor_plan ?? []) {
+    for (const row of grouped["floor_plan"] ?? []) {
       if (row.floor_plan_id) map[row.floor_plan_id] = publicUrl(row.storage_path);
     }
     return map;
-  }, [grouped.floor_plan]);
+  }, [grouped["floor_plan"]]);
 
   const [activeFloor, setActiveFloor] = useState<string | null>(null);
   useEffect(() => {
-    if (!activeFloor && floorPlans.length) setActiveFloor(floorPlans[0].id);
+    if (!activeFloor && floorPlans.length) setActiveFloor(floorPlans[0]!.id);
   }, [floorPlans, activeFloor]);
   const currentFloor = floorPlans.find((f) => f.id === activeFloor) ?? floorPlans[0] ?? null;
 
@@ -389,12 +388,9 @@ const PropertyPage = () => {
 
   return (
     <main className="min-h-screen">
-      <SEO
-        title={`${property.title} — Ocean City Development Group`}
-        description={seoDescription.slice(0, 158)}
-        path={location.pathname}
-        image={cardImage ? publicUrl(cardImage.storage_path) : heroUrl ?? undefined}
-        jsonLd={listingJsonLd}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
       />
       <GlobalNav />
 

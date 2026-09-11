@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 import GlobalNav from "@/components/GlobalNav";
-import SEO from "@/components/SEO";
 import GlobalFooter from "@/components/GlobalFooter";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
@@ -18,7 +17,6 @@ const About = () => {
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO title={"About Ocean City Development Group"} description={"45+ years building luxury coastal homes in Ocean City, NJ. Meet Patrick Halliday and our partners at Halliday Architects."} path="/about" />
 
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">

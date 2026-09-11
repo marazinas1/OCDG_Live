@@ -87,7 +87,7 @@ function InquiryDetail({
                 )}
               </dl>
 
-              <div className="rounded border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">Message</p>
                 {inquiry.message ? (
                   <p className="text-sm text-slate-900 whitespace-pre-wrap leading-relaxed">
@@ -202,13 +202,13 @@ function InquiriesBody() {
       {isLoading ? (
         <p className="text-sm text-slate-500">Loading…</p>
       ) : !inquiries || inquiries.length === 0 ? (
-        <div className="border border-slate-200 rounded bg-card p-10 text-center">
+        <div className="border border-slate-200 rounded-lg bg-card p-10 text-center">
           <p className="text-sm text-slate-500">
             {filter === "archived" ? "Nothing archived." : "No inquiries yet."}
           </p>
         </div>
       ) : (
-        <div className="border border-slate-200 rounded bg-card divide-y divide-slate-100 overflow-hidden">
+        <div className="border border-slate-200 rounded-lg bg-card divide-y divide-slate-100 overflow-hidden">
           {inquiries.map((inquiry) => {
             const unread = !inquiry.read_at;
             return (

@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "@/lib/router-compat";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import GlobalNav from "@/components/GlobalNav";
-import SEO from "@/components/SEO";
 import GlobalFooter from "@/components/GlobalFooter";
 import { useTestimonials, quoteParagraphs } from "@/hooks/useTestimonials";
 import subpageHero from "@/assets/subpage-hero.jpg";
@@ -54,21 +53,21 @@ const Testimonials = () => {
   return (
     <main className="min-h-screen bg-background">
       <GlobalNav />
-      <SEO
-        title={"Testimonials — Ocean City Development Group"}
-        description={"What clients say about building their dream coastal homes with Ocean City Development Group."}
-        path="/testimonials"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "HomeAndConstructionBusiness",
-          "@id": "https://oceancitydevelopment.com/#organization",
-          name: "Ocean City Development Group",
-          url: "https://oceancitydevelopment.com/testimonials",
-          review: testimonials.map((t) => ({
-            "@type": "Review",
-            author: { "@type": "Person", name: t.author_name },
-            reviewBody: t.quote,
-          })),
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HomeAndConstructionBusiness",
+            "@id": "https://oceancitydevelopment.com/#organization",
+            name: "Ocean City Development Group",
+            url: "https://oceancitydevelopment.com/testimonials",
+            review: testimonials.map((t) => ({
+              "@type": "Review",
+              author: { "@type": "Person", name: t.author_name },
+              reviewBody: t.quote,
+            })),
+          }),
         }}
       />
 

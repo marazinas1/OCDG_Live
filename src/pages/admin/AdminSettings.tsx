@@ -130,8 +130,8 @@ function AssetSlot({
   help: string;
   url: string | null;
   hasUpload: boolean;
-  dark?: boolean;
-  note?: string;
+  dark?: boolean | undefined;
+  note?: string | undefined;
   busy: boolean;
   progress: number;
   onPick: (file: File) => void;
@@ -165,7 +165,7 @@ function AssetSlot({
       </div>
 
       <div
-        className={`flex h-28 items-center justify-center overflow-hidden rounded px-6 ${
+        className={`flex h-28 items-center justify-center overflow-hidden rounded-lg px-6 ${
           dark ? "bg-slate-900" : "bg-slate-100"
         }`}
       >
@@ -210,7 +210,7 @@ function PartnerLogoField({
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="flex items-center gap-4">
-      <div className="flex h-16 w-32 items-center justify-center rounded bg-slate-100 px-3">
+      <div className="flex h-16 w-32 items-center justify-center rounded-lg bg-slate-100 px-3">
         {path ? (
           <img src={getBrandAssetUrl(path)} alt="Partner logo" className="max-h-12 w-auto object-contain" />
         ) : (
@@ -459,7 +459,7 @@ function SettingsBody() {
       const next = [...list];
       const target = index + delta;
       if (target < 0 || target >= next.length) return list;
-      [next[index], next[target]] = [next[target], next[index]];
+      [next[index], next[target]] = [next[target]!, next[index]!];
       return next;
     });
 
@@ -848,7 +848,7 @@ function SettingsBody() {
 
           <div className="space-y-4">
             {partners.map((partner, index) => (
-              <div key={partner.id} className="space-y-4 rounded border border-slate-200 p-4">
+              <div key={partner.id} className="space-y-4 rounded-lg border border-slate-200 p-4">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
                     Partner {index + 1}

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "@/lib/router-compat";
 import { ArrowLeft, BarChart3, Building2, Inbox, LayoutDashboard, LogOut, Quote, Settings, UserCog } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { AdminRole } from "@/hooks/admin/useAdminAuth";
