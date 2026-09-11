@@ -13,7 +13,7 @@ import {
   Navigate as TSNavigate,
   Outlet as TSOutlet,
 } from "@tanstack/react-router";
-import { useMemo, useCallback, forwardRef, type ComponentProps, type ReactNode } from "react";
+import { useMemo, useCallback, useEffect, forwardRef, type ComponentProps, type ReactNode } from "react";
 
 // ---------- shared URL parsing ----------
 
@@ -156,3 +156,18 @@ export const Outlet = TSOutlet;
 // ---------- NavLink (minimal) ----------
 
 export const NavLink = Link;
+
+// ---------- useBeforeUnload (react-router-dom compat) ----------
+
+export function useBeforeUnload(
+  handler: (event: BeforeUnloadEvent) => void,
+  options?: { capture?: boolean },
+) {
+  const capture = options?.capture;
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const opts = capture != null ? { capture } : undefined;
+    window.addEventListener("beforeunload", handler, opts);
+    return () => window.removeEventListener("beforeunload", handler, opts);
+  }, [handler, capture]);
+}
