@@ -111,3 +111,7 @@ skaito, prie naujo framework'o:
 - Jei kažkas čia aiškiai neaprašyta — klausk prieš darant prielaidas; šis
   dokumentas bus papildomas, kai atsiras naujų sprendimų, lygiai taip pat,
   kaip buvo su StageHomy ir HA.
+
+## Žinoma pasikartojanti problema
+
+Šis Lovable projektas kartkartėmis sugeneruoja Drizzle migracijas (drizzle/ katalogas, drizzle.config.ts) vietoj įprastų supabase/migrations/*.sql failų, nepaisant to, kad projekto istorija visada naudojo pastaruosius. Tai įvyko bent tris kartus. Kai schema keitimas paprašomas, VISADA patikrink po darbo, ar migracija atsirado supabase/migrations/, o ne drizzle/. Jei atsirado drizzle/, sutvarkyk tuo pačiu būdu: nukopijuok SQL turinį pažodžiui į supabase/migrations/, tada pašalink drizzle artefaktus.
