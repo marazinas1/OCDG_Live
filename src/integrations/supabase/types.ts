@@ -143,6 +143,99 @@ export type Database = {
         }
         Relationships: []
       }
+      page_media: {
+        Row: {
+          alt_text: string
+          bucket: string
+          created_at: string
+          id: string
+          page: string
+          slot: string
+          storage_path: string
+          updated_at: string
+        }
+        Insert: {
+          alt_text?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page: string
+          slot: string
+          storage_path: string
+          updated_at?: string
+        }
+        Update: {
+          alt_text?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page?: string
+          slot?: string
+          storage_path?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      page_media_defaults: {
+        Row: {
+          alt_text: string
+          bucket: string
+          created_at: string
+          id: string
+          page: string
+          slot: string
+          storage_path: string
+          updated_at: string
+        }
+        Insert: {
+          alt_text?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page: string
+          slot: string
+          storage_path: string
+          updated_at?: string
+        }
+        Update: {
+          alt_text?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page?: string
+          slot?: string
+          storage_path?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      page_text: {
+        Row: {
+          created_at: string
+          id: string
+          page: string
+          slot: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          page: string
+          slot: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          page?: string
+          slot?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           country: string | null
