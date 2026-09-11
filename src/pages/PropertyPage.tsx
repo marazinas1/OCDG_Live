@@ -196,7 +196,7 @@ const PropertyPage = () => {
 
   const [activeFloor, setActiveFloor] = useState<string | null>(null);
   useEffect(() => {
-    if (!activeFloor && floorPlans.length) setActiveFloor(floorPlans[0].id);
+    if (!activeFloor && floorPlans.length) setActiveFloor(floorPlans[0]!.id);
   }, [floorPlans, activeFloor]);
   const currentFloor = floorPlans.find((f) => f.id === activeFloor) ?? floorPlans[0] ?? null;
 
