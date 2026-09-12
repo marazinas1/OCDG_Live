@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
+import { getRouteApi } from "@tanstack/react-router";
 
 import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
+
+const routeApi = getRouteApi("/about");
 
 const About = () => {
   const [scrollY, setScrollY] = useState(0);
-  const { settings } = useSiteSettings();
-  const about = settings.about;
+  const about = routeApi.useLoaderData();
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll, { passive: true });
