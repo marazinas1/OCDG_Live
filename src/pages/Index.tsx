@@ -1,4 +1,5 @@
-import { Link } from "@/lib/router-compat";
+import { Link, getRouteApi } from "@tanstack/react-router";
+import { Link as CompatLink } from "@/lib/router-compat";
 import { useEffect, useRef, useState, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -7,7 +8,6 @@ import GlobalFooter from "@/components/GlobalFooter";
 import PropertyCarousel from "@/components/PropertyCarousel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePublicProperties } from "@/hooks/usePublicProperties";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS } from "@/lib/admin/status";
 import approachImage from "@/assets/28th-approach-v4.jpg";
 
@@ -213,10 +213,11 @@ const TestimonialCards = () => {
   );
 };
 
+const homeRoute = getRouteApi("/");
+
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
-  const { settings } = useSiteSettings();
-  const hero = settings.hero;
+  const { siteName, hero } = homeRoute.useLoaderData();
 
 
   useEffect(() => {
@@ -255,7 +256,7 @@ const Index = () => {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <img
           src={hero.imageUrl}
-          alt={`${settings.siteName} — Premier Developments`}
+          alt={`${siteName} — Premier Developments`}
           className="absolute inset-0 w-full h-full object-cover will-change-transform"
           style={{ transform: `translateY(${scrollY * 0.3}px)` }}
           fetchPriority="high"
