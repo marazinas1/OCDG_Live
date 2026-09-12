@@ -63,6 +63,9 @@ const ORG_JSON_LD = JSON.stringify({
 });
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  // Site-wide branding (logo, dark logo, site name) fetched once per request so
+  // every route — public and admin — can render the mark without refetching.
+  loader: async () => resolveGlobalBranding(await fetchContent(["global"])),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
