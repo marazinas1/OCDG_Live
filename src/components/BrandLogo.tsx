@@ -1,4 +1,4 @@
-import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { useGlobalBranding } from "@/hooks/useGlobalBranding";
 
 type Props = {
   /** "light" = logo sits on a light surface; "dark" = on charcoal or imagery. */
@@ -8,16 +8,17 @@ type Props = {
 };
 
 /**
- * The firm's mark, read from site_settings so it can be replaced in the admin
- * without touching code. Falls back to the bundled logo when nothing is set.
+ * The firm's mark, read from the global content namespace (page_media /
+ * page_text) so it can be replaced in the admin without touching code.
+ * Falls back to the bundled logo when nothing is stored.
  */
 const BrandLogo = ({ variant = "light", className, style }: Props) => {
-  const { settings } = useSiteSettings();
-  const useDark = variant === "dark" && settings.logoDarkUrl;
-  const src = useDark ? (settings.logoDarkUrl as string) : settings.logoUrl;
+  const branding = useGlobalBranding();
+  const useDark = variant === "dark" && branding.logoDarkUrl;
+  const src = useDark ? (branding.logoDarkUrl as string) : branding.logoUrl;
 
   // Without a dedicated dark variant, knock the light mark out to white.
-  const needsInvert = variant === "dark" && !settings.logoDarkUrl;
+  const needsInvert = variant === "dark" && !branding.logoDarkUrl;
   const filter = [needsInvert ? "brightness(0) invert(1)" : null, style?.filter]
     .filter(Boolean)
     .join(" ");
@@ -25,7 +26,7 @@ const BrandLogo = ({ variant = "light", className, style }: Props) => {
   return (
     <img
       src={src}
-      alt={settings.siteName}
+      alt={branding.siteName}
       className={className}
       style={{ ...style, filter: filter || undefined }}
     />
