@@ -1,5 +1,5 @@
-import { Link, getRouteApi } from "@tanstack/react-router";
-import { Link as CompatLink } from "@/lib/router-compat";
+import { getRouteApi } from "@tanstack/react-router";
+import { Link } from "@/lib/router-compat";
 import { useEffect, useRef, useState, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
