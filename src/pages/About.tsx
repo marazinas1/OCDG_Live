@@ -63,7 +63,7 @@ const About = () => {
             <div className="relative overflow-hidden" style={{ borderRadius: "4px" }}>
               <img
                 src={about.storyImageUrl}
-                alt={`${settings.siteName} — Craftsmanship`}
+                alt={`${about.siteName} — Craftsmanship`}
                 className="w-full object-cover object-center aspect-[3/4] lg:max-h-[550px] lg:aspect-auto lg:h-[60vh] lg:min-h-[400px]" loading="lazy" decoding="async" />
             </div>
           </div>
