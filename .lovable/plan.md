@@ -1,61 +1,38 @@
-# Framework switch — preflight report, stopping before the swap
+# Phase 4 — About page on the new content model
 
-No files have been changed. This is the read-only scan you asked for, plus answers to your four questions.
+Move the About page onto the `page_text` / `page_media` / `page_media_defaults` tables through a reusable resolver that every remaining page will use. Zero visible change on the live page.
 
-## 1. Build status
+## What the checks showed
 
-`bun run build` finished **green**, exit code 0, built in 10.4s. Only a chunk-size advisory (the analytics page and the main bundle are large) — that is a warning, not an error. The baseline is clean, so any error that appears after the swap is attributable to the swap.
+- `page_text` for `about` currently holds only the two partners (`partner.01.*`, `partner.02.*`). Every other About text slot is absent, so the page is rendered today entirely from the code fallback constants in `src/hooks/useSiteSettings.ts`.
+- `page_media` holds one row only: `global/logo_dark`. There are no About images and no partner logos in the tables.
+- The old `site_settings` row confirms this: all `about_*` text and image columns are NULL, and both stored partners have `logo_path: null`.
 
-## 2. What physically changes
+Parity consequence: today the two partners render **without** logo images, because a stored partner with no logo shows no logo. The resolver must keep that exact behaviour — partner logos come only from a stored media row, never from a bundled fallback logo. Falling back to the bundled Halliday / Halliday-Leonard logos here would make two logos appear that are not on the page today.
 
-**Removed dependencies:** `react-router-dom`, `react-helmet-async`, `tailwindcss` v3, `autoprefixer`, `postcss`, `@vitejs/plugin-react-swc`, `lovable-tagger`, plus the old React 18 pairing.
+## Work
 
-**Added:** the TanStack Start framework packages (router, start, the Lovable Vite config wrapper, the server runtime), React 19, Tailwind **v4**.
+1. **New `src/lib/content-resolver.ts`**
+   - `resolveText(rows, page, slot, fallback)` — stored non-blank value, else the code fallback.
+   - `resolveMedia(rows, defaults, page, slot, fallback)` — stored media row (public URL built from its own `bucket` + `storage_path`), else the developer default row, else the bundled asset.
+   - `collectPartners(...)` — walks numbered `partner.NN.*` slots in order, builds `{ id, name, url, description, logoUrl }`; `logoUrl` is null when no media row exists.
+   - Fallback layer reuses the existing `HERO_FALLBACKS` / `ABOUT_FALLBACKS` constants and the already-imported bundled assets verbatim. No new copy or images are invented.
 
-**Yes — Tailwind v3 → v4 is part of this same step**, not a later one. It cannot be separated: the new setup's styling pipeline is v4-only. Your 71 custom design tokens in `src/index.css` and the 98-line Tailwind config get carried over into the new stylesheet, and I sweep for the handful of v4 class renames (`shadow-sm`, `rounded`, `ring`, `outline-none`, border colour default). This is the single biggest visual-regression risk of the whole operation and is where I'll spend the most review time.
+2. **Server loader on `src/routes/about.tsx`** — one fetch of `page_text`, `page_media`, `page_media_defaults` limited to pages `about` and `global`, resolved into a typed About content object so the text and images are present in the server-rendered HTML.
 
-**Deleted files:** `index.html`, `src/main.tsx`, `src/App.tsx`, `src/index.css`, `tailwind.config.ts`, `postcss.config.js`, the two extra tsconfigs, `vitest.config.ts` and `src/test/`.
+3. **`src/pages/About.tsx`** — reads the loader data instead of the `about` branch of `useSiteSettings()`. Markup, classes, animations and layout untouched. `useSiteSettings()` stays in place for anything outside About (nav/footer branding) and the old `site_settings` table is not dropped in this phase.
 
-**New `src/routes/` structure** — all 26 route declarations become files, same URLs:
+4. **`head()`** — About already uses route-level `pageHead()`, same as Contact. It keeps that; no `<SEO>` component remains in this page.
 
-```text
-__root.tsx                          (document head, providers, page tracking)
-index.tsx                           /
-about.tsx  contact.tsx  gallery.tsx  sold.tsx  testimonials.tsx
-developments/index.tsx
-developments/active-listings.tsx  under-contract.tsx  coming-soon.tsx
-developments/current.tsx  sold.tsx
-developments/$slug.tsx              /developments/:slug
-developments/current-projects.$slug.tsx  (+ the 3 other legacy redirect paths)
-admin/login.tsx  index.tsx  properties/index.tsx  properties/new.tsx
-admin/properties/$id.edit.tsx  inquiries.tsx  preview.tsx  testimonials.tsx
-admin/settings.tsx  users.tsx  analytics.tsx  set-password.tsx
-$.tsx                               (404 catch-all)
-```
+## Verification before reporting done
 
-**Not touched:** the database, all RLS policies, every edge function, `supabase/migrations`, the sitemap script, and all your page components' internals.
+- `curl` the raw `/about` HTML and show the exact `<head>` block.
+- Compare the rendered About page against the current one section by section: hero, story text and quote, portrait and promise, partners.
+- Confirm both partners render from the tables, with no logo images (matching today).
+- Confirm at code level that editing an `about` row in `page_text` changes the page: the loader has no static cache and the stored value wins over the fallback.
+- Typecheck clean. Nothing published.
 
-**One thing to expect:** TypeScript strictness. Your current config has `strict: false`, `noImplicitAny: false`, `strictNullChecks: false`; the new one turns these on (the router requires it). That produces a wave of type errors on first build which I work through — it's mechanical, not a redesign.
+## Technical notes
 
-## 3. Admin panel
-
-Functionally it survives. The 10 admin pages, `AdminProtected`, `AdminShell`, the role checks, `manage-users`, sessions and login all keep working — they're ordinary React talking to the backend, and nothing about auth or roles changes.
-
-Two mechanical adjustments: navigation calls (`useNavigate`, `Link`, `useParams`) switch to the new router's equivalents, and anything reading `localStorage` at module load gets guarded, because the server now runs the code too. Login and session storage are the main place that matters.
-
-**I would still do a separate admin review pass afterwards** — click through login, properties edit, inquiries, settings, users, analytics — before Patrick sees any of it. Type-checking cannot prove a role guard still guards.
-
-## 4. Meta tags, tracking and SEO during the swap
-
-- **`index.html` head content** (title, description, favicons, OG/Twitter tags, the JSON-LD block, the font preconnects, and the preview-noindex script) moves wholesale into the new root document. It keeps working, and from that moment it is **server-rendered** — which is more than it does today.
-- **Page-view tracking** keeps working. The hook currently depends on React Router's location; I rewrite it against the new router with identical behaviour (fires per route change, skips `/admin/*`, same beacon format). No analytics gap.
-- **The `<SEO>` component in 8 files** (Index, About, Contact, Developments, Gallery, Testimonials, PropertyPage, CategoryPage) — this is the honest part. `react-helmet-async` is removed, so those usages must be converted in the same pass or those pages lose their per-page tags. I convert all 8 to route-level `head()` during the swap, carrying the exact same title/description/OG/canonical values, still hardcoded. Nothing regresses; per-page tags simply become server-rendered instead of client-injected.
-- **Property pages** get their `head()` fed by a server loader so a listing's title, description and image are in the raw HTML — the original reason for this migration.
-
-## Then Contact first for review
-
-Right after the swap I present Contact as the reference page: raw `curl` of the server HTML showing the real `<head>`, a side-by-side against the current version, a live test inquiry landing in the leads table, and a clean typecheck. The contact form's insert and notification call are not modified.
-
-## Your decision
-
-Approve to run the swap in one pass (it is revertible from chat history), or tell me to split further — though the only genuinely separable pieces are the post-swap review passes, not the framework/Tailwind/router change itself, which is atomic by nature.
+- Media URLs are resolved per-row from that row's own `bucket`, so the existing `brand-assets` objects keep working without moving files.
+- The resolver is written so the remaining 13 pages reuse it unchanged; only their fallback constant maps differ.
