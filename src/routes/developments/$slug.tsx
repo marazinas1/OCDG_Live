@@ -31,38 +31,34 @@ export const Route = createFileRoute("/developments/$slug")({
   // title/description/OG/canonical/JSON-LD in the server-rendered head.
   // The page component keeps its own full client-side query (unchanged).
   loader: async ({ params }) => {
-    try {
-      const { data } = await supabase
-        .from("properties")
-        .select(
-          "id,slug,title,tagline,headline,description,location_city,location_state,bedrooms,full_baths,half_baths,sqft",
-        )
-        .eq("slug", params.slug)
-        .eq("published", true)
-        .eq("has_page", true)
-        .maybeSingle();
-      if (!data) return { property: null, image: null };
-      const property = data as SeoProperty;
-      const { data: images } = await supabase
-        .from("property_images")
-        .select("category,storage_path,sort_order")
-        .eq("property_id", property.id)
-        .in("category", ["card", "hero"])
-        .order("sort_order", { ascending: true });
-      const rows = (images ?? []) as SeoImage[];
-      const card = rows.find((r) => r.category === "card") ?? null;
-      const hero = rows.find((r) => r.category === "hero") ?? null;
-      const image = card
-        ? publicUrl(card.storage_path)
-        : hero
-          ? publicUrl(hero.storage_path)
-          : null;
-      return { property, image };
-    } catch {
-      // Metadata must never break the page — the component handles 404s.
-      return { property: null, image: null };
-    }
+    const { data } = await supabase
+      .from("properties")
+      .select(
+        "id,slug,title,tagline,headline,description,location_city,location_state,bedrooms,full_baths,half_baths,sqft",
+      )
+      .eq("slug", params.slug)
+      .eq("published", true)
+      .eq("has_page", true)
+      .maybeSingle();
+    if (!data) throw notFound();
+    const property = data as SeoProperty;
+    const { data: images } = await supabase
+      .from("property_images")
+      .select("category,storage_path,sort_order")
+      .eq("property_id", property.id)
+      .in("category", ["card", "hero"])
+      .order("sort_order", { ascending: true });
+    const rows = (images ?? []) as SeoImage[];
+    const card = rows.find((r) => r.category === "card") ?? null;
+    const hero = rows.find((r) => r.category === "hero") ?? null;
+    const image = card
+      ? publicUrl(card.storage_path)
+      : hero
+        ? publicUrl(hero.storage_path)
+        : null;
+    return { property, image };
   },
+
   head: ({ loaderData }) => {
     const property = loaderData?.property ?? null;
     if (!property) return {};
