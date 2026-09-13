@@ -19,6 +19,8 @@ export type { PublicPropertyCard };
 export function usePublicProperties(opts?: {
   status?: PropertyStatus | PropertyStatus[];
   includeRecordOnly?: boolean;
+  /** Server-loaded rows used to hydrate the cache without a client refetch. */
+  initialData?: PublicPropertyCard[];
 }) {
   const statusFilter = opts?.status
     ? Array.isArray(opts.status)
