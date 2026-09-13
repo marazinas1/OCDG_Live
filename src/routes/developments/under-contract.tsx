@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import UnderContract from "@/pages/UnderContract";
 import { pageHead } from "@/lib/seo";
+import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/under-contract")({
-  component: UnderContract,
+  loader: () => fetchPropertyCards({ status: "under_contract" }),
+  component: UnderContractRoute,
   head: () =>
     pageHead({
       title: "Under Contract — Ocean City Development Group",
@@ -11,3 +13,7 @@ export const Route = createFileRoute("/developments/under-contract")({
       path: "/developments/under-contract",
     }),
 });
+
+function UnderContractRoute() {
+  return <UnderContract properties={Route.useLoaderData()} />;
+}

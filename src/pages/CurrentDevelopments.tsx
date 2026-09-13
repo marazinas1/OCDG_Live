@@ -1,6 +1,7 @@
 import CategoryPage from "@/components/CategoryPage";
+import type { PublicPropertyCard } from "@/hooks/usePublicProperties";
 
-const CurrentDevelopments = () => (
+const CurrentDevelopments = ({ properties }: { properties?: PublicPropertyCard[] | undefined }) => (
   <CategoryPage
     status={["active", "under_contract"]}
     eyebrow="Our Portfolio"
@@ -9,6 +10,7 @@ const CurrentDevelopments = () => (
     seoDescription="Active and under-contract luxury custom homes by Ocean City Development Group."
     path="/developments/current"
     emptyMessage="No current developments at this time."
+    properties={properties}
   />
 );
 
