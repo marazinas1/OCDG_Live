@@ -37,6 +37,7 @@ export function usePublicProperties(opts?: {
   return useQuery({
     queryKey: key,
     queryFn: () => fetchPropertyCards(opts),
+    ...(opts?.initialData ? { initialData: opts.initialData } : {}),
   });
 }
 
@@ -44,10 +45,11 @@ export function usePublicProperties(opts?: {
  * Record-only past developments (has_page=false). Rendered as non-clickable
  * social-proof cards on the Sold page.
  */
-export function usePastDevelopments() {
+export function usePastDevelopments(initialData?: PublicPropertyCard[]) {
   return useQuery({
     queryKey: ["past-developments"],
     queryFn: fetchPastDevelopments,
+    ...(initialData ? { initialData } : {}),
   });
 }
 
