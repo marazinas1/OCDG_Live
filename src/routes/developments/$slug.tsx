@@ -27,7 +27,9 @@ const publicUrl = (path: string) =>
 
 export const Route = createFileRoute("/developments/$slug")({
   component: PropertyPage,
+  notFoundComponent: NotFound,
   // SSR metadata loader: fetches just enough of the property to emit full
+
   // title/description/OG/canonical/JSON-LD in the server-rendered head.
   // The page component keeps its own full client-side query (unchanged).
   loader: async ({ params }) => {
