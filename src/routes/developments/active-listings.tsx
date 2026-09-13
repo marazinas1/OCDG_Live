@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ActiveListings from "@/pages/ActiveListings";
 import { pageHead } from "@/lib/seo";
+import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/active-listings")({
-  component: ActiveListings,
+  loader: () => fetchPropertyCards({ status: "active" }),
+  component: ActiveListingsRoute,
   head: () =>
     pageHead({
       title: "Active Listings — Ocean City Luxury Homes",
@@ -11,3 +13,7 @@ export const Route = createFileRoute("/developments/active-listings")({
       path: "/developments/active-listings",
     }),
 });
+
+function ActiveListingsRoute() {
+  return <ActiveListings properties={Route.useLoaderData()} />;
+}

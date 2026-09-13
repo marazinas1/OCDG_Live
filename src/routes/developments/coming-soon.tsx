@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ComingSoon from "@/pages/ComingSoon";
 import { pageHead } from "@/lib/seo";
+import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/coming-soon")({
-  component: ComingSoon,
+  loader: () => fetchPropertyCards({ status: "coming_soon" }),
+  component: ComingSoonRoute,
   head: () =>
     pageHead({
       title: "Coming Soon — Ocean City Development Group",
@@ -11,3 +13,7 @@ export const Route = createFileRoute("/developments/coming-soon")({
       path: "/developments/coming-soon",
     }),
 });
+
+function ComingSoonRoute() {
+  return <ComingSoon properties={Route.useLoaderData()} />;
+}
