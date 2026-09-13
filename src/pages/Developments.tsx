@@ -39,7 +39,12 @@ const CardSkeleton = () => (
   </div>
 );
 
-const Developments = () => {
+const Developments = ({
+  properties,
+}: {
+  /** Server-rendered rows from the route loader; hydrates the query cache. */
+  properties?: PublicPropertyCardData[] | undefined;
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
