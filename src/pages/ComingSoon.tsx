@@ -1,6 +1,7 @@
 import CategoryPage from "@/components/CategoryPage";
+import type { PublicPropertyCard } from "@/hooks/usePublicProperties";
 
-const ComingSoon = () => (
+const ComingSoon = ({ properties }: { properties?: PublicPropertyCard[] }) => (
   <CategoryPage
     status="coming_soon"
     eyebrow="On the Horizon"
@@ -9,6 +10,7 @@ const ComingSoon = () => (
     seoDescription="Upcoming custom luxury home developments in Ocean City, NJ."
     path="/developments/coming-soon"
     emptyMessage="No upcoming developments yet."
+    properties={properties}
   />
 );
 

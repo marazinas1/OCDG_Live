@@ -1,6 +1,7 @@
 import CategoryPage from "@/components/CategoryPage";
+import type { PublicPropertyCard } from "@/hooks/usePublicProperties";
 
-const ActiveListings = () => (
+const ActiveListings = ({ properties }: { properties?: PublicPropertyCard[] }) => (
   <CategoryPage
     status="active"
     eyebrow="Our Portfolio"
@@ -9,6 +10,7 @@ const ActiveListings = () => (
     seoDescription="Custom luxury homes currently for sale in Ocean City, NJ by OCDG."
     path="/developments/active-listings"
     emptyMessage="No active listings at this time."
+    properties={properties}
   />
 );
 
