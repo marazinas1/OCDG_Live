@@ -1,7 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import PropertyPage from "@/pages/PropertyPage";
+import NotFound from "@/pages/NotFound";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/seo";
+
 
 type SeoProperty = {
   id: string;
