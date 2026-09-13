@@ -3,7 +3,10 @@ import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
 import PublicPropertyCard from "@/components/PublicPropertyCard";
 import subpageHero from "@/assets/subpage-hero.jpg";
-import { usePublicProperties } from "@/hooks/usePublicProperties";
+import {
+  usePublicProperties,
+  type PublicPropertyCard as PublicPropertyCardData,
+} from "@/hooks/usePublicProperties";
 import type { PropertyStatus } from "@/lib/admin/status";
 
 const PAGE_SIZE = 9;
@@ -33,6 +36,7 @@ const CategoryPage = ({
   seoDescription,
   path,
   emptyMessage,
+  properties,
   children,
 }: {
   status: PropertyStatus | PropertyStatus[];
@@ -42,6 +46,8 @@ const CategoryPage = ({
   seoDescription: string;
   path: string;
   emptyMessage: string;
+  /** Server-rendered rows from the route loader; hydrates the query cache. */
+  properties?: PublicPropertyCardData[];
   children?: React.ReactNode;
 }) => {
   const [scrollY, setScrollY] = useState(0);
