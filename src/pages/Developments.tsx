@@ -5,7 +5,10 @@ import GlobalFooter from "@/components/GlobalFooter";
 import PropertyCarousel from "@/components/PropertyCarousel";
 import PublicPropertyCard from "@/components/PublicPropertyCard";
 import subpageHero from "@/assets/subpage-hero.jpg";
-import { usePublicProperties } from "@/hooks/usePublicProperties";
+import {
+  usePublicProperties,
+  type PublicPropertyCard as PublicPropertyCardData,
+} from "@/hooks/usePublicProperties";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS, type PropertyStatus } from "@/lib/admin/status";
 
 type DevStatus = "active" | "under-contract" | "sold";
