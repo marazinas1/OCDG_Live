@@ -74,7 +74,9 @@ const Developments = ({
     }
   };
 
-  const { data: allProps = [], isLoading } = usePublicProperties();
+  const { data: allProps = [], isLoading } = usePublicProperties(
+    properties ? { initialData: properties } : undefined,
+  );
 
   type Dev = {
     slug: string;
