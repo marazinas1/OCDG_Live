@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Developments from "@/pages/Developments";
 import { pageHead } from "@/lib/seo";
+import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/")({
-  component: Developments,
+  loader: () => fetchPropertyCards(),
+  component: DevelopmentsRoute,
   head: () =>
     pageHead({
       title: "Developments — Ocean City Custom Homes",
@@ -12,3 +14,8 @@ export const Route = createFileRoute("/developments/")({
       path: "/developments",
     }),
 });
+
+function DevelopmentsRoute() {
+  const properties = Route.useLoaderData();
+  return <Developments properties={properties} />;
+}
