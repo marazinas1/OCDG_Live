@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { usePastDevelopments } from "@/hooks/usePublicProperties";
+import {
+  usePastDevelopments,
+  type PublicPropertyCard,
+} from "@/hooks/usePublicProperties";
 
 const PAGE_SIZE = 8;
 
-const PastDevelopmentsSection = () => {
-  const { data, isLoading } = usePastDevelopments();
+const PastDevelopmentsSection = ({ items }: { items?: PublicPropertyCard[] }) => {
+  const { data, isLoading } = usePastDevelopments(items);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const list = data ?? [];
   const visible = list.slice(0, visibleCount);

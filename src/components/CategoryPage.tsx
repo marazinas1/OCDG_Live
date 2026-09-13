@@ -59,7 +59,9 @@ const CategoryPage = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const { data, isLoading } = usePublicProperties({ status });
+  const { data, isLoading } = usePublicProperties(
+    properties ? { status, initialData: properties } : { status },
+  );
   const list = data ?? [];
   const visible = list.slice(0, visibleCount);
   const hasMore = visibleCount < list.length;
