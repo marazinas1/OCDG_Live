@@ -5,7 +5,10 @@ import GlobalFooter from "@/components/GlobalFooter";
 import PropertyCarousel from "@/components/PropertyCarousel";
 import PublicPropertyCard from "@/components/PublicPropertyCard";
 import subpageHero from "@/assets/subpage-hero.jpg";
-import { usePublicProperties } from "@/hooks/usePublicProperties";
+import {
+  usePublicProperties,
+  type PublicPropertyCard as PublicPropertyCardData,
+} from "@/hooks/usePublicProperties";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS, type PropertyStatus } from "@/lib/admin/status";
 
 type DevStatus = "active" | "under-contract" | "sold";
@@ -36,7 +39,12 @@ const CardSkeleton = () => (
   </div>
 );
 
-const Developments = () => {
+const Developments = ({
+  properties,
+}: {
+  /** Server-rendered rows from the route loader; hydrates the query cache. */
+  properties?: PublicPropertyCardData[] | undefined;
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
@@ -66,7 +74,9 @@ const Developments = () => {
     }
   };
 
-  const { data: allProps = [], isLoading } = usePublicProperties();
+  const { data: allProps = [], isLoading } = usePublicProperties(
+    properties ? { initialData: properties } : undefined,
+  );
 
   type Dev = {
     slug: string;
