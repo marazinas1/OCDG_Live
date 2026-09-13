@@ -47,7 +47,7 @@ const CategoryPage = ({
   path: string;
   emptyMessage: string;
   /** Server-rendered rows from the route loader; hydrates the query cache. */
-  properties?: PublicPropertyCardData[];
+  properties?: PublicPropertyCardData[] | undefined;
   children?: React.ReactNode;
 }) => {
   const [scrollY, setScrollY] = useState(0);

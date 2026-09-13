@@ -6,8 +6,8 @@ const SoldProjects = ({
   properties,
   pastDevelopments,
 }: {
-  properties?: PublicPropertyCard[];
-  pastDevelopments?: PublicPropertyCard[];
+  properties?: PublicPropertyCard[] | undefined;
+  pastDevelopments?: PublicPropertyCard[] | undefined;
 }) => (
   <CategoryPage
     status="sold"

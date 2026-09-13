@@ -1,7 +1,7 @@
 import CategoryPage from "@/components/CategoryPage";
 import type { PublicPropertyCard } from "@/hooks/usePublicProperties";
 
-const UnderContract = ({ properties }: { properties?: PublicPropertyCard[] }) => (
+const UnderContract = ({ properties }: { properties?: PublicPropertyCard[] | undefined }) => (
   <CategoryPage
     status="under_contract"
     eyebrow="Reserved Residences"

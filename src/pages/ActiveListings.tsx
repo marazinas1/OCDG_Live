@@ -1,7 +1,7 @@
 import CategoryPage from "@/components/CategoryPage";
 import type { PublicPropertyCard } from "@/hooks/usePublicProperties";
 
-const ActiveListings = ({ properties }: { properties?: PublicPropertyCard[] }) => (
+const ActiveListings = ({ properties }: { properties?: PublicPropertyCard[] | undefined }) => (
   <CategoryPage
     status="active"
     eyebrow="Our Portfolio"

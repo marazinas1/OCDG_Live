@@ -1,7 +1,7 @@
 import CategoryPage from "@/components/CategoryPage";
 import type { PublicPropertyCard } from "@/hooks/usePublicProperties";
 
-const ComingSoon = ({ properties }: { properties?: PublicPropertyCard[] }) => (
+const ComingSoon = ({ properties }: { properties?: PublicPropertyCard[] | undefined }) => (
   <CategoryPage
     status="coming_soon"
     eyebrow="On the Horizon"

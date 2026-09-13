@@ -6,7 +6,7 @@ import {
 
 const PAGE_SIZE = 8;
 
-const PastDevelopmentsSection = ({ items }: { items?: PublicPropertyCard[] }) => {
+const PastDevelopmentsSection = ({ items }: { items?: PublicPropertyCard[] | undefined }) => {
   const { data, isLoading } = usePastDevelopments(items);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const list = data ?? [];
