@@ -66,7 +66,7 @@ const Contact = () => {
       });
       if (insertError) {
         console.error("Lead insert failed:", insertError);
-        toast.error("Something went wrong. Please call (609) 602-3917 or email PatrickAHalliday@gmail.com.");
+        toast.error(`Something went wrong. Please call ${business.phone} or email ${business.email}.`);
         return;
       }
 
@@ -90,7 +90,7 @@ const Contact = () => {
       setForm({ name: "", email: "", phone: "", interest: "", message: "" });
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong. Please call (609) 602-3917 or email PatrickAHalliday@gmail.com.");
+      toast.error(`Something went wrong. Please call ${business.phone} or email ${business.email}.`);
     } finally {
       setSubmitting(false);
     }
