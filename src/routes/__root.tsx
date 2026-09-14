@@ -158,7 +158,9 @@ function RootComponent() {
         <Sonner />
         <ScrollToTop />
         <AnalyticsTracker />
-        <Outlet />
+        <MaintenanceGate>
+          <Outlet />
+        </MaintenanceGate>
       </TooltipProvider>
     </QueryClientProvider>
   );
