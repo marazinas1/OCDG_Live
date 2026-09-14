@@ -143,15 +143,11 @@ const GlobalNav = () => {
 
               <button
                 onClick={handleInquire}
-                className={`text-xs py-2.5 px-6 font-medium tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
-                  isScrolled
-                    ? "bg-charcoal text-white"
-                    : "bg-white/20 backdrop-blur-sm border border-white/40 text-white hover:bg-white hover:text-charcoal"
-                }`}
-                style={{ borderRadius: "4px" }}
+                className={`btn-compact ${isScrolled ? "btn-primary" : "btn-on-dark"}`}
               >
                 Inquire Now
               </button>
+
             </div>
 
             {/* Mobile hamburger */}
