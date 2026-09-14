@@ -109,8 +109,8 @@ const Contact = () => {
           style={{ transform: `translateY(${scrollY * 0.25}px)` }} loading="lazy" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 text-center px-4 animate-fade-in-up">
-          <p className="label-uppercase text-white/70 mb-4">Get In Touch</p>
-          <h1 className="heading-display text-white">Contact Ocean City Development Group</h1>
+          <p className="label-uppercase text-white/70 mb-4">{copy.heroEyebrow}</p>
+          <h1 className="heading-display text-white">{copy.heroTitle}</h1>
         </div>
       </section>
 
@@ -120,27 +120,27 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Info */}
             <div>
-              <p className="label-uppercase mb-4">Ocean City Development Group</p>
-              <h2 className="heading-section text-charcoal mb-6">Let's Build Together</h2>
+              <p className="label-uppercase mb-4">{copy.infoLabel}</p>
+              <h2 className="heading-section text-charcoal mb-6">{copy.infoHeading}</h2>
               <div className="divider mb-8" />
 
               <div className="space-y-6">
                 <div>
                   <h4 className="text-sm font-sans font-medium uppercase tracking-widest text-muted-slate mb-2">Lead Contact</h4>
-                  <p className="text-body">Patrick A. Halliday</p>
+                  <p className="text-body">{copy.leadContact}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-sans font-medium uppercase tracking-widest text-muted-slate mb-2">Address</h4>
-                  <p className="text-body">700 Haven Avenue<br />Ocean City, NJ 08226</p>
+                  <p className="text-body">{business.addressLine1}<br />{business.addressLine2}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-sans font-medium uppercase tracking-widest text-muted-slate mb-2">Phone</h4>
-                  <a href="tel:6096023917" className="text-body hover:text-charcoal transition-colors">(609) 602-3917</a>
+                  <a href={business.phoneHref} className="text-body hover:text-charcoal transition-colors">{business.phone}</a>
                 </div>
                 <div>
                   <h4 className="text-sm font-sans font-medium uppercase tracking-widest text-muted-slate mb-2">Email</h4>
-                  <a href="mailto:PatrickAHalliday@gmail.com" className="text-body hover:text-charcoal transition-colors">
-                    PatrickAHalliday@gmail.com
+                  <a href={`mailto:${business.email}`} className="text-body hover:text-charcoal transition-colors">
+                    {business.email}
                   </a>
                 </div>
               </div>
@@ -163,8 +163,8 @@ const Contact = () => {
             {/* Form */}
             <div className="h-full">
               <div className="card-elegant p-8 md:p-10 h-full flex flex-col">
-                <h3 className="heading-card text-charcoal mb-2">Inquiry Form</h3>
-                <p className="text-small mb-8">Tell us about your project and we'll be in touch shortly.</p>
+                <h3 className="heading-card text-charcoal mb-2">{copy.formTitle}</h3>
+                <p className="text-small mb-8">{copy.formIntro}</p>
 
                 <form onSubmit={handleSubmit} className="space-y-5 flex-1 flex flex-col">
                   <input
