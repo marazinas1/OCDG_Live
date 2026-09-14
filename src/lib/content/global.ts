@@ -18,6 +18,8 @@ export type GlobalBranding = {
   logoUrl: string;
   /** Null when no dedicated dark mark exists; the light mark is knocked out instead. */
   logoDarkUrl: string | null;
+  /** Null when nothing is uploaded; the static tags in the head stay in charge. */
+  faviconUrl: string | null;
 };
 
 export function resolveGlobalBranding(bundle: ContentBundle): GlobalBranding {
@@ -25,5 +27,6 @@ export function resolveGlobalBranding(bundle: ContentBundle): GlobalBranding {
     siteName: resolveText(bundle, "global", "site_name", SITE_NAME_FALLBACK),
     logoUrl: resolveMedia(bundle, "global", "logo", FALLBACK_LOGO),
     logoDarkUrl: resolveMediaOrNull(bundle, "global", "logo_dark"),
+    faviconUrl: resolveMediaOrNull(bundle, "global", "favicon"),
   };
 }

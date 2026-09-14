@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 import { FALLBACK_LOGO, SITE_NAME_FALLBACK } from "@/hooks/useSiteSettings";
@@ -7,6 +8,7 @@ const DEFAULT_BRANDING: GlobalBranding = {
   siteName: SITE_NAME_FALLBACK,
   logoUrl: FALLBACK_LOGO,
   logoDarkUrl: null,
+  faviconUrl: null,
 };
 
 /**
@@ -21,4 +23,34 @@ export function useGlobalBranding(): GlobalBranding {
     select: (s) => s.matches[0]?.loaderData as GlobalBranding | undefined,
   });
   return data ?? DEFAULT_BRANDING;
+}
+
+/**
+ * Swaps the document favicon at runtime when one has been uploaded. The static
+ * tags in the root head remain the default for crawlers.
+ */
+export function useFaviconFromBranding() {
+  const href = useGlobalBranding().faviconUrl;
+  useEffect(() => {
+    if (!href) return;
+    const links = Array.from(document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]'));
+    const previous = links.map((l) => l.href);
+    if (links.length === 0) {
+      const link = document.createElement("link");
+      link.rel = "icon";
+      link.type = "image/png";
+      link.href = href;
+      document.head.appendChild(link);
+      return () => link.remove();
+    }
+    links.forEach((l) => {
+      l.href = href;
+      l.type = "image/png";
+    });
+    return () => {
+      links.forEach((l, i) => {
+        l.href = previous[i] ?? l.href;
+      });
+    };
+  }, [href]);
 }
