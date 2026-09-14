@@ -21,6 +21,7 @@ export type ContactPageContent = {
   infoHeading: string;
   formTitle: string;
   formIntro: string;
+  leadContact: string;
 };
 
 export function resolveContactContent(bundle: ContentBundle): ContactPageContent {
