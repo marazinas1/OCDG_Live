@@ -322,6 +322,28 @@ function SettingsBody() {
     partnersLabel: "",
     partnersHeading: "",
   });
+  const [business, setBusiness] = useState({
+    contactName: "",
+    phone: "",
+    email: "",
+    addressLine1: "",
+    addressLine2: "",
+    blurb: "",
+    facebookUrl: "",
+    instagramUrl: "",
+  });
+  const [logoScale, setLogoScale] = useState(100);
+  const [maintenanceOn, setMaintenanceOn] = useState(false);
+  const [maintenanceMessage, setMaintenanceMessage] = useState("");
+  const [contactCopy, setContactCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+    infoLabel: "",
+    infoHeading: "",
+    formTitle: "",
+    formIntro: "",
+    leadContact: "",
+  });
   const [partners, setPartners] = useState<PartnerDraft[]>([]);
   /** Storage objects to delete once the About page saves successfully. */
   const [orphanedLogos, setOrphanedLogos] = useState<{ bucket: string; storagePath: string }[]>([]);
