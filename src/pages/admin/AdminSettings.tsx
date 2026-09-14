@@ -715,23 +715,123 @@ function SettingsBody() {
         </TabsList>
 
 
-      <TabsContent value="brand" className="space-y-4">
+      <TabsContent value="business" className="space-y-4">
         <p className="text-xs text-slate-500">
-          Logo, favicon and site name. Uploading an image saves it right away.
+          Name, contact details and social links. These appear in the footer, on the contact page
+          and in search results.
         </p>
 
-
-        <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <Label htmlFor="site-name">Site name</Label>
-          <Input
-            id="site-name"
-            value={siteName}
-            onChange={(e) => setSiteName(e.target.value)}
-            placeholder="Ocean City Development Group"
-            className="mt-2"
-          />
-          <p className="mt-2 text-xs text-slate-500">Used as the logo's alternative text.</p>
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <div>
+            <Label htmlFor="site-name">Business name</Label>
+            <Input
+              id="site-name"
+              value={siteName}
+              onChange={(e) => setSiteName(e.target.value)}
+              placeholder={SITE_NAME_FALLBACK}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="business-contact">Lead contact</Label>
+            <Input
+              id="business-contact"
+              value={business.contactName}
+              onChange={(e) => setBusiness((b) => ({ ...b, contactName: e.target.value }))}
+              placeholder={BUSINESS_FALLBACKS.contactName}
+              className="mt-2"
+            />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="business-phone">Phone</Label>
+              <Input
+                id="business-phone"
+                value={business.phone}
+                onChange={(e) => setBusiness((b) => ({ ...b, phone: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.phone}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <Label htmlFor="business-email">Email</Label>
+              <Input
+                id="business-email"
+                value={business.email}
+                onChange={(e) => setBusiness((b) => ({ ...b, email: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.email}
+                className="mt-2"
+              />
+            </div>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="business-address-1">Address line 1</Label>
+              <Input
+                id="business-address-1"
+                value={business.addressLine1}
+                onChange={(e) => setBusiness((b) => ({ ...b, addressLine1: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.addressLine1}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <Label htmlFor="business-address-2">Address line 2</Label>
+              <Input
+                id="business-address-2"
+                value={business.addressLine2}
+                onChange={(e) => setBusiness((b) => ({ ...b, addressLine2: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.addressLine2}
+                className="mt-2"
+              />
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="business-blurb">Short description (footer)</Label>
+            <Textarea
+              id="business-blurb"
+              value={business.blurb}
+              onChange={(e) => setBusiness((b) => ({ ...b, blurb: e.target.value }))}
+              placeholder={BUSINESS_FALLBACKS.blurb}
+              rows={2}
+              className="mt-2"
+            />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="business-facebook">Facebook link</Label>
+              <Input
+                id="business-facebook"
+                value={business.facebookUrl}
+                onChange={(e) => setBusiness((b) => ({ ...b, facebookUrl: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.facebookUrl}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <Label htmlFor="business-instagram">Instagram link</Label>
+              <Input
+                id="business-instagram"
+                value={business.instagramUrl}
+                onChange={(e) => setBusiness((b) => ({ ...b, instagramUrl: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.instagramUrl}
+                className="mt-2"
+              />
+            </div>
+          </div>
+          <p className="text-xs text-slate-500">
+            Leave a social link empty to hide that icon in the footer.
+          </p>
+          <Button onClick={handleSaveBusiness} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save business details"}
+          </Button>
         </div>
+      </TabsContent>
+
+      <TabsContent value="appearance" className="space-y-4">
+        <p className="text-xs text-slate-500">
+          Logo, favicon and logo size. Uploading an image saves it right away.
+        </p>
 
         {BRAND_SLOTS.map((slot) => (
           <AssetSlot
@@ -748,10 +848,42 @@ function SettingsBody() {
             onRemove={() => handleRemove(slot)}
           />
         ))}
-        <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <Button onClick={handleSaveBrand} disabled={textSaving}>
-            {textSaving ? "Saving…" : "Save brand settings"}
-          </Button>
+
+        <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-5">
+          <div className="flex items-baseline justify-between">
+            <Label htmlFor="logo-scale">Logo size</Label>
+            <span className="text-xs tabular-nums text-slate-500">{logoScale}%</span>
+          </div>
+          <Slider
+            id="logo-scale"
+            value={[logoScale]}
+            min={50}
+            max={200}
+            step={5}
+            onValueChange={(v) => setLogoScale(v[0] ?? 100)}
+          />
+          <p className="text-xs text-slate-500">
+            100% is the standard size used everywhere on the site.
+          </p>
+          <div className="flex gap-2">
+            <Button onClick={handleSaveAppearance} disabled={textSaving}>
+              {textSaving ? "Saving…" : "Save appearance"}
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={textSaving}
+              onClick={() => {
+                setLogoScale(100);
+                void saveTextWithToast(
+                  "global",
+                  [{ slot: "logo.scale", value: "100" }],
+                  "Logo size restored to the default.",
+                );
+              }}
+            >
+              Restore default
+            </Button>
+          </div>
         </div>
       </TabsContent>
 
