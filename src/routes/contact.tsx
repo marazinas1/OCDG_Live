@@ -10,11 +10,8 @@ export const Route = createFileRoute("/contact")({
       description:
         "Get in touch with Patrick A. Halliday to discuss your custom luxury home in Ocean City, NJ.",
       path: "/contact",
-      jsonLd: breadcrumbJsonLd([
-        { name: "Home", path: "/" },
-        { name: "Contact", path: "/contact" },
-      ]),
-      jsonLd: {
+      jsonLd: [
+        {
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness",
         "@id": "https://oceancitydevelopment.com/#organization",
@@ -33,5 +30,10 @@ export const Route = createFileRoute("/contact")({
         areaServed: { "@type": "City", name: "Ocean City, NJ" },
         employee: { "@type": "Person", name: "Patrick A. Halliday" },
       },
+        breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Contact", path: "/contact" },
+      ]),
+      ],
     }),
 });

@@ -10,16 +10,18 @@ export const Route = createFileRoute("/testimonials")({
       description:
         "What clients say about building their dream coastal homes with Ocean City Development Group.",
       path: "/testimonials",
-      jsonLd: breadcrumbJsonLd([
-        { name: "Home", path: "/" },
-        { name: "Testimonials", path: "/testimonials" },
-      ]),
-      jsonLd: {
+      jsonLd: [
+        {
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness",
         "@id": "https://oceancitydevelopment.com/#organization",
         name: "Ocean City Development Group",
         url: "https://oceancitydevelopment.com/testimonials",
       },
+        breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Testimonials", path: "/testimonials" },
+      ]),
+      ],
     }),
 });
