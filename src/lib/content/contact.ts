@@ -33,5 +33,6 @@ export function resolveContactContent(bundle: ContentBundle): ContactPageContent
     infoHeading: t("info_heading", CONTACT_FALLBACKS.infoHeading),
     formTitle: t("form_title", CONTACT_FALLBACKS.formTitle),
     formIntro: t("form_intro", CONTACT_FALLBACKS.formIntro),
+    leadContact: t("lead_contact", CONTACT_FALLBACKS.leadContact),
   };
 }
