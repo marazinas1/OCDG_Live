@@ -187,12 +187,8 @@ const Developments = ({
               <button
                 key={tab.value}
                 onClick={() => handleTabChange(tab.value)}
-                className={`px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 ${
-                  activeTab === tab.value
-                    ? "bg-charcoal text-white"
-                    : "bg-transparent text-slate hover:text-charcoal border border-border"
-                }`}
-                style={{ borderRadius: "4px" }}
+                className={`btn-toggle ${activeTab === tab.value ? "is-active" : ""}`}
+
               >
                 {tab.label}
               </button>
