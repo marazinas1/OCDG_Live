@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
+import { getRouteApi } from "@tanstack/react-router";
 import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
 import subpageHero from "@/assets/subpage-hero.jpg";
 import { supabase } from "@/integrations/supabase/client";
+import { useBusinessInfo } from "@/hooks/useGlobalBranding";
 import { toast } from "sonner";
+
+const routeApi = getRouteApi("/contact");
 
 const INTEREST_OPTIONS = [
   "Active Listing inquiry",
