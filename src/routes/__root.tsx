@@ -70,15 +70,27 @@ const ORG_JSON_LD = JSON.stringify({
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   // Site-wide branding (logo, dark logo, site name) fetched once per request so
   // every route — public and admin — can render the mark without refetching.
-  loader: async () => resolveGlobalBranding(await fetchContent(["global"])),
-  head: () => ({
+  loader: async (): Promise<RootContent> => {
+    const bundle = await fetchContent(["global"]);
+    return {
+      ...resolveGlobalBranding(bundle),
+      business: resolveBusinessInfo(bundle),
+      maintenance: resolveMaintenance(bundle),
+    };
+  },
+  head: ({ loaderData }) => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0" },
       { title: SITE_TITLE },
       { name: "description", content: SITE_DESCRIPTION },
       { name: "author", content: "Ocean City Development Group" },
-      { name: "robots", content: "index, follow" },
+      {
+        name: "robots",
+        // While maintenance mode is on the public response is a holding page —
+        // it must never be the version search engines cache.
+        content: loaderData?.maintenance.enabled ? "noindex, nofollow" : "index, follow",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://oceancitydevelopment.com" },
       { property: "og:image", content: "https://oceancitydevelopment.com/og-image.jpg" },
