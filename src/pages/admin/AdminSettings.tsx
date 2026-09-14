@@ -484,11 +484,53 @@ function SettingsBody() {
     }
   };
 
-  const handleSaveBrand = () =>
+  const handleSaveBusiness = () =>
     saveTextWithToast(
       "global",
-      [{ slot: "site_name", value: siteName.trim() || SITE_NAME_FALLBACK }],
-      "Brand settings updated.",
+      [
+        { slot: "site_name", value: siteName.trim() || SITE_NAME_FALLBACK },
+        { slot: "business.contact_name", value: business.contactName },
+        { slot: "business.phone", value: business.phone },
+        { slot: "business.email", value: business.email },
+        { slot: "business.address_line_1", value: business.addressLine1 },
+        { slot: "business.address_line_2", value: business.addressLine2 },
+        { slot: "business.blurb", value: business.blurb },
+        { slot: "business.facebook_url", value: business.facebookUrl },
+        { slot: "business.instagram_url", value: business.instagramUrl },
+      ],
+      "Business details updated.",
+    );
+
+  const handleSaveAppearance = () =>
+    saveTextWithToast(
+      "global",
+      [{ slot: "logo.scale", value: String(logoScale) }],
+      "Appearance updated.",
+    );
+
+  const handleSaveMaintenance = (nextOn: boolean, nextMessage: string) =>
+    saveTextWithToast(
+      "global",
+      [
+        { slot: "maintenance.enabled", value: nextOn ? "on" : "off" },
+        { slot: "maintenance.message", value: nextMessage },
+      ],
+      nextOn ? "Maintenance mode is on." : "Maintenance mode is off.",
+    );
+
+  const handleSaveContact = () =>
+    saveTextWithToast(
+      "contact",
+      [
+        { slot: "hero_eyebrow", value: contactCopy.heroEyebrow },
+        { slot: "hero_title", value: contactCopy.heroTitle },
+        { slot: "info_label", value: contactCopy.infoLabel },
+        { slot: "info_heading", value: contactCopy.infoHeading },
+        { slot: "form_title", value: contactCopy.formTitle },
+        { slot: "form_intro", value: contactCopy.formIntro },
+        { slot: "lead_contact", value: contactCopy.leadContact },
+      ],
+      "Contact page content updated.",
     );
 
   const handleSaveHome = () =>
