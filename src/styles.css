@@ -374,12 +374,17 @@
 
   /* Size modifiers — must come after the variants to win the cascade */
   .btn-compact {
+    @apply text-xs;
+  }
+
+  .btn-nav {
     @apply px-6 py-2.5 text-xs;
   }
 
   .btn-block {
     @apply w-full;
   }
+
 
 
   /* Section styling */
