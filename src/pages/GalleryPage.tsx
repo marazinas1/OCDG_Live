@@ -278,13 +278,13 @@ const GalleryPage = () => {
 
       {lightboxOpen && allImages.length > 0 && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
-          <button aria-label="Close gallery" className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors z-10" onClick={closeLightbox}>
+          <button aria-label="Close gallery" className="btn-icon-plain absolute top-6 right-6 text-white/80 hover:text-white z-10" onClick={closeLightbox}>
             <X className="w-8 h-8" />
           </button>
-          <button aria-label="Previous image" className="absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-colors z-10" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
+          <button aria-label="Previous image" className="btn-icon-plain absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
             <ChevronLeft className="w-10 h-10" />
           </button>
-          <button aria-label="Next image" className="absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-colors z-10" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
+          <button aria-label="Next image" className="btn-icon-plain absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
             <ChevronRight className="w-10 h-10" />
           </button>
           <img src={allImages[currentIndex]!.src} alt={allImages[currentIndex]!.alt} className="max-w-[90vw] max-h-[85vh] object-contain" decoding="async" loading="lazy" onClick={(e) => e.stopPropagation()} />

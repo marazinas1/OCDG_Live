@@ -236,7 +236,7 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="btn-primary w-full justify-center mt-auto disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="btn-primary btn-block mt-auto"
                   >
                     {submitting ? "Sending…" : "Send Inquiry"}
                   </button>
