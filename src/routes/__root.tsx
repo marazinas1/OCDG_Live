@@ -15,7 +15,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ScrollToTop from "@/components/ScrollToTop";
-import { useFaviconFromSettings } from "@/hooks/useSiteSettings";
+import { useFaviconFromBranding } from "@/hooks/useGlobalBranding";
 import { usePageTracking } from "@/hooks/usePageTracking";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
 import NotFound from "@/pages/NotFound";
@@ -123,7 +123,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 /** Applies the favicon uploaded in admin settings. Must sit inside the query provider. */
 function SettingsEffects() {
-  useFaviconFromSettings();
+  useFaviconFromBranding();
   return null;
 }
 
