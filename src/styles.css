@@ -233,33 +233,154 @@
     border-color: hsl(var(--glass-border));
   }
 
-  /* Elegant Button Styles */
-  .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3 text-sm font-medium tracking-wider uppercase;
-    @apply bg-charcoal text-white;
+  /*
+   * ---------------------------------------------------------------
+   * UNIFIED BUTTON SYSTEM — single source of truth for the whole site.
+   * Every clickable control must use one of these classes; never write
+   * one-off button styling inside a component.
+   *
+   *   .btn-primary        solid charcoal (main call to action)
+   *   .btn-outline        charcoal outline (secondary action)
+   *   .btn-ghost          text-only action
+   *   .btn-on-dark        glass outline for dark/photo backgrounds
+   *   .btn-on-dark-solid  solid white on dark backgrounds
+   *   .btn-toggle         filter / tab pill (add .is-active when selected)
+   *   .btn-icon           round icon control (carousel arrows)
+   *   .btn-icon-plain     bare icon control (lightbox, hamburger)
+   *   .btn-dot            carousel pagination dot (add .is-active)
+   *
+   * Size modifiers (apply after the variant): .btn-compact, .btn-block
+   * ---------------------------------------------------------------
+   */
+  .btn-primary,
+  .btn-outline,
+  .btn-ghost,
+  .btn-on-dark,
+  .btn-on-dark-solid,
+  .btn-toggle {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium tracking-wider uppercase;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-charcoal/90 hover:shadow-md hover:-translate-y-0.5;
     letter-spacing: 0.15em;
     border-radius: 4px;
+  }
+
+  .btn-primary,
+  .btn-outline,
+  .btn-ghost,
+  .btn-on-dark,
+  .btn-on-dark-solid,
+  .btn-toggle,
+  .btn-icon,
+  .btn-icon-plain,
+  .btn-dot {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .btn-primary:focus-visible,
+  .btn-outline:focus-visible,
+  .btn-ghost:focus-visible,
+  .btn-on-dark:focus-visible,
+  .btn-on-dark-solid:focus-visible,
+  .btn-toggle:focus-visible,
+  .btn-icon:focus-visible,
+  .btn-icon-plain:focus-visible,
+  .btn-dot:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  .btn-primary:disabled,
+  .btn-outline:disabled,
+  .btn-ghost:disabled,
+  .btn-on-dark:disabled,
+  .btn-on-dark-solid:disabled,
+  .btn-toggle:disabled,
+  .btn-icon:disabled,
+  .btn-icon-plain:disabled {
+    @apply opacity-60;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-primary {
+    @apply bg-charcoal text-white;
+    @apply hover:bg-charcoal/90 hover:shadow-md hover:-translate-y-0.5;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center px-8 py-3 text-sm font-medium tracking-wider uppercase;
     @apply border border-charcoal text-charcoal bg-transparent;
-    @apply transition-all duration-300 ease-out;
     @apply hover:bg-charcoal hover:text-white hover:shadow-md hover:-translate-y-0.5;
-    letter-spacing: 0.15em;
-    border-radius: 4px;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium;
-    @apply text-slate bg-transparent;
-    @apply transition-all duration-200;
+    @apply px-4 py-2 text-slate bg-transparent;
     @apply hover:text-charcoal hover:opacity-80;
     letter-spacing: 0.05em;
-    border-radius: 4px;
+    text-transform: none;
   }
+
+  /* Dark / photographic backgrounds */
+  .btn-on-dark {
+    @apply border border-white/40 bg-white/20 backdrop-blur-sm text-white;
+    @apply hover:bg-white hover:text-charcoal hover:shadow-md hover:-translate-y-0.5;
+  }
+
+  .btn-on-dark-solid {
+    @apply bg-white text-charcoal;
+    @apply hover:shadow-md hover:-translate-y-0.5;
+  }
+
+  /* Filter / tab pills */
+  .btn-toggle {
+    @apply px-5 py-2 text-xs border border-border bg-transparent text-slate;
+    @apply hover:text-charcoal;
+    letter-spacing: 0.1em;
+  }
+
+  .btn-toggle.is-active {
+    @apply bg-charcoal text-white border-charcoal;
+  }
+
+  /* Icon controls */
+  .btn-icon {
+    @apply inline-flex items-center justify-center w-10 h-10 bg-white border border-border shadow-md;
+    @apply transition-all duration-300 ease-out hover:bg-charcoal hover:text-white;
+    border-radius: 50%;
+  }
+
+  .btn-icon-plain {
+    @apply inline-flex items-center justify-center p-2 bg-transparent;
+    @apply transition-colors duration-300;
+  }
+
+  /* Carousel pagination dots */
+  .btn-dot {
+    @apply w-2 h-2 rounded-full bg-border transition-all duration-300;
+    @apply hover:bg-muted-slate;
+  }
+
+  .btn-dot.is-active {
+    @apply w-6 bg-charcoal;
+  }
+
+  .btn-dot-on-dark {
+    @apply bg-white/40 hover:bg-white/70;
+  }
+
+  .btn-dot-on-dark.is-active {
+    @apply bg-white;
+  }
+
+  /* Size modifiers — must come after the variants to win the cascade */
+  .btn-compact {
+    @apply px-6 py-2.5 text-xs;
+  }
+
+  .btn-block {
+    @apply w-full;
+  }
+
 
   /* Section styling */
   .section-padding {
