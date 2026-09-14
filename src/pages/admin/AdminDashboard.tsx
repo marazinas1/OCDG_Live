@@ -43,7 +43,7 @@ function AdminDashboardInner() {
   return (
     <div className="mx-auto max-w-4xl space-y-14">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Dashboard</h1>
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Overview</h1>
         <p className="mt-1 text-sm text-slate-500">
           Manage listings under{" "}
           <Link to="/admin/properties" className="text-slate-900 underline underline-offset-4">
