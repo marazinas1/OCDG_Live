@@ -32,6 +32,20 @@ export class NotAnImageError extends Error {
   }
 }
 
+/** Resizes/encodes a file with the preset for the given kind. Shared with the page-media uploader. */
+export async function encodeAsset(
+  file: File,
+  kind: BrandAssetKind,
+): Promise<{ blob: Blob; ext: "png" | "jpg"; contentType: string }> {
+  const preset = PRESETS[kind];
+  const blob = await encode(file, preset);
+  return {
+    blob,
+    ext: preset.type === "image/png" ? "png" : "jpg",
+    contentType: preset.type,
+  };
+}
+
 async function encode(file: File, preset: Preset): Promise<Blob> {
   let bmp: ImageBitmap;
   try {
