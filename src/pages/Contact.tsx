@@ -26,6 +26,8 @@ const formatPhone = (raw: string) => {
 };
 
 const Contact = () => {
+  const copy = routeApi.useLoaderData();
+  const business = useBusinessInfo();
   const [form, setForm] = useState({ name: "", email: "", phone: "", interest: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
   const [hp, setHp] = useState(""); // honeypot
