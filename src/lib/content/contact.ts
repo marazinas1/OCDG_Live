@@ -11,6 +11,7 @@ export const CONTACT_FALLBACKS = {
   infoHeading: "Let's Build Together",
   formTitle: "Inquiry Form",
   formIntro: "Tell us about your project and we'll be in touch shortly.",
+  leadContact: "Patrick A. Halliday",
 } as const;
 
 export type ContactPageContent = {
