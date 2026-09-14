@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 import { FALLBACK_LOGO, SITE_NAME_FALLBACK } from "@/hooks/useSiteSettings";
@@ -7,6 +8,7 @@ const DEFAULT_BRANDING: GlobalBranding = {
   siteName: SITE_NAME_FALLBACK,
   logoUrl: FALLBACK_LOGO,
   logoDarkUrl: null,
+  faviconUrl: null,
 };
 
 /**
