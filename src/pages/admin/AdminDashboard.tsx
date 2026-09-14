@@ -43,7 +43,7 @@ function AdminDashboardInner() {
   return (
     <div className="mx-auto max-w-4xl space-y-14">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Dashboard</h1>
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Overview</h1>
         <p className="mt-1 text-sm text-slate-500">
           Manage listings under{" "}
           <Link to="/admin/properties" className="text-slate-900 underline underline-offset-4">
@@ -78,21 +78,7 @@ function AdminDashboardInner() {
       </section>
 
       <section>
-        <h2 className="text-[11px] uppercase tracking-[0.14em] text-slate-500">Content</h2>
-        <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
-          <Stat
-            value={counts?.publishedProperties ?? 0}
-            label="Published"
-            to="/admin/properties"
-          />
-          <Stat value={counts?.draftProperties ?? 0} label="Drafts" to="/admin/properties" />
-          <Stat value={counts?.activeProperties ?? 0} label="Current" to="/admin/properties" />
-          <Stat value={counts?.soldProperties ?? 0} label="Sold" to="/admin/properties" />
-        </div>
-      </section>
-
-      <section>
-        <h2 className="text-[11px] uppercase tracking-[0.14em] text-slate-500">Traffic</h2>
+        <h2 className="text-[11px] uppercase tracking-[0.14em] text-slate-500">Numbers</h2>
         <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
           <Stat
             value={Number(traffic?.totals?.views ?? 0)}
@@ -104,33 +90,14 @@ function AdminDashboardInner() {
             label="Visitors this week"
             to="/admin/analytics"
           />
-        </div>
-      </section>
-
-
-
-      <section>
-        <h2 className="text-[11px] uppercase tracking-[0.14em] text-slate-500">Recent activity</h2>
-        <div className="mt-4 rounded-lg border border-slate-200 bg-card px-6">
-          {activity.length === 0 ? (
-            <p className="py-6 text-sm text-slate-500">Nothing edited yet.</p>
-          ) : (
-            activity.map((item) => (
-              <Link
-                key={item.id}
-                to={item.href}
-                className="group flex items-center gap-4 border-b border-slate-200 py-4 last:border-b-0"
-              >
-                <Building2 className="h-4 w-4 shrink-0 text-slate-400" />
-                <span className="min-w-0 flex-1 truncate text-sm text-slate-900 group-hover:underline underline-offset-4">
-                  {item.title}
-                </span>
-                <span className="w-28 shrink-0 text-right text-xs text-slate-500">
-                  {item.created ? "Created" : "Edited"} {relativeTime(item.at)}
-                </span>
-              </Link>
-            ))
-          )}
+          <Stat
+            value={counts?.publishedProperties ?? 0}
+            label="Published"
+            to="/admin/properties"
+          />
+          <Stat value={counts?.draftProperties ?? 0} label="Drafts" to="/admin/properties" />
+          <Stat value={counts?.activeProperties ?? 0} label="Current" to="/admin/properties" />
+          <Stat value={counts?.soldProperties ?? 0} label="Sold" to="/admin/properties" />
         </div>
       </section>
 
@@ -161,6 +128,31 @@ function AdminDashboardInner() {
               View the live site
             </a>
           </Button>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-[11px] uppercase tracking-[0.14em] text-slate-500">Recent activity</h2>
+        <div className="mt-4 rounded-lg border border-slate-200 bg-card px-6">
+          {activity.length === 0 ? (
+            <p className="py-6 text-sm text-slate-500">Nothing edited yet.</p>
+          ) : (
+            activity.map((item) => (
+              <Link
+                key={item.id}
+                to={item.href}
+                className="group flex items-center gap-4 border-b border-slate-200 py-4 last:border-b-0"
+              >
+                <Building2 className="h-4 w-4 shrink-0 text-slate-400" />
+                <span className="min-w-0 flex-1 truncate text-sm text-slate-900 group-hover:underline underline-offset-4">
+                  {item.title}
+                </span>
+                <span className="w-28 shrink-0 text-right text-xs text-slate-500">
+                  {item.created ? "Created" : "Edited"} {relativeTime(item.at)}
+                </span>
+              </Link>
+            ))
+          )}
         </div>
       </section>
     </div>

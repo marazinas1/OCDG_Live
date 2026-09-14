@@ -19,55 +19,43 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const ITEMS = [
-  {
-    title: "Dashboard",
-    url: "/admin",
-    icon: LayoutDashboard,
-    match: (p: string) => p === "/admin",
-  },
-  {
-    title: "Properties",
-    url: "/admin/properties",
-    icon: Building2,
-    match: (p: string) => p.startsWith("/admin/properties"),
-  },
-  {
-    title: "Inquiries",
-    url: "/admin/inquiries",
-    icon: Inbox,
-    match: (p: string) => p.startsWith("/admin/inquiries"),
-  },
-  {
-    title: "Testimonials",
-    url: "/admin/testimonials",
-    icon: Quote,
-    match: (p: string) => p.startsWith("/admin/testimonials"),
-  },
-  {
-    title: "Users",
-    url: "/admin/users",
-    icon: UserCog,
-    match: (p: string) => p.startsWith("/admin/users"),
-  },
-  {
-    title: "Analytics",
-    url: "/admin/analytics",
-    icon: BarChart3,
-    match: (p: string) => p.startsWith("/admin/analytics"),
-  },
-  {
+type NavItem = {
+  title: string;
+  url: string;
+  icon: typeof LayoutDashboard;
+  match: (p: string) => boolean;
+};
 
-    title: "Settings",
-    url: "/admin/settings",
-    icon: Settings,
-    match: (p: string) => p.startsWith("/admin/settings"),
+/** Fixed menu order: daily work first, content next, settings last. */
+const GROUPS: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Daily",
+    items: [
+      { title: "Overview", url: "/admin", icon: LayoutDashboard, match: (p) => p === "/admin" },
+      { title: "Inquiries", url: "/admin/inquiries", icon: Inbox, match: (p) => p.startsWith("/admin/inquiries") },
+      { title: "Analytics", url: "/admin/analytics", icon: BarChart3, match: (p) => p.startsWith("/admin/analytics") },
+    ],
+  },
+  {
+    label: "Manage",
+    items: [
+      { title: "Properties", url: "/admin/properties", icon: Building2, match: (p) => p.startsWith("/admin/properties") },
+      { title: "Testimonials", url: "/admin/testimonials", icon: Quote, match: (p) => p.startsWith("/admin/testimonials") },
+    ],
+  },
+  {
+    label: "Settings",
+    items: [
+      { title: "Users", url: "/admin/users", icon: UserCog, match: (p) => p.startsWith("/admin/users") },
+      { title: "Settings", url: "/admin/settings", icon: Settings, match: (p) => p.startsWith("/admin/settings") },
+    ],
   },
 ];
 
 const ROLE_LABEL: Record<AdminRole, string> = {
   developer: "Developer",
   owner: "Owner",
+  editor: "Editor",
 };
 
 export default function AdminSidebar({
@@ -97,38 +85,40 @@ export default function AdminSidebar({
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Manage</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {ITEMS.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={item.match(pathname)}
-                    tooltip={item.title}
-                  >
-                    <Link
-                      to={item.url}
-                      className="flex items-center gap-2"
-                      onClick={() => {
-                        if (isMobile) setOpenMobile(false);
-                      }}
+        {GROUPS.map((group) => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={item.match(pathname)}
+                      tooltip={item.title}
                     >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                      {item.title === "Inquiries" && unreadCount > 0 && (
-                        <Badge className="ml-auto h-5 min-w-5 justify-center px-1.5 text-[11px]">
-                          {unreadCount}
-                        </Badge>
-                      )}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                      <Link
+                        to={item.url}
+                        className="flex items-center gap-2"
+                        onClick={() => {
+                          if (isMobile) setOpenMobile(false);
+                        }}
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                        {item.title === "Inquiries" && unreadCount > 0 && (
+                          <Badge className="ml-auto h-5 min-w-5 justify-center px-1.5 text-[11px]">
+                            {unreadCount}
+                          </Badge>
+                        )}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
 
       <SidebarFooter className="border-t border-slate-200">

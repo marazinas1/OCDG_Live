@@ -3,13 +3,32 @@ import { useRouterState } from "@tanstack/react-router";
 
 import { FALLBACK_LOGO, SITE_NAME_FALLBACK } from "@/hooks/useSiteSettings";
 import type { GlobalBranding } from "@/lib/content/global";
+import {
+  DEFAULT_BUSINESS_INFO,
+  DEFAULT_MAINTENANCE,
+  type BusinessInfo,
+  type MaintenanceState,
+} from "@/lib/content/business";
+
+/** Everything the root route loader resolves once per request. */
+export type RootContent = GlobalBranding & {
+  business: BusinessInfo;
+  maintenance: MaintenanceState;
+};
 
 const DEFAULT_BRANDING: GlobalBranding = {
   siteName: SITE_NAME_FALLBACK,
   logoUrl: FALLBACK_LOGO,
   logoDarkUrl: null,
   faviconUrl: null,
+  logoScale: 1,
 };
+
+function useRootContent(): RootContent | undefined {
+  return useRouterState({
+    select: (s) => s.matches[0]?.loaderData as RootContent | undefined,
+  });
+}
 
 /**
  * Site-wide branding (logo, dark logo, site name) loaded once in the root
@@ -19,10 +38,17 @@ const DEFAULT_BRANDING: GlobalBranding = {
  * available (first paint of a pending/errored match, HMR reload).
  */
 export function useGlobalBranding(): GlobalBranding {
-  const data = useRouterState({
-    select: (s) => s.matches[0]?.loaderData as GlobalBranding | undefined,
-  });
-  return data ?? DEFAULT_BRANDING;
+  return useRootContent() ?? DEFAULT_BRANDING;
+}
+
+/** Contact details and socials, editable in Settings → Business. */
+export function useBusinessInfo(): BusinessInfo {
+  return useRootContent()?.business ?? DEFAULT_BUSINESS_INFO;
+}
+
+/** Maintenance-mode switch, editable in Settings → Maintenance. */
+export function useMaintenance(): MaintenanceState {
+  return useRootContent()?.maintenance ?? DEFAULT_MAINTENANCE;
 }
 
 /**

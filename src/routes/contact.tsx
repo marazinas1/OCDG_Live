@@ -1,9 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Contact from "@/pages/Contact";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { fetchContent } from "@/lib/content-resolver";
+import { resolveContactContent } from "@/lib/content/contact";
 
 export const Route = createFileRoute("/contact")({
+  loader: async () => resolveContactContent(await fetchContent(["contact"])),
   component: Contact,
+  errorComponent: ({ error }) => (
+    <div role="alert" className="p-8 text-center">
+      {error.message}
+    </div>
+  ),
+  notFoundComponent: () => <div className="p-8 text-center">Page not found.</div>,
   head: () =>
     pageHead({
       title: "Contact Ocean City Development Group",

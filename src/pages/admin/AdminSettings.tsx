@@ -36,8 +36,12 @@ import {
 } from "@/lib/admin/uploadPageMedia";
 import { NotAnImageError, type BrandAssetKind } from "@/lib/admin/uploadBrandAsset";
 import type { ContentBundle, PageMediaRow } from "@/lib/content-resolver";
+import { BUSINESS_FALLBACKS, MAINTENANCE_FALLBACK_MESSAGE } from "@/lib/content/business";
+import { CONTACT_FALLBACKS } from "@/lib/content/contact";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
-const PAGES = ["global", "home", "about"];
+const PAGES = ["global", "home", "about", "contact"];
 
 type SlotDef = {
   page: string;
@@ -318,6 +322,28 @@ function SettingsBody() {
     partnersLabel: "",
     partnersHeading: "",
   });
+  const [business, setBusiness] = useState({
+    contactName: "",
+    phone: "",
+    email: "",
+    addressLine1: "",
+    addressLine2: "",
+    blurb: "",
+    facebookUrl: "",
+    instagramUrl: "",
+  });
+  const [logoScale, setLogoScale] = useState(100);
+  const [maintenanceOn, setMaintenanceOn] = useState(false);
+  const [maintenanceMessage, setMaintenanceMessage] = useState("");
+  const [contactCopy, setContactCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+    infoLabel: "",
+    infoHeading: "",
+    formTitle: "",
+    formIntro: "",
+    leadContact: "",
+  });
   const [partners, setPartners] = useState<PartnerDraft[]>([]);
   /** Storage objects to delete once the About page saves successfully. */
   const [orphanedLogos, setOrphanedLogos] = useState<{ bucket: string; storagePath: string }[]>([]);
@@ -337,6 +363,32 @@ function SettingsBody() {
     setCtaLabel(text("home", "hero_cta_label"));
     setQuote(text("home", "quote"));
     setQuoteAttribution(text("home", "quote_attribution"));
+
+    setBusiness({
+      contactName: text("global", "business.contact_name"),
+      phone: text("global", "business.phone"),
+      email: text("global", "business.email"),
+      addressLine1: text("global", "business.address_line_1"),
+      addressLine2: text("global", "business.address_line_2"),
+      blurb: text("global", "business.blurb"),
+      facebookUrl: text("global", "business.facebook_url"),
+      instagramUrl: text("global", "business.instagram_url"),
+    });
+    const scaleRaw = Number.parseFloat(text("global", "logo.scale"));
+    setLogoScale(Number.isFinite(scaleRaw) && scaleRaw > 0 ? scaleRaw : 100);
+    setMaintenanceOn(text("global", "maintenance.enabled").trim() === "on");
+    setMaintenanceMessage(text("global", "maintenance.message"));
+
+    setContactCopy({
+      heroEyebrow: text("contact", "hero_eyebrow"),
+      heroTitle: text("contact", "hero_title"),
+      infoLabel: text("contact", "info_label"),
+      infoHeading: text("contact", "info_heading"),
+      formTitle: text("contact", "form_title"),
+      formIntro: text("contact", "form_intro"),
+      leadContact: text("contact", "lead_contact"),
+    });
+
 
     setAbout({
       heroEyebrow: text("about", "hero_eyebrow"),
@@ -432,11 +484,53 @@ function SettingsBody() {
     }
   };
 
-  const handleSaveBrand = () =>
+  const handleSaveBusiness = () =>
     saveTextWithToast(
       "global",
-      [{ slot: "site_name", value: siteName.trim() || SITE_NAME_FALLBACK }],
-      "Brand settings updated.",
+      [
+        { slot: "site_name", value: siteName.trim() || SITE_NAME_FALLBACK },
+        { slot: "business.contact_name", value: business.contactName },
+        { slot: "business.phone", value: business.phone },
+        { slot: "business.email", value: business.email },
+        { slot: "business.address_line_1", value: business.addressLine1 },
+        { slot: "business.address_line_2", value: business.addressLine2 },
+        { slot: "business.blurb", value: business.blurb },
+        { slot: "business.facebook_url", value: business.facebookUrl },
+        { slot: "business.instagram_url", value: business.instagramUrl },
+      ],
+      "Business details updated.",
+    );
+
+  const handleSaveAppearance = () =>
+    saveTextWithToast(
+      "global",
+      [{ slot: "logo.scale", value: String(logoScale) }],
+      "Appearance updated.",
+    );
+
+  const handleSaveMaintenance = (nextOn: boolean, nextMessage: string) =>
+    saveTextWithToast(
+      "global",
+      [
+        { slot: "maintenance.enabled", value: nextOn ? "on" : "off" },
+        { slot: "maintenance.message", value: nextMessage },
+      ],
+      nextOn ? "Maintenance mode is on." : "Maintenance mode is off.",
+    );
+
+  const handleSaveContact = () =>
+    saveTextWithToast(
+      "contact",
+      [
+        { slot: "hero_eyebrow", value: contactCopy.heroEyebrow },
+        { slot: "hero_title", value: contactCopy.heroTitle },
+        { slot: "info_label", value: contactCopy.infoLabel },
+        { slot: "info_heading", value: contactCopy.infoHeading },
+        { slot: "form_title", value: contactCopy.formTitle },
+        { slot: "form_intro", value: contactCopy.formIntro },
+        { slot: "lead_contact", value: contactCopy.leadContact },
+      ],
+      "Contact page content updated.",
     );
 
   const handleSaveHome = () =>
@@ -595,17 +689,20 @@ function SettingsBody() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Settings</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Brand assets, homepage and About page content. Changes go live on the public site
+          Business details, branding and page texts. Changes go live on the public site
           immediately.
         </p>
       </div>
 
-      <Tabs defaultValue="brand" className="space-y-6">
+      <Tabs defaultValue="business" className="space-y-6">
         <TabsList className="flex flex-wrap justify-start gap-2 h-auto bg-transparent p-0">
           {[
-            { value: "brand", label: "Brand" },
-            { value: "homepage", label: "Homepage" },
-            { value: "about", label: "About page" },
+            { value: "business", label: "Business" },
+            { value: "appearance", label: "Appearance" },
+            { value: "homepage", label: "Home texts" },
+            { value: "about", label: "About texts" },
+            { value: "contact", label: "Contact texts" },
+            { value: "maintenance", label: "Maintenance" },
           ].map((t) => (
             <TabsTrigger
               key={t.value}
@@ -618,23 +715,123 @@ function SettingsBody() {
         </TabsList>
 
 
-      <TabsContent value="brand" className="space-y-4">
+      <TabsContent value="business" className="space-y-4">
         <p className="text-xs text-slate-500">
-          Logo, favicon and site name. Uploading an image saves it right away.
+          Name, contact details and social links. These appear in the footer, on the contact page
+          and in search results.
         </p>
 
-
-        <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <Label htmlFor="site-name">Site name</Label>
-          <Input
-            id="site-name"
-            value={siteName}
-            onChange={(e) => setSiteName(e.target.value)}
-            placeholder="Ocean City Development Group"
-            className="mt-2"
-          />
-          <p className="mt-2 text-xs text-slate-500">Used as the logo's alternative text.</p>
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <div>
+            <Label htmlFor="site-name">Business name</Label>
+            <Input
+              id="site-name"
+              value={siteName}
+              onChange={(e) => setSiteName(e.target.value)}
+              placeholder={SITE_NAME_FALLBACK}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="business-contact">Lead contact</Label>
+            <Input
+              id="business-contact"
+              value={business.contactName}
+              onChange={(e) => setBusiness((b) => ({ ...b, contactName: e.target.value }))}
+              placeholder={BUSINESS_FALLBACKS.contactName}
+              className="mt-2"
+            />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="business-phone">Phone</Label>
+              <Input
+                id="business-phone"
+                value={business.phone}
+                onChange={(e) => setBusiness((b) => ({ ...b, phone: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.phone}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <Label htmlFor="business-email">Email</Label>
+              <Input
+                id="business-email"
+                value={business.email}
+                onChange={(e) => setBusiness((b) => ({ ...b, email: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.email}
+                className="mt-2"
+              />
+            </div>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="business-address-1">Address line 1</Label>
+              <Input
+                id="business-address-1"
+                value={business.addressLine1}
+                onChange={(e) => setBusiness((b) => ({ ...b, addressLine1: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.addressLine1}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <Label htmlFor="business-address-2">Address line 2</Label>
+              <Input
+                id="business-address-2"
+                value={business.addressLine2}
+                onChange={(e) => setBusiness((b) => ({ ...b, addressLine2: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.addressLine2}
+                className="mt-2"
+              />
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="business-blurb">Short description (footer)</Label>
+            <Textarea
+              id="business-blurb"
+              value={business.blurb}
+              onChange={(e) => setBusiness((b) => ({ ...b, blurb: e.target.value }))}
+              placeholder={BUSINESS_FALLBACKS.blurb}
+              rows={2}
+              className="mt-2"
+            />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="business-facebook">Facebook link</Label>
+              <Input
+                id="business-facebook"
+                value={business.facebookUrl}
+                onChange={(e) => setBusiness((b) => ({ ...b, facebookUrl: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.facebookUrl}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <Label htmlFor="business-instagram">Instagram link</Label>
+              <Input
+                id="business-instagram"
+                value={business.instagramUrl}
+                onChange={(e) => setBusiness((b) => ({ ...b, instagramUrl: e.target.value }))}
+                placeholder={BUSINESS_FALLBACKS.instagramUrl}
+                className="mt-2"
+              />
+            </div>
+          </div>
+          <p className="text-xs text-slate-500">
+            Leave a social link empty to hide that icon in the footer.
+          </p>
+          <Button onClick={handleSaveBusiness} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save business details"}
+          </Button>
         </div>
+      </TabsContent>
+
+      <TabsContent value="appearance" className="space-y-4">
+        <p className="text-xs text-slate-500">
+          Logo, favicon and logo size. Uploading an image saves it right away.
+        </p>
 
         {BRAND_SLOTS.map((slot) => (
           <AssetSlot
@@ -651,10 +848,42 @@ function SettingsBody() {
             onRemove={() => handleRemove(slot)}
           />
         ))}
-        <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <Button onClick={handleSaveBrand} disabled={textSaving}>
-            {textSaving ? "Saving…" : "Save brand settings"}
-          </Button>
+
+        <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-5">
+          <div className="flex items-baseline justify-between">
+            <Label htmlFor="logo-scale">Logo size</Label>
+            <span className="text-xs tabular-nums text-slate-500">{logoScale}%</span>
+          </div>
+          <Slider
+            id="logo-scale"
+            value={[logoScale]}
+            min={50}
+            max={200}
+            step={5}
+            onValueChange={(v) => setLogoScale(v[0] ?? 100)}
+          />
+          <p className="text-xs text-slate-500">
+            100% is the standard size used everywhere on the site.
+          </p>
+          <div className="flex gap-2">
+            <Button onClick={handleSaveAppearance} disabled={textSaving}>
+              {textSaving ? "Saving…" : "Save appearance"}
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={textSaving}
+              onClick={() => {
+                setLogoScale(100);
+                void saveTextWithToast(
+                  "global",
+                  [{ slot: "logo.scale", value: "100" }],
+                  "Logo size restored to the default.",
+                );
+              }}
+            >
+              Restore default
+            </Button>
+          </div>
         </div>
       </TabsContent>
 
@@ -1055,6 +1284,127 @@ function SettingsBody() {
         <Button onClick={saveAboutWithToast} disabled={savingAbout}>
           {savingAbout ? "Saving…" : "Save About page"}
         </Button>
+      </TabsContent>
+
+      <TabsContent value="contact" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <div>
+            <Label htmlFor="contact-eyebrow">Small line above the title</Label>
+            <Input
+              id="contact-eyebrow"
+              value={contactCopy.heroEyebrow}
+              onChange={(e) => setContactCopy((c) => ({ ...c, heroEyebrow: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-title">Page title</Label>
+            <Input
+              id="contact-title"
+              value={contactCopy.heroTitle}
+              onChange={(e) => setContactCopy((c) => ({ ...c, heroTitle: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-info-label">Small line above the heading</Label>
+            <Input
+              id="contact-info-label"
+              value={contactCopy.infoLabel}
+              onChange={(e) => setContactCopy((c) => ({ ...c, infoLabel: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.infoLabel}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-info-heading">Heading</Label>
+            <Input
+              id="contact-info-heading"
+              value={contactCopy.infoHeading}
+              onChange={(e) => setContactCopy((c) => ({ ...c, infoHeading: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.infoHeading}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-lead">Lead contact name</Label>
+            <Input
+              id="contact-lead"
+              value={contactCopy.leadContact}
+              onChange={(e) => setContactCopy((c) => ({ ...c, leadContact: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.leadContact}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-form-title">Form title</Label>
+            <Input
+              id="contact-form-title"
+              value={contactCopy.formTitle}
+              onChange={(e) => setContactCopy((c) => ({ ...c, formTitle: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.formTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-form-intro">Text above the form</Label>
+            <Textarea
+              id="contact-form-intro"
+              value={contactCopy.formIntro}
+              onChange={(e) => setContactCopy((c) => ({ ...c, formIntro: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.formIntro}
+              rows={2}
+              className="mt-2"
+            />
+          </div>
+          <p className="text-xs text-slate-500">
+            Phone, email and address on this page come from the Business tab.
+          </p>
+          <Button onClick={handleSaveContact} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save contact page"}
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="maintenance" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="text-sm font-medium text-slate-900">Maintenance mode</p>
+              <p className="mt-1 text-xs text-slate-500">
+                Visitors see a short holding page instead of the site. You stay signed in and keep
+                seeing the real site, with a reminder bar at the top.
+              </p>
+            </div>
+            <Switch
+              checked={maintenanceOn}
+              disabled={textSaving}
+              onCheckedChange={(next) => {
+                setMaintenanceOn(next);
+                void handleSaveMaintenance(next, maintenanceMessage);
+              }}
+            />
+          </div>
+          <div>
+            <Label htmlFor="maintenance-message">Message shown to visitors</Label>
+            <Textarea
+              id="maintenance-message"
+              value={maintenanceMessage}
+              onChange={(e) => setMaintenanceMessage(e.target.value)}
+              placeholder={MAINTENANCE_FALLBACK_MESSAGE}
+              rows={3}
+              className="mt-2"
+            />
+          </div>
+          <Button
+            onClick={() => handleSaveMaintenance(maintenanceOn, maintenanceMessage)}
+            disabled={textSaving}
+          >
+            {textSaving ? "Saving…" : "Save message"}
+          </Button>
+        </div>
       </TabsContent>
       </Tabs>
     </div>
