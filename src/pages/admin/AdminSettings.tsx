@@ -364,6 +364,32 @@ function SettingsBody() {
     setQuote(text("home", "quote"));
     setQuoteAttribution(text("home", "quote_attribution"));
 
+    setBusiness({
+      contactName: text("global", "business.contact_name"),
+      phone: text("global", "business.phone"),
+      email: text("global", "business.email"),
+      addressLine1: text("global", "business.address_line_1"),
+      addressLine2: text("global", "business.address_line_2"),
+      blurb: text("global", "business.blurb"),
+      facebookUrl: text("global", "business.facebook_url"),
+      instagramUrl: text("global", "business.instagram_url"),
+    });
+    const scaleRaw = Number.parseFloat(text("global", "logo.scale"));
+    setLogoScale(Number.isFinite(scaleRaw) && scaleRaw > 0 ? scaleRaw : 100);
+    setMaintenanceOn(text("global", "maintenance.enabled").trim() === "on");
+    setMaintenanceMessage(text("global", "maintenance.message"));
+
+    setContactCopy({
+      heroEyebrow: text("contact", "hero_eyebrow"),
+      heroTitle: text("contact", "hero_title"),
+      infoLabel: text("contact", "info_label"),
+      infoHeading: text("contact", "info_heading"),
+      formTitle: text("contact", "form_title"),
+      formIntro: text("contact", "form_intro"),
+      leadContact: text("contact", "lead_contact"),
+    });
+
+
     setAbout({
       heroEyebrow: text("about", "hero_eyebrow"),
       heroTitle: text("about", "hero_title"),
