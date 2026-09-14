@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Developments from "@/pages/Developments";
-import { pageHead } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/")({
@@ -12,6 +12,10 @@ export const Route = createFileRoute("/developments/")({
       description:
         "Browse Ocean City Development Group's portfolio: active listings, under contract, and sold luxury coastal homes.",
       path: "/developments",
+      jsonLd: breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Developments", path: "/developments" },
+      ]),
     }),
 });
 

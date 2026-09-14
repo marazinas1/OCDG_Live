@@ -57,7 +57,7 @@ const PublicPropertyCard = ({
           </p>
         )}
         {showCTA && (
-          <span className="btn-primary text-xs w-full justify-center mt-auto">View Project</span>
+          <span className="btn-primary btn-compact btn-block mt-auto">View Project</span>
         )}
       </div>
     </div>

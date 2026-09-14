@@ -69,7 +69,7 @@ const ProjectCollage = ({
           <p className="label-uppercase mb-1">Exterior & Interior</p>
           <h2 className="heading-section text-charcoal text-xl">{block.name}</h2>
         </div>
-        <Link to={block.link} className="btn-outline text-xs inline-flex flex-shrink-0">
+        <Link to={block.link} className="btn-outline btn-compact flex-shrink-0">
           View Project
         </Link>
       </div>
@@ -134,7 +134,7 @@ const PhotoGrid = ({
         <p className="label-uppercase mb-1">Photography</p>
         <h2 className="heading-section text-charcoal text-xl">{block.name}</h2>
       </div>
-      <Link to={block.link} className="btn-outline text-xs inline-flex flex-shrink-0">
+      <Link to={block.link} className="btn-outline btn-compact flex-shrink-0">
         View Project
       </Link>
     </div>
@@ -268,7 +268,7 @@ const GalleryPage = () => {
 
           {hasMore && (
             <div className="text-center mt-4">
-              <button onClick={loadMore} className="btn-outline text-xs inline-flex">
+              <button onClick={loadMore} className="btn-outline btn-compact">
                 See More Images
               </button>
             </div>
@@ -278,13 +278,13 @@ const GalleryPage = () => {
 
       {lightboxOpen && allImages.length > 0 && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
-          <button aria-label="Close gallery" className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors z-10" onClick={closeLightbox}>
+          <button aria-label="Close gallery" className="btn-icon-plain absolute top-6 right-6 text-white/80 hover:text-white z-10" onClick={closeLightbox}>
             <X className="w-8 h-8" />
           </button>
-          <button aria-label="Previous image" className="absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-colors z-10" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
+          <button aria-label="Previous image" className="btn-icon-plain absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
             <ChevronLeft className="w-10 h-10" />
           </button>
-          <button aria-label="Next image" className="absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-colors z-10" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
+          <button aria-label="Next image" className="btn-icon-plain absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
             <ChevronRight className="w-10 h-10" />
           </button>
           <img src={allImages[currentIndex]!.src} alt={allImages[currentIndex]!.alt} className="max-w-[90vw] max-h-[85vh] object-contain" decoding="async" loading="lazy" onClick={(e) => e.stopPropagation()} />

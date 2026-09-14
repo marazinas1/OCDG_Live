@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import UnderContract from "@/pages/UnderContract";
-import { pageHead } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/under-contract")({
@@ -11,6 +11,11 @@ export const Route = createFileRoute("/developments/under-contract")({
       title: "Under Contract — Ocean City Development Group",
       description: "Ocean City luxury homes currently under contract by OCDG.",
       path: "/developments/under-contract",
+      jsonLd: breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Developments", path: "/developments" },
+        { name: "Under Contract", path: "/developments/under-contract" },
+      ]),
     }),
 });
 

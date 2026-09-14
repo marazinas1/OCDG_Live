@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ActiveListings from "@/pages/ActiveListings";
-import { pageHead } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/active-listings")({
@@ -11,6 +11,11 @@ export const Route = createFileRoute("/developments/active-listings")({
       title: "Active Listings — Ocean City Luxury Homes",
       description: "Custom luxury homes currently for sale in Ocean City, NJ by OCDG.",
       path: "/developments/active-listings",
+      jsonLd: breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Developments", path: "/developments" },
+        { name: "Active Listings", path: "/developments/active-listings" },
+      ]),
     }),
 });
 

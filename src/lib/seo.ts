@@ -5,6 +5,19 @@
  */
 export const SITE = "https://oceancitydevelopment.com";
 
+export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: `${SITE}${item.path}`,
+    })),
+  };
+}
+
 type PageHeadArgs = {
   title: string;
   description: string;

@@ -77,8 +77,7 @@ const PastDevelopmentsSection = ({ items }: { items?: PublicPropertyCard[] | und
           <div className="flex justify-center mt-12">
             <button
               onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-              className="inline-flex items-center justify-center px-8 py-3 text-xs font-medium tracking-[0.15em] uppercase border border-charcoal text-charcoal transition-all duration-300 hover:bg-charcoal hover:text-white"
-              style={{ borderRadius: "4px" }}
+              className="btn-outline btn-compact"
             >
               Show More Past Developments
             </button>

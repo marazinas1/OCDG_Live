@@ -77,8 +77,7 @@ const PropertyCarousel = ({ items }: PropertyCarouselProps) => {
       <button
         onClick={() => emblaApi?.scrollPrev()}
         aria-label="Previous property"
-        className="absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-border shadow-md flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 hover:bg-charcoal hover:text-white"
-        style={{ borderRadius: "50%" }}
+        className="btn-icon absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/carousel:opacity-100"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
@@ -86,11 +85,11 @@ const PropertyCarousel = ({ items }: PropertyCarouselProps) => {
       <button
         onClick={() => emblaApi?.scrollNext()}
         aria-label="Next property"
-        className="absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-border shadow-md flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 hover:bg-charcoal hover:text-white"
-        style={{ borderRadius: "50%" }}
+        className="btn-icon absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/carousel:opacity-100"
       >
         <ChevronRight className="w-5 h-5" />
       </button>
+
 
       <div ref={emblaRef} className="overflow-hidden">
         <div className="flex -ml-8">
@@ -118,7 +117,7 @@ const PropertyCarousel = ({ items }: PropertyCarouselProps) => {
                   <h3 className="heading-card text-charcoal mb-2">{item.title}</h3>
                   {item.price && <p className="text-sm font-serif text-charcoal mb-1">{item.price}</p>}
                   <p className="text-body text-sm mb-5 flex-grow">{item.description}</p>
-                  <span className="btn-primary text-xs w-full justify-center">View Project</span>
+                  <span className="btn-primary btn-compact btn-block">View Project</span>
                 </div>
               </Link>
             </div>
@@ -132,10 +131,9 @@ const PropertyCarousel = ({ items }: PropertyCarouselProps) => {
             key={index}
             onClick={() => emblaApi?.scrollTo(middleStartIndex + index)}
             aria-label={`Go to property ${index + 1}`}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === selectedIndex ? "bg-charcoal w-6" : "bg-border hover:bg-muted-slate"
-            }`}
+            className={`btn-dot ${index === selectedIndex ? "is-active" : ""}`}
           />
+
         ))}
       </div>
     </div>

@@ -137,7 +137,7 @@ const Developments = ({
         />
         {items.length > 0 && (
           <div className="text-center mt-8">
-            <Link to={info.href} className="btn-outline text-xs inline-flex">
+            <Link to={info.href} className="btn-outline btn-compact">
               {info.label}
             </Link>
           </div>
@@ -187,13 +187,9 @@ const Developments = ({
               <button
                 key={tab.value}
                 onClick={() => handleTabChange(tab.value)}
-                className={`px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 ${
-                  activeTab === tab.value
-                    ? "bg-charcoal text-white"
-                    : "bg-transparent text-slate hover:text-charcoal border border-border"
-                }`}
-                style={{ borderRadius: "4px" }}
+                className={`btn-toggle ${activeTab === tab.value ? "is-active" : ""}`}
               >
+
                 {tab.label}
               </button>
             ))}
@@ -226,11 +222,11 @@ const Developments = ({
                 <div className="flex justify-center mt-12">
                   <button
                     onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-                    className="inline-flex items-center justify-center px-8 py-3 text-xs font-medium tracking-[0.15em] uppercase border border-charcoal text-charcoal transition-all duration-300 hover:bg-charcoal hover:text-white"
-                    style={{ borderRadius: "4px" }}
+                    className="btn-outline btn-compact"
                   >
                     See More
                   </button>
+
                 </div>
               )}
             </>

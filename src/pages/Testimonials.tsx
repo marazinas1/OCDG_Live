@@ -98,19 +98,18 @@ const Testimonials = () => {
             <button
               onClick={scrollPrev}
               aria-label="Previous testimonial"
-              className="absolute -left-2 lg:left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-border shadow-md flex items-center justify-center hover:bg-charcoal hover:text-white transition-all duration-300"
-              style={{ borderRadius: "50%" }}
+              className="btn-icon absolute -left-2 lg:left-0 top-1/2 -translate-y-1/2 z-10"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={scrollNext}
               aria-label="Next testimonial"
-              className="absolute -right-2 lg:right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-border shadow-md flex items-center justify-center hover:bg-charcoal hover:text-white transition-all duration-300"
-              style={{ borderRadius: "50%" }}
+              className="btn-icon absolute -right-2 lg:right-0 top-1/2 -translate-y-1/2 z-10"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
+
 
             {/* Carousel */}
             <div ref={emblaRef} className="overflow-hidden mx-8 lg:mx-14">
@@ -150,10 +149,9 @@ const Testimonials = () => {
                   key={i}
                   onClick={() => emblaApi?.scrollTo(i)}
                   aria-label={`Go to testimonial ${i + 1}`}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    i === selectedIndex ? "bg-charcoal w-6" : "bg-border hover:bg-muted-slate"
-                  }`}
+                  className={`btn-dot ${i === selectedIndex ? "is-active" : ""}`}
                 />
+
               ))}
             </div>
           </div>

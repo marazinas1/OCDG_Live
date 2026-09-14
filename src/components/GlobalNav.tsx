@@ -143,22 +143,19 @@ const GlobalNav = () => {
 
               <button
                 onClick={handleInquire}
-                className={`text-xs py-2.5 px-6 font-medium tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
-                  isScrolled
-                    ? "bg-charcoal text-white"
-                    : "bg-white/20 backdrop-blur-sm border border-white/40 text-white hover:bg-white hover:text-charcoal"
-                }`}
-                style={{ borderRadius: "4px" }}
+                className={`btn-nav ${isScrolled ? "btn-primary" : "btn-on-dark"}`}
               >
                 Inquire Now
               </button>
+
             </div>
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 -mr-2"
+              className="btn-icon-plain md:hidden -mr-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
+
             >
               <div className="w-6 h-5 relative flex flex-col justify-between">
                 <span className={`w-full h-0.5 transition-all duration-300 ${isScrolled ? "bg-charcoal" : "bg-white"} ${isMobileMenuOpen ? "rotate-45 translate-y-2 bg-charcoal" : ""}`} />
@@ -188,7 +185,8 @@ const GlobalNav = () => {
                 <button
                   onClick={() => setIsMobileDevOpen(!isMobileDevOpen)}
                   aria-label="Toggle developments submenu"
-                  className={`p-2 -mr-2 transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}
+                  className={`btn-icon-plain -mr-2 ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}
+
                 >
                   <svg className={`w-3 h-3 transition-transform ${isMobileDevOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -225,13 +223,11 @@ const GlobalNav = () => {
 
               <button
                 onClick={handleInquire}
-                className={`text-xs mt-2 w-fit py-2.5 px-6 font-medium tracking-wider uppercase transition-all duration-300 ${
-                  isScrolled ? "bg-charcoal text-white" : "bg-white text-charcoal"
-                }`}
-                style={{ borderRadius: "4px" }}
+                className={`btn-nav mt-2 w-fit ${isScrolled ? "btn-primary" : "btn-on-dark-solid"}`}
               >
                 Inquire Now
               </button>
+
             </div>
           </div>
         </nav>

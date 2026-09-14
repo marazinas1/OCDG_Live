@@ -2,7 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import PropertyPage from "@/pages/PropertyPage";
 import NotFound from "@/pages/NotFound";
 import { supabase } from "@/integrations/supabase/client";
-import { SITE } from "@/lib/seo";
+import { SITE, breadcrumbJsonLd } from "@/lib/seo";
 
 
 type SeoProperty = {
@@ -131,7 +131,19 @@ export const Route = createFileRoute("/developments/$slug")({
         ...(image ? [{ name: "twitter:image", content: image }] : []),
       ],
       links: [{ rel: "canonical", href: url }],
-      scripts: [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(jsonLd) },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "Developments", path: "/developments" },
+              { name: property.title, path: `/developments/${property.slug}` },
+            ]),
+          ),
+        },
+      ],
     };
   },
 });
