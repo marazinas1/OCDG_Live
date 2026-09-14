@@ -684,11 +684,8 @@ const PropertyPage = () => {
                 <button
                   key={floor.id}
                   onClick={() => setActiveFloor(floor.id)}
-                  className={`px-4 md:px-6 py-2.5 md:py-3 text-xs tracking-[0.1em] uppercase font-medium transition-all duration-300 ${
-                    activeFloor === floor.id
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-slate hover:bg-accent"
-                  }`}
+                  className={`btn-toggle ${activeFloor === floor.id ? "is-active" : ""}`}
+
                 >
                   {floor.name}
                 </button>
