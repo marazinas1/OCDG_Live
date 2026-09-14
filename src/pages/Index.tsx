@@ -127,8 +127,9 @@ const MobileCarousel = ({ children, itemCount }: { children: React.ReactNode[]; 
             onClick={() => emblaApi?.scrollTo(i)}
             aria-label={`Go to slide ${i + 1} of ${itemCount}`}
             aria-current={i === selected}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${i === selected ? "bg-charcoal w-6" : "bg-border hover:bg-muted-slate"}`}
+            className={`btn-dot ${i === selected ? "is-active" : ""}`}
           />
+
         ))}
       </div>
     </div>
@@ -275,11 +276,11 @@ const Index = () => {
           </p>
           <button
             onClick={() => document.getElementById("developments")?.scrollIntoView({ behavior: "smooth" })}
-            className="mt-10 inline-flex items-center gap-2 px-8 py-3 text-xs font-medium tracking-wider uppercase bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-charcoal transition-all duration-300 hover:-translate-y-0.5"
-            style={{ borderRadius: "4px" }}
+            className="btn-on-dark btn-compact mt-10"
           >
             {hero.ctaLabel}
           </button>
+
         </div>
       </section>
 
