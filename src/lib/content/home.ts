@@ -4,10 +4,9 @@
  * bundled hero image from src/hooks/useSiteSettings.ts).
  */
 import { resolveMedia, resolveText, type ContentBundle } from "@/lib/content-resolver";
-import { FALLBACK_HERO, HERO_FALLBACKS, SITE_NAME_FALLBACK } from "@/hooks/useSiteSettings";
+import { FALLBACK_HERO, HERO_FALLBACKS } from "@/hooks/useSiteSettings";
 
 export type HomePageContent = {
-  siteName: string;
   hero: {
     imageUrl: string;
     eyebrow: string;
@@ -21,7 +20,6 @@ export type HomePageContent = {
 
 export function resolveHomeContent(bundle: ContentBundle): HomePageContent {
   return {
-    siteName: resolveText(bundle, "global", "site_name", SITE_NAME_FALLBACK),
     hero: {
       imageUrl: resolveMedia(bundle, "home", "hero_image", FALLBACK_HERO),
       eyebrow: resolveText(bundle, "home", "hero_eyebrow", HERO_FALLBACKS.eyebrow),
