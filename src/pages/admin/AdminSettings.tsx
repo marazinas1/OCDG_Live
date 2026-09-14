@@ -9,7 +9,6 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import {
-  useSiteSettings,
   FALLBACK_LOGO,
   FALLBACK_HERO,
   FALLBACK_FAVICON,
@@ -18,28 +17,31 @@ import {
   FALLBACK_PORTRAIT,
   HERO_FALLBACKS,
   ABOUT_FALLBACKS,
-  type PartnerEntry,
+  SITE_NAME_FALLBACK,
 } from "@/hooks/useSiteSettings";
-import { useSaveSiteSettings } from "@/hooks/admin/useSiteSettingsAdmin";
 import {
-  uploadBrandAsset,
-  deleteBrandAsset,
-  getBrandAssetUrl,
-  NotAnImageError,
-  type BrandAssetKind,
-} from "@/lib/admin/uploadBrandAsset";
+  usePageContent,
+  findMedia,
+  useSaveText,
+  useSaveMedia,
+  useRemoveMedia,
+  useContentInvalidate,
+  writeText,
+} from "@/hooks/admin/usePageContentAdmin";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  deleteStoredObject,
+  publicUrlFor,
+  uploadPageMedia,
+} from "@/lib/admin/uploadPageMedia";
+import { NotAnImageError, type BrandAssetKind } from "@/lib/admin/uploadBrandAsset";
+import type { ContentBundle, PageMediaRow } from "@/lib/content-resolver";
 
-type SlotKey =
-  | "logo_path"
-  | "logo_dark_path"
-  | "favicon_path"
-  | "hero_image_path"
-  | "about_hero_image_path"
-  | "about_story_image_path"
-  | "about_portrait_image_path";
+const PAGES = ["global", "home", "about"];
 
 type SlotDef = {
-  key: SlotKey;
+  page: string;
+  slot: string;
   kind: BrandAssetKind;
   label: string;
   help: string;
@@ -50,7 +52,8 @@ type SlotDef = {
 
 const BRAND_SLOTS: SlotDef[] = [
   {
-    key: "logo_path",
+    page: "global",
+    slot: "logo",
     kind: "logo",
     label: "Logo",
     help: "Used in the header, footer and admin panel. PNG with transparency works best.",
@@ -58,14 +61,16 @@ const BRAND_SLOTS: SlotDef[] = [
     fallbackNote: "Currently using the built-in logo.",
   },
   {
-    key: "logo_dark_path",
+    page: "global",
+    slot: "logo_dark",
     kind: "logo_dark",
     label: "Dark-background logo",
     help: "Optional. Without it, the main logo is knocked out to white on dark surfaces.",
     dark: true,
   },
   {
-    key: "favicon_path",
+    page: "global",
+    slot: "favicon",
     kind: "favicon",
     label: "Favicon",
     help: "Square image shown in the browser tab.",
@@ -76,7 +81,8 @@ const BRAND_SLOTS: SlotDef[] = [
 
 const HOME_SLOTS: SlotDef[] = [
   {
-    key: "hero_image_path",
+    page: "home",
+    slot: "hero_image",
     kind: "hero",
     label: "Homepage hero image",
     help: "Wide landscape photo behind the homepage headline.",
@@ -88,7 +94,8 @@ const HOME_SLOTS: SlotDef[] = [
 
 const ABOUT_SLOTS: SlotDef[] = [
   {
-    key: "about_hero_image_path",
+    page: "about",
+    slot: "hero_image",
     kind: "about_hero",
     label: "About header photo",
     help: "Background photo behind the About page title.",
@@ -97,7 +104,8 @@ const ABOUT_SLOTS: SlotDef[] = [
     fallbackNote: "Currently using the built-in header photo.",
   },
   {
-    key: "about_story_image_path",
+    page: "about",
+    slot: "story_image",
     kind: "about_story",
     label: "Our Story photo",
     help: "Tall photo beside the Our Story text.",
@@ -105,7 +113,8 @@ const ABOUT_SLOTS: SlotDef[] = [
     fallbackNote: "Currently using the built-in craftsmanship photo.",
   },
   {
-    key: "about_portrait_image_path",
+    page: "about",
+    slot: "portrait_image",
     kind: "about_portrait",
     label: "Leadership portrait",
     help: "Portrait shown in the Our Promise section.",
@@ -197,12 +206,12 @@ function AssetSlot({
 }
 
 function PartnerLogoField({
-  path,
+  url,
   busy,
   onPick,
   onClear,
 }: {
-  path: string | null;
+  url: string | null;
   busy: boolean;
   onPick: (file: File) => void;
   onClear: () => void;
@@ -211,17 +220,17 @@ function PartnerLogoField({
   return (
     <div className="flex items-center gap-4">
       <div className="flex h-16 w-32 items-center justify-center rounded-lg bg-slate-100 px-3">
-        {path ? (
-          <img src={getBrandAssetUrl(path)} alt="Partner logo" className="max-h-12 w-auto object-contain" />
+        {url ? (
+          <img src={url} alt="Partner logo" className="max-h-12 w-auto object-contain" />
         ) : (
           <span className="text-[11px] text-slate-400">No logo</span>
         )}
       </div>
       <div className="flex gap-2">
         <Button type="button" variant="outline" size="sm" disabled={busy} onClick={() => inputRef.current?.click()}>
-          {path ? "Replace logo" : "Upload logo"}
+          {url ? "Replace logo" : "Upload logo"}
         </Button>
-        {path && (
+        {url && (
           <Button type="button" variant="ghost" size="sm" disabled={busy} onClick={onClear}>
             Remove
           </Button>
@@ -242,28 +251,46 @@ function PartnerLogoField({
   );
 }
 
-const FALLBACK_PARTNER_ROWS: PartnerEntry[] = [
-  {
-    id: "halliday-architects",
-    name: "Halliday Architects",
-    url: "https://www.hallidayarchitects.com/",
-    logo_path: null,
-    description:
-      "Every Ocean City Development Group project is brought to life in collaboration with Halliday Architects, whose award-winning designs blend coastal elegance with modern functionality.",
-  },
-  {
-    id: "halliday-leonard",
-    name: "Halliday-Leonard Custom Home Builders",
-    url: "https://www.hallidayleonardllc.com/",
-    logo_path: null,
-    description:
-      "Our trusted construction partner, Halliday-Leonard delivers master-level craftsmanship on every residence — combining decades of building expertise with an unwavering commitment to quality.",
-  },
-];
+type PartnerDraft = {
+  id: string;
+  name: string;
+  url: string;
+  description: string;
+  logo: { bucket: string; storagePath: string } | null;
+};
+
+const PARTNER_NAME_SLOT = /^partner\.(\d+)\.name$/;
+
+/** Reads the numbered partner slots out of the content bundle, in ordinal order. */
+function partnersFromBundle(bundle: ContentBundle): PartnerDraft[] {
+  const textFor = (slot: string) =>
+    bundle.text.find((r) => r.page === "about" && r.slot === slot)?.value ?? "";
+
+  return bundle.text
+    .filter((r) => r.page === "about" && PARTNER_NAME_SLOT.test(r.slot))
+    .map((r) => r.slot.match(PARTNER_NAME_SLOT)?.[1] ?? "")
+    .filter((n) => n.length > 0)
+    .sort((a, b) => Number(a) - Number(b))
+    .map((n) => {
+      const media = findMedia(bundle, "about", `partner.${n}.logo`);
+      return {
+        id: `partner-${n}`,
+        name: textFor(`partner.${n}.name`),
+        url: textFor(`partner.${n}.url`),
+        description: textFor(`partner.${n}.description`),
+        logo: media ? { bucket: media.bucket, storagePath: media.storage_path } : null,
+      };
+    });
+}
+
+const ordinal = (index: number) => String(index + 1).padStart(2, "0");
 
 function SettingsBody() {
-  const { settings, isLoading } = useSiteSettings();
-  const save = useSaveSiteSettings();
+  const { bundle, isLoading } = usePageContent(PAGES);
+  const saveText = useSaveText();
+  const saveMedia = useSaveMedia();
+  const removeMedia = useRemoveMedia();
+  const invalidate = useContentInvalidate();
   const { toast } = useToast();
 
   const [siteName, setSiteName] = useState("");
@@ -273,7 +300,6 @@ function SettingsBody() {
   const [ctaLabel, setCtaLabel] = useState("");
   const [quote, setQuote] = useState("");
   const [quoteAttribution, setQuoteAttribution] = useState("");
-
 
   const [about, setAbout] = useState({
     heroEyebrow: "",
@@ -292,60 +318,69 @@ function SettingsBody() {
     partnersLabel: "",
     partnersHeading: "",
   });
-  const [partners, setPartners] = useState<PartnerEntry[]>([]);
+  const [partners, setPartners] = useState<PartnerDraft[]>([]);
+  /** Storage objects to delete once the About page saves successfully. */
+  const [orphanedLogos, setOrphanedLogos] = useState<{ bucket: string; storagePath: string }[]>([]);
 
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [savingAbout, setSavingAbout] = useState(false);
 
   useEffect(() => {
-    const row = settings.row;
-    if (!row) return;
-    setSiteName(row.site_name ?? "");
-    setEyebrow(row.hero_eyebrow ?? "");
-    setHeadline(row.hero_headline ?? "");
-    setSubline(row.hero_subline ?? "");
-    setCtaLabel(row.hero_cta_label ?? "");
-    setQuote(row.home_quote ?? "");
-    setQuoteAttribution(row.home_quote_attribution ?? "");
+    const text = (page: string, slot: string) =>
+      bundle.text.find((r) => r.page === page && r.slot === slot)?.value ?? "";
+
+    setSiteName(text("global", "site_name"));
+    setEyebrow(text("home", "hero_eyebrow"));
+    setHeadline(text("home", "hero_headline"));
+    setSubline(text("home", "hero_subline"));
+    setCtaLabel(text("home", "hero_cta_label"));
+    setQuote(text("home", "quote"));
+    setQuoteAttribution(text("home", "quote_attribution"));
 
     setAbout({
-      heroEyebrow: row.about_hero_eyebrow ?? "",
-      heroTitle: row.about_hero_title ?? "",
-      storyLabel: row.about_story_label ?? "",
-      storyHeading: row.about_story_heading ?? "",
-      storyParagraph1: row.about_story_paragraph_1 ?? "",
-      storyParagraph2: row.about_story_paragraph_2 ?? "",
-      storyQuote: row.about_story_quote ?? "",
-      storyQuoteAttribution: row.about_story_quote_attribution ?? "",
-      leaderName: row.about_leader_name ?? "",
-      leaderRole: row.about_leader_role ?? "",
-      promiseLabel: row.about_promise_label ?? "",
-      promiseHeading: row.about_promise_heading ?? "",
-      promiseParagraph: row.about_promise_paragraph ?? "",
-      partnersLabel: row.about_partners_label ?? "",
-      partnersHeading: row.about_partners_heading ?? "",
+      heroEyebrow: text("about", "hero_eyebrow"),
+      heroTitle: text("about", "hero_title"),
+      storyLabel: text("about", "story_label"),
+      storyHeading: text("about", "story_heading"),
+      storyParagraph1: text("about", "story_paragraph_1"),
+      storyParagraph2: text("about", "story_paragraph_2"),
+      storyQuote: text("about", "story_quote"),
+      storyQuoteAttribution: text("about", "story_quote_attribution"),
+      leaderName: text("about", "leader_name"),
+      leaderRole: text("about", "leader_role"),
+      promiseLabel: text("about", "promise_label"),
+      promiseHeading: text("about", "promise_heading"),
+      promiseParagraph: text("about", "promise_paragraph"),
+      partnersLabel: text("about", "partners_label"),
+      partnersHeading: text("about", "partners_heading"),
     });
-    const stored = Array.isArray(row.about_partners) ? row.about_partners : [];
-    setPartners(stored.length ? stored : FALLBACK_PARTNER_ROWS);
-  }, [settings.row]);
+    setPartners(partnersFromBundle(bundle));
+  }, [bundle]);
 
-  const rowId = settings.row?.id ?? null;
-  const pathFor = (key: SlotKey) => settings.row?.[key] ?? null;
+  const mediaFor = (slot: SlotDef): PageMediaRow | null => findMedia(bundle, slot.page, slot.slot);
 
   const urlFor = (slot: SlotDef) => {
-    const path = pathFor(slot.key);
-    if (path) return getBrandAssetUrl(path);
+    const row = mediaFor(slot);
+    if (row) return publicUrlFor(row.bucket, row.storage_path);
     return slot.fallbackUrl ?? null;
   };
 
+  const slotKey = (slot: SlotDef) => `${slot.page}.${slot.slot}`;
+
   const handleUpload = async (slot: SlotDef, file: File) => {
-    setBusyKey(slot.key);
+    setBusyKey(slotKey(slot));
     setProgress(0);
     try {
-      const previous = pathFor(slot.key);
-      const path = await uploadBrandAsset(file, slot.kind, setProgress);
-      await save.mutateAsync({ id: rowId, patch: { [slot.key]: path } });
-      await deleteBrandAsset(previous);
+      await saveMedia.mutateAsync({
+        page: slot.page,
+        slot: slot.slot,
+        kind: slot.kind,
+        file,
+        previous: mediaFor(slot),
+        altText: slot.label,
+        onProgress: setProgress,
+      });
       toast({ title: "Saved", description: "Image updated across the site." });
     } catch (err) {
       toast({
@@ -361,11 +396,13 @@ function SettingsBody() {
   };
 
   const handleRemove = async (slot: SlotDef) => {
-    const previous = pathFor(slot.key);
-    setBusyKey(slot.key);
+    setBusyKey(slotKey(slot));
     try {
-      await save.mutateAsync({ id: rowId, patch: { [slot.key]: null } });
-      await deleteBrandAsset(previous);
+      await removeMedia.mutateAsync({
+        page: slot.page,
+        slot: slot.slot,
+        previous: mediaFor(slot),
+      });
       toast({ title: "Removed", description: "The default image is back in place." });
     } catch (err) {
       toast({
@@ -378,12 +415,13 @@ function SettingsBody() {
     }
   };
 
-  const saveWithToast = async (
-    patch: Parameters<typeof save.mutateAsync>[0]["patch"],
+  const saveTextWithToast = async (
+    page: string,
+    entries: { slot: string; value: string }[],
     description: string,
   ) => {
     try {
-      await save.mutateAsync({ id: rowId, patch });
+      await saveText.mutateAsync({ page, entries });
       toast({ title: "Saved", description });
     } catch (err) {
       toast({
@@ -395,52 +433,109 @@ function SettingsBody() {
   };
 
   const handleSaveBrand = () =>
-    saveWithToast(
-      { site_name: siteName.trim() || "Ocean City Development Group" },
+    saveTextWithToast(
+      "global",
+      [{ slot: "site_name", value: siteName.trim() || SITE_NAME_FALLBACK }],
       "Brand settings updated.",
     );
 
   const handleSaveHome = () =>
-    saveWithToast(
-      {
-        hero_eyebrow: eyebrow.trim() || null,
-        hero_headline: headline.trim() || null,
-        hero_subline: subline.trim() || null,
-        hero_cta_label: ctaLabel.trim() || null,
-        home_quote: quote.trim() || null,
-        home_quote_attribution: quoteAttribution.trim() || null,
-      },
+    saveTextWithToast(
+      "home",
+      [
+        { slot: "hero_eyebrow", value: eyebrow },
+        { slot: "hero_headline", value: headline },
+        { slot: "hero_subline", value: subline },
+        { slot: "hero_cta_label", value: ctaLabel },
+        { slot: "quote", value: quote },
+        { slot: "quote_attribution", value: quoteAttribution },
+      ],
       "Homepage content updated.",
     );
 
-
-  const handleSaveAbout = async (nextPartners: PartnerEntry[] = partners) => {
-    await save.mutateAsync({
-      id: rowId,
-      patch: {
-        about_hero_eyebrow: about.heroEyebrow.trim() || null,
-        about_hero_title: about.heroTitle.trim() || null,
-        about_story_label: about.storyLabel.trim() || null,
-        about_story_heading: about.storyHeading.trim() || null,
-        about_story_paragraph_1: about.storyParagraph1.trim() || null,
-        about_story_paragraph_2: about.storyParagraph2.trim() || null,
-        about_story_quote: about.storyQuote.trim() || null,
-        about_story_quote_attribution: about.storyQuoteAttribution.trim() || null,
-        about_leader_name: about.leaderName.trim() || null,
-        about_leader_role: about.leaderRole.trim() || null,
-        about_promise_label: about.promiseLabel.trim() || null,
-        about_promise_heading: about.promiseHeading.trim() || null,
-        about_promise_paragraph: about.promiseParagraph.trim() || null,
-        about_partners_label: about.partnersLabel.trim() || null,
-        about_partners_heading: about.partnersHeading.trim() || null,
-        about_partners: nextPartners.filter((p) => p.name.trim().length > 0),
-      },
-    });
-  };
-
+  /**
+   * Rewrites the whole About page: plain text slots, then the numbered partner
+   * slots renumbered from 01 with no gaps so collectPartners() keeps its order.
+   */
   const saveAboutWithToast = async () => {
+    setSavingAbout(true);
+    const kept = partners.filter((p) => p.name.trim().length > 0);
     try {
-      await handleSaveAbout();
+      await writeText("about", [
+        { slot: "hero_eyebrow", value: about.heroEyebrow },
+        { slot: "hero_title", value: about.heroTitle },
+        { slot: "story_label", value: about.storyLabel },
+        { slot: "story_heading", value: about.storyHeading },
+        { slot: "story_paragraph_1", value: about.storyParagraph1 },
+        { slot: "story_paragraph_2", value: about.storyParagraph2 },
+        { slot: "story_quote", value: about.storyQuote },
+        { slot: "story_quote_attribution", value: about.storyQuoteAttribution },
+        { slot: "leader_name", value: about.leaderName },
+        { slot: "leader_role", value: about.leaderRole },
+        { slot: "promise_label", value: about.promiseLabel },
+        { slot: "promise_heading", value: about.promiseHeading },
+        { slot: "promise_paragraph", value: about.promiseParagraph },
+        { slot: "partners_label", value: about.partnersLabel },
+        { slot: "partners_heading", value: about.partnersHeading },
+      ]);
+
+      // Replace the partner block wholesale: clear every numbered slot, then
+      // write the current list back starting at 01.
+      const clearText = await supabase
+        .from("page_text")
+        .delete()
+        .eq("page", "about")
+        .like("slot", "partner.%");
+      if (clearText.error) throw clearText.error;
+
+      const clearMedia = await supabase
+        .from("page_media")
+        .delete()
+        .eq("page", "about")
+        .like("slot", "partner.%");
+      if (clearMedia.error) throw clearMedia.error;
+
+      const textRows = kept.flatMap((p, i) => {
+        const n = ordinal(i);
+        const rows = [{ page: "about", slot: `partner.${n}.name`, value: p.name.trim() }];
+        if (p.url.trim()) rows.push({ page: "about", slot: `partner.${n}.url`, value: p.url.trim() });
+        if (p.description.trim())
+          rows.push({
+            page: "about",
+            slot: `partner.${n}.description`,
+            value: p.description.trim(),
+          });
+        return rows;
+      });
+      if (textRows.length) {
+        const { error } = await supabase.from("page_text").insert(textRows);
+        if (error) throw error;
+      }
+
+      const mediaRows = kept
+        .map((p, i) =>
+          p.logo
+            ? {
+                page: "about",
+                slot: `partner.${ordinal(i)}.logo`,
+                bucket: p.logo.bucket,
+                storage_path: p.logo.storagePath,
+                alt_text: p.name.trim(),
+              }
+            : null,
+        )
+        .filter((r): r is NonNullable<typeof r> => r !== null);
+      if (mediaRows.length) {
+        const { error } = await supabase.from("page_media").insert(mediaRows);
+        if (error) throw error;
+      }
+
+      for (const orphan of orphanedLogos) {
+        await deleteStoredObject(orphan.bucket, orphan.storagePath);
+      }
+      setOrphanedLogos([]);
+
+      await invalidate();
       toast({ title: "Saved", description: "About page updated." });
     } catch (err) {
       toast({
@@ -448,10 +543,12 @@ function SettingsBody() {
         title: "Save failed",
         description: (err as Error).message || "Please try again.",
       });
+    } finally {
+      setSavingAbout(false);
     }
   };
 
-  const updatePartner = (id: string, patch: Partial<PartnerEntry>) =>
+  const updatePartner = (id: string, patch: Partial<PartnerDraft>) =>
     setPartners((list) => list.map((p) => (p.id === id ? { ...p, ...patch } : p)));
 
   const movePartner = (index: number, delta: number) =>
@@ -463,12 +560,17 @@ function SettingsBody() {
       return next;
     });
 
-  const handlePartnerLogo = async (partner: PartnerEntry, file: File) => {
+  const dropPartnerLogo = (partner: PartnerDraft) => {
+    if (partner.logo) setOrphanedLogos((list) => [...list, partner.logo!]);
+    updatePartner(partner.id, { logo: null });
+  };
+
+  const handlePartnerLogo = async (partner: PartnerDraft, file: File) => {
     setBusyKey(`partner-${partner.id}`);
     try {
-      const path = await uploadBrandAsset(file, "partner_logo");
-      await deleteBrandAsset(partner.logo_path);
-      updatePartner(partner.id, { logo_path: path });
+      const uploaded = await uploadPageMedia(file, "partner_logo", "about", "partner-logo");
+      if (partner.logo) setOrphanedLogos((list) => [...list, partner.logo!]);
+      updatePartner(partner.id, { logo: uploaded });
       toast({ title: "Logo uploaded", description: "Save the About page to publish it." });
     } catch (err) {
       toast({
@@ -485,6 +587,8 @@ function SettingsBody() {
   if (isLoading) {
     return <p className="text-sm text-slate-500">Loading settings…</p>;
   }
+
+  const textSaving = saveText.isPending;
 
   return (
     <div className="mx-auto max-w-3xl space-y-8 pb-16">
@@ -534,22 +638,22 @@ function SettingsBody() {
 
         {BRAND_SLOTS.map((slot) => (
           <AssetSlot
-            key={slot.key}
+            key={slotKey(slot)}
             label={slot.label}
             help={slot.help}
             url={urlFor(slot)}
-            hasUpload={!!pathFor(slot.key)}
+            hasUpload={!!mediaFor(slot)}
             dark={slot.dark}
             note={slot.fallbackNote}
-            busy={busyKey === slot.key}
+            busy={busyKey === slotKey(slot)}
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
           />
         ))}
         <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <Button onClick={handleSaveBrand} disabled={save.isPending}>
-            {save.isPending ? "Saving…" : "Save brand settings"}
+          <Button onClick={handleSaveBrand} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save brand settings"}
           </Button>
         </div>
       </TabsContent>
@@ -557,14 +661,14 @@ function SettingsBody() {
       <TabsContent value="homepage" className="space-y-4">
         {HOME_SLOTS.map((slot) => (
           <AssetSlot
-            key={slot.key}
+            key={slotKey(slot)}
             label={slot.label}
             help={slot.help}
             url={urlFor(slot)}
-            hasUpload={!!pathFor(slot.key)}
+            hasUpload={!!mediaFor(slot)}
             dark={slot.dark}
             note={slot.fallbackNote}
-            busy={busyKey === slot.key}
+            busy={busyKey === slotKey(slot)}
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
@@ -649,8 +753,8 @@ function SettingsBody() {
             Leave a field empty to fall back to the default wording shown in grey.
           </p>
 
-          <Button onClick={handleSaveHome} disabled={save.isPending}>
-            {save.isPending ? "Saving…" : "Save homepage content"}
+          <Button onClick={handleSaveHome} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save homepage content"}
           </Button>
         </div>
       </TabsContent>
@@ -660,14 +764,14 @@ function SettingsBody() {
 
         {ABOUT_SLOTS.map((slot) => (
           <AssetSlot
-            key={slot.key}
+            key={slotKey(slot)}
             label={slot.label}
             help={slot.help}
             url={urlFor(slot)}
-            hasUpload={!!pathFor(slot.key)}
+            hasUpload={!!mediaFor(slot)}
             dark={slot.dark}
             note={slot.fallbackNote}
-            busy={busyKey === slot.key}
+            busy={busyKey === slotKey(slot)}
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
@@ -887,10 +991,10 @@ function SettingsBody() {
                 </div>
 
                 <PartnerLogoField
-                  path={partner.logo_path}
+                  url={partner.logo ? publicUrlFor(partner.logo.bucket, partner.logo.storagePath) : null}
                   busy={busyKey === `partner-${partner.id}`}
                   onPick={(file) => handlePartnerLogo(partner, file)}
-                  onClear={() => updatePartner(partner.id, { logo_path: null })}
+                  onClear={() => dropPartnerLogo(partner)}
                 />
 
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -935,7 +1039,7 @@ function SettingsBody() {
             onClick={() =>
               setPartners((list) => [
                 ...list,
-                { id: crypto.randomUUID(), name: "", url: "", logo_path: null, description: "" },
+                { id: crypto.randomUUID(), name: "", url: "", description: "", logo: null },
               ])
             }
           >
@@ -948,8 +1052,8 @@ function SettingsBody() {
           Leave a field empty to fall back to the default wording shown in grey.
         </p>
 
-        <Button onClick={saveAboutWithToast} disabled={save.isPending}>
-          {save.isPending ? "Saving…" : "Save About page"}
+        <Button onClick={saveAboutWithToast} disabled={savingAbout}>
+          {savingAbout ? "Saving…" : "Save About page"}
         </Button>
       </TabsContent>
       </Tabs>
