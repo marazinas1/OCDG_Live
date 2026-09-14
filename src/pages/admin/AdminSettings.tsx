@@ -36,8 +36,12 @@ import {
 } from "@/lib/admin/uploadPageMedia";
 import { NotAnImageError, type BrandAssetKind } from "@/lib/admin/uploadBrandAsset";
 import type { ContentBundle, PageMediaRow } from "@/lib/content-resolver";
+import { BUSINESS_FALLBACKS, MAINTENANCE_FALLBACK_MESSAGE } from "@/lib/content/business";
+import { CONTACT_FALLBACKS } from "@/lib/content/contact";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
-const PAGES = ["global", "home", "about"];
+const PAGES = ["global", "home", "about", "contact"];
 
 type SlotDef = {
   page: string;
