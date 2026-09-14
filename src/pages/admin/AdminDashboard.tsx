@@ -130,6 +130,31 @@ function AdminDashboardInner() {
           </Button>
         </div>
       </section>
+
+      <section>
+        <h2 className="text-[11px] uppercase tracking-[0.14em] text-slate-500">Recent activity</h2>
+        <div className="mt-4 rounded-lg border border-slate-200 bg-card px-6">
+          {activity.length === 0 ? (
+            <p className="py-6 text-sm text-slate-500">Nothing edited yet.</p>
+          ) : (
+            activity.map((item) => (
+              <Link
+                key={item.id}
+                to={item.href}
+                className="group flex items-center gap-4 border-b border-slate-200 py-4 last:border-b-0"
+              >
+                <Building2 className="h-4 w-4 shrink-0 text-slate-400" />
+                <span className="min-w-0 flex-1 truncate text-sm text-slate-900 group-hover:underline underline-offset-4">
+                  {item.title}
+                </span>
+                <span className="w-28 shrink-0 text-right text-xs text-slate-500">
+                  {item.created ? "Created" : "Edited"} {relativeTime(item.at)}
+                </span>
+              </Link>
+            ))
+          )}
+        </div>
+      </section>
     </div>
   );
 }
