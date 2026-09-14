@@ -689,12 +689,12 @@ function SettingsBody() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Settings</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Brand assets, homepage and About page content. Changes go live on the public site
+          Business details, branding and page texts. Changes go live on the public site
           immediately.
         </p>
       </div>
 
-      <Tabs defaultValue="brand" className="space-y-6">
+      <Tabs defaultValue="business" className="space-y-6">
         <TabsList className="flex flex-wrap justify-start gap-2 h-auto bg-transparent p-0">
           {[
             { value: "business", label: "Business" },
