@@ -697,9 +697,12 @@ function SettingsBody() {
       <Tabs defaultValue="brand" className="space-y-6">
         <TabsList className="flex flex-wrap justify-start gap-2 h-auto bg-transparent p-0">
           {[
-            { value: "brand", label: "Brand" },
-            { value: "homepage", label: "Homepage" },
-            { value: "about", label: "About page" },
+            { value: "business", label: "Business" },
+            { value: "appearance", label: "Appearance" },
+            { value: "homepage", label: "Home texts" },
+            { value: "about", label: "About texts" },
+            { value: "contact", label: "Contact texts" },
+            { value: "maintenance", label: "Maintenance" },
           ].map((t) => (
             <TabsTrigger
               key={t.value}
