@@ -21,6 +21,9 @@ import { reportLovableError } from "@/lib/lovable-error-reporting";
 import NotFound from "@/pages/NotFound";
 import { fetchContent } from "@/lib/content-resolver";
 import { resolveGlobalBranding } from "@/lib/content/global";
+import { resolveBusinessInfo, resolveMaintenance } from "@/lib/content/business";
+import MaintenanceGate from "@/components/MaintenanceGate";
+import type { RootContent } from "@/hooks/useGlobalBranding";
 
 const SITE_TITLE = "Ocean City Development Group | Luxury Coastal Homes";
 const SITE_DESCRIPTION =
