@@ -26,16 +26,16 @@ const GlobalFooter = () => {
           <div>
             <BrandLogo variant="dark" className="h-8 w-auto mb-4" />
             <p className="text-sm text-white/60 leading-relaxed mb-4">
-              Premier residential developments and custom homes in Ocean City, New Jersey.
+              {business.blurb}
             </p>
-            <SocialIcons />
+            <SocialIcons facebook={business.facebookUrl} instagram={business.instagramUrl} />
           </div>
           <div>
             <h4 className="text-sm font-sans font-medium uppercase tracking-widest text-white/40 mb-4">Contact</h4>
-            <p className="text-sm text-white/70 mb-1">Patrick Halliday</p>
-            <p className="text-sm text-white/70 mb-1">(609) 602-3917</p>
-            <a href="mailto:PatrickAHalliday@gmail.com" className="text-sm text-white/70 hover:text-white transition-colors">
-              PatrickAHalliday@gmail.com
+            <p className="text-sm text-white/70 mb-1">{business.contactName}</p>
+            <p className="text-sm text-white/70 mb-1">{business.phone}</p>
+            <a href={`mailto:${business.email}`} className="text-sm text-white/70 hover:text-white transition-colors">
+              {business.email}
             </a>
           </div>
           <div>
