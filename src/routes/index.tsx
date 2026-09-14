@@ -5,7 +5,7 @@ import { fetchContent } from "@/lib/content-resolver";
 import { resolveHomeContent } from "@/lib/content/home";
 
 export const Route = createFileRoute("/")({
-  loader: async () => resolveHomeContent(await fetchContent(["home", "global"])),
+  loader: async () => resolveHomeContent(await fetchContent(["home"])),
   component: Index,
   errorComponent: ({ error }) => (
     <div role="alert" className="p-8 text-center">

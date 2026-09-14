@@ -1,4 +1,5 @@
 import { getRouteApi } from "@tanstack/react-router";
+import { useGlobalBranding } from "@/hooks/useGlobalBranding";
 import { Link } from "@/lib/router-compat";
 import { useEffect, useRef, useState, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -217,7 +218,8 @@ const homeRoute = getRouteApi("/");
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
-  const { siteName, hero } = homeRoute.useLoaderData();
+  const { hero } = homeRoute.useLoaderData();
+  const { siteName } = useGlobalBranding();
 
 
   useEffect(() => {
