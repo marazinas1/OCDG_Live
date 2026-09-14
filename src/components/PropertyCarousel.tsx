@@ -117,7 +117,7 @@ const PropertyCarousel = ({ items }: PropertyCarouselProps) => {
                   <h3 className="heading-card text-charcoal mb-2">{item.title}</h3>
                   {item.price && <p className="text-sm font-serif text-charcoal mb-1">{item.price}</p>}
                   <p className="text-body text-sm mb-5 flex-grow">{item.description}</p>
-                  <span className="btn-primary text-xs w-full justify-center">View Project</span>
+                  <span className="btn-primary btn-compact btn-block">View Project</span>
                 </div>
               </Link>
             </div>

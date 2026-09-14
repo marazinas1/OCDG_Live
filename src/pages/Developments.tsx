@@ -137,7 +137,7 @@ const Developments = ({
         />
         {items.length > 0 && (
           <div className="text-center mt-8">
-            <Link to={info.href} className="btn-outline text-xs inline-flex">
+            <Link to={info.href} className="btn-outline btn-compact">
               {info.label}
             </Link>
           </div>

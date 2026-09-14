@@ -143,7 +143,7 @@ const GlobalNav = () => {
 
               <button
                 onClick={handleInquire}
-                className={`btn-compact ${isScrolled ? "btn-primary" : "btn-on-dark"}`}
+                className={`btn-nav ${isScrolled ? "btn-primary" : "btn-on-dark"}`}
               >
                 Inquire Now
               </button>
@@ -223,7 +223,7 @@ const GlobalNav = () => {
 
               <button
                 onClick={handleInquire}
-                className={`btn-compact mt-2 w-fit ${isScrolled ? "btn-primary" : "btn-on-dark-solid"}`}
+                className={`btn-nav mt-2 w-fit ${isScrolled ? "btn-primary" : "btn-on-dark-solid"}`}
               >
                 Inquire Now
               </button>

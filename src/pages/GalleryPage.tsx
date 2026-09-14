@@ -69,7 +69,7 @@ const ProjectCollage = ({
           <p className="label-uppercase mb-1">Exterior & Interior</p>
           <h2 className="heading-section text-charcoal text-xl">{block.name}</h2>
         </div>
-        <Link to={block.link} className="btn-outline text-xs inline-flex flex-shrink-0">
+        <Link to={block.link} className="btn-outline btn-compact flex-shrink-0">
           View Project
         </Link>
       </div>
@@ -134,7 +134,7 @@ const PhotoGrid = ({
         <p className="label-uppercase mb-1">Photography</p>
         <h2 className="heading-section text-charcoal text-xl">{block.name}</h2>
       </div>
-      <Link to={block.link} className="btn-outline text-xs inline-flex flex-shrink-0">
+      <Link to={block.link} className="btn-outline btn-compact flex-shrink-0">
         View Project
       </Link>
     </div>
@@ -268,7 +268,7 @@ const GalleryPage = () => {
 
           {hasMore && (
             <div className="text-center mt-4">
-              <button onClick={loadMore} className="btn-outline text-xs inline-flex">
+              <button onClick={loadMore} className="btn-outline btn-compact">
                 See More Images
               </button>
             </div>

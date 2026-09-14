@@ -306,7 +306,7 @@ const Index = () => {
 
           <RevealSection>
             <div className="text-center mt-12">
-              <Link to="/developments/current" className="btn-outline text-xs inline-flex">
+              <Link to="/developments/current" className="btn-outline btn-compact">
                 View All Current Projects
               </Link>
             </div>
@@ -362,7 +362,7 @@ const Index = () => {
           <AdvantageCards />
           <RevealSection>
             <div className="text-center mt-10">
-              <Link to="/about" className="btn-primary text-xs inline-flex">
+              <Link to="/about" className="btn-primary btn-compact">
                 Learn More About Us
               </Link>
             </div>
@@ -400,7 +400,7 @@ const Index = () => {
                 </p>
                 <Link
                   to="/about"
-                  className="btn-primary text-xs inline-flex"
+                  className="btn-primary btn-compact"
                 >
                   Learn More About Us
                 </Link>
