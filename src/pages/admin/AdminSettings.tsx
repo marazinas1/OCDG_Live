@@ -1285,6 +1285,127 @@ function SettingsBody() {
           {savingAbout ? "Saving…" : "Save About page"}
         </Button>
       </TabsContent>
+
+      <TabsContent value="contact" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <div>
+            <Label htmlFor="contact-eyebrow">Small line above the title</Label>
+            <Input
+              id="contact-eyebrow"
+              value={contactCopy.heroEyebrow}
+              onChange={(e) => setContactCopy((c) => ({ ...c, heroEyebrow: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-title">Page title</Label>
+            <Input
+              id="contact-title"
+              value={contactCopy.heroTitle}
+              onChange={(e) => setContactCopy((c) => ({ ...c, heroTitle: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-info-label">Small line above the heading</Label>
+            <Input
+              id="contact-info-label"
+              value={contactCopy.infoLabel}
+              onChange={(e) => setContactCopy((c) => ({ ...c, infoLabel: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.infoLabel}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-info-heading">Heading</Label>
+            <Input
+              id="contact-info-heading"
+              value={contactCopy.infoHeading}
+              onChange={(e) => setContactCopy((c) => ({ ...c, infoHeading: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.infoHeading}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-lead">Lead contact name</Label>
+            <Input
+              id="contact-lead"
+              value={contactCopy.leadContact}
+              onChange={(e) => setContactCopy((c) => ({ ...c, leadContact: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.leadContact}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-form-title">Form title</Label>
+            <Input
+              id="contact-form-title"
+              value={contactCopy.formTitle}
+              onChange={(e) => setContactCopy((c) => ({ ...c, formTitle: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.formTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="contact-form-intro">Text above the form</Label>
+            <Textarea
+              id="contact-form-intro"
+              value={contactCopy.formIntro}
+              onChange={(e) => setContactCopy((c) => ({ ...c, formIntro: e.target.value }))}
+              placeholder={CONTACT_FALLBACKS.formIntro}
+              rows={2}
+              className="mt-2"
+            />
+          </div>
+          <p className="text-xs text-slate-500">
+            Phone, email and address on this page come from the Business tab.
+          </p>
+          <Button onClick={handleSaveContact} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save contact page"}
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="maintenance" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="text-sm font-medium text-slate-900">Maintenance mode</p>
+              <p className="mt-1 text-xs text-slate-500">
+                Visitors see a short holding page instead of the site. You stay signed in and keep
+                seeing the real site, with a reminder bar at the top.
+              </p>
+            </div>
+            <Switch
+              checked={maintenanceOn}
+              disabled={textSaving}
+              onCheckedChange={(next) => {
+                setMaintenanceOn(next);
+                void handleSaveMaintenance(next, maintenanceMessage);
+              }}
+            />
+          </div>
+          <div>
+            <Label htmlFor="maintenance-message">Message shown to visitors</Label>
+            <Textarea
+              id="maintenance-message"
+              value={maintenanceMessage}
+              onChange={(e) => setMaintenanceMessage(e.target.value)}
+              placeholder={MAINTENANCE_FALLBACK_MESSAGE}
+              rows={3}
+              className="mt-2"
+            />
+          </div>
+          <Button
+            onClick={() => handleSaveMaintenance(maintenanceOn, maintenanceMessage)}
+            disabled={textSaving}
+          >
+            {textSaving ? "Saving…" : "Save message"}
+          </Button>
+        </div>
+      </TabsContent>
       </Tabs>
     </div>
 
