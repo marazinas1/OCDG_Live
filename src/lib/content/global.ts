@@ -20,7 +20,17 @@ export type GlobalBranding = {
   logoDarkUrl: string | null;
   /** Null when nothing is uploaded; the static tags in the head stay in charge. */
   faviconUrl: string | null;
+  /** Display scale for the mark, 1 = the size the site uses today. */
+  logoScale: number;
 };
+
+export const DEFAULT_LOGO_SCALE = 1;
+
+function parseScale(raw: string): number {
+  const pct = Number.parseFloat(raw);
+  if (!Number.isFinite(pct) || pct <= 0) return DEFAULT_LOGO_SCALE;
+  return Math.min(2, Math.max(0.5, pct / 100));
+}
 
 export function resolveGlobalBranding(bundle: ContentBundle): GlobalBranding {
   return {
@@ -28,5 +38,6 @@ export function resolveGlobalBranding(bundle: ContentBundle): GlobalBranding {
     logoUrl: resolveMedia(bundle, "global", "logo", FALLBACK_LOGO),
     logoDarkUrl: resolveMediaOrNull(bundle, "global", "logo_dark"),
     faviconUrl: resolveMediaOrNull(bundle, "global", "favicon"),
+    logoScale: parseScale(resolveText(bundle, "global", "logo.scale", "100")),
   };
 }

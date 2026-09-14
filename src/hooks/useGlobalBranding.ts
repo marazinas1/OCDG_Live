@@ -21,6 +21,7 @@ const DEFAULT_BRANDING: GlobalBranding = {
   logoUrl: FALLBACK_LOGO,
   logoDarkUrl: null,
   faviconUrl: null,
+  logoScale: 1,
 };
 
 function useRootContent(): RootContent | undefined {

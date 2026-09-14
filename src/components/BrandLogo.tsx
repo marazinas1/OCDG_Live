@@ -23,12 +23,19 @@ const BrandLogo = ({ variant = "light", className, style }: Props) => {
     .filter(Boolean)
     .join(" ");
 
+  // Scale is 1 until someone moves the slider in Settings → Appearance, so the
+  // rendered size is byte-for-byte what the site shows today by default.
+  const scaled =
+    branding.logoScale !== 1
+      ? { transform: `scale(${branding.logoScale})`, transformOrigin: "left center" }
+      : null;
+
   return (
     <img
       src={src}
       alt={branding.siteName}
       className={className}
-      style={{ ...style, filter: filter || undefined }}
+      style={{ ...style, ...scaled, filter: filter || undefined }}
     />
   );
 };
