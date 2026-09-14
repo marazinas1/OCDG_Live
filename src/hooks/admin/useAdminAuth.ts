@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-export type AdminRole = "developer" | "owner";
+// `editor` exists in the role hierarchy; admin panel access itself still
+// requires developer/owner, but the label must render if that changes.
+export type AdminRole = "developer" | "owner" | "editor";
 
 export type AdminAuthState =
   | { status: "loading" }
