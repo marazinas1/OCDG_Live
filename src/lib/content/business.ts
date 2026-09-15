@@ -48,8 +48,18 @@ const telHref = (phone: string) => {
 export function resolveBusinessInfo(bundle: ContentBundle): BusinessInfo {
   const t = (slot: string, fallback: string) => resolveText(bundle, "global", slot, fallback);
   const phone = t("business.phone", BUSINESS_FALLBACKS.phone);
-  const facebook = t("business.facebook_url", BUSINESS_FALLBACKS.facebookUrl);
-  const instagram = t("business.instagram_url", BUSINESS_FALLBACKS.instagramUrl);
+  const facebook = resolveOptionalText(
+    bundle,
+    "global",
+    "business.facebook_url",
+    BUSINESS_FALLBACKS.facebookUrl,
+  );
+  const instagram = resolveOptionalText(
+    bundle,
+    "global",
+    "business.instagram_url",
+    BUSINESS_FALLBACKS.instagramUrl,
+  );
 
   return {
     contactName: t("business.contact_name", BUSINESS_FALLBACKS.contactName),
@@ -59,9 +69,10 @@ export function resolveBusinessInfo(bundle: ContentBundle): BusinessInfo {
     addressLine1: t("business.address_line_1", BUSINESS_FALLBACKS.addressLine1),
     addressLine2: t("business.address_line_2", BUSINESS_FALLBACKS.addressLine2),
     blurb: t("business.blurb", BUSINESS_FALLBACKS.blurb),
-    facebookUrl: facebook.trim() ? facebook : null,
-    instagramUrl: instagram.trim() ? instagram : null,
+    facebookUrl: facebook,
+    instagramUrl: instagram,
   };
+
 }
 
 export const DEFAULT_BUSINESS_INFO: BusinessInfo = {
