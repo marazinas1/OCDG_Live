@@ -106,8 +106,16 @@ export function useContentInvalidate() {
 export function useSaveText() {
   const invalidate = useContentInvalidate();
   return useMutation({
-    mutationFn: ({ page, entries }: { page: string; entries: TextEntry[] }) =>
-      writeText(page, entries),
+    mutationFn: ({
+      page,
+      entries,
+      preserveBlank,
+    }: {
+      page: string;
+      entries: TextEntry[];
+      preserveBlank?: string[];
+    }) => writeText(page, entries, preserveBlank ? { preserveBlank } : {}),
+
     onSuccess: invalidate,
   });
 }
