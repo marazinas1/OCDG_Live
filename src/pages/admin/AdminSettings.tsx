@@ -471,10 +471,16 @@ function SettingsBody() {
     page: string,
     entries: { slot: string; value: string }[],
     description: string,
+    preserveBlank?: string[],
   ) => {
     try {
-      await saveText.mutateAsync({ page, entries });
+      await saveText.mutateAsync({
+        page,
+        entries,
+        ...(preserveBlank ? { preserveBlank } : {}),
+      });
       toast({ title: "Saved", description });
+
     } catch (err) {
       toast({
         variant: "destructive",
