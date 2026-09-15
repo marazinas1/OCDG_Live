@@ -505,7 +505,10 @@ function SettingsBody() {
         { slot: "business.instagram_url", value: business.instagramUrl },
       ],
       "Business details updated.",
+      // Clearing a social link must hide the icon, not restore the built-in URL.
+      ["business.facebook_url", "business.instagram_url"],
     );
+
 
   const handleSaveAppearance = () =>
     saveTextWithToast(
