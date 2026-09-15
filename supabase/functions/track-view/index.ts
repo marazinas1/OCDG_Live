@@ -45,6 +45,8 @@ function sourceFrom(host: string | null): string {
     h.includes("gemini.google")
   )
     return "ai";
+  // Partner network: the three related companies link to each other.
+  if (h.includes("hallidayarchitects") || h.includes("hallidayleonard")) return "partner";
   if (h.includes("google")) return "google";
   if (h.includes("bing") || h.includes("duckduckgo") || h.includes("yahoo")) return "search";
   if (h.includes("facebook") || h.includes("fb.")) return "facebook";

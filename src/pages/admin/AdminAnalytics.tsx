@@ -48,6 +48,7 @@ const SOURCE_LABEL: Record<string, string> = {
   instagram: "Instagram",
   linkedin: "LinkedIn",
   listings: "Listing sites",
+  partner: "Partner sites",
   other: "Other sites",
 };
 
