@@ -6,7 +6,7 @@
  * extra request. The fallbacks are the exact values the site renders today, so
  * nothing changes visually until someone edits a field in Settings.
  */
-import { resolveText, type ContentBundle } from "@/lib/content-resolver";
+import { resolveText, resolveOptionalText, type ContentBundle } from "@/lib/content-resolver";
 
 export const BUSINESS_FALLBACKS = {
   contactName: "Patrick Halliday",
