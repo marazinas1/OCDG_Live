@@ -68,6 +68,23 @@ export function resolveText(
   return value && value.length > 0 ? value : fallback;
 }
 
+/**
+ * Same as resolveText, but distinguishes "never set" from "deliberately cleared":
+ * a stored blank row returns null so the caller can hide the element entirely.
+ */
+export function resolveOptionalText(
+  bundle: ContentBundle,
+  page: string,
+  slot: string,
+  fallback: string,
+): string | null {
+  const row = bundle.text.find((r) => r.page === page && r.slot === slot);
+  if (!row) return fallback.trim() ? fallback : null;
+  const value = row.value?.trim() ?? "";
+  return value.length > 0 ? value : null;
+}
+
+
 /** Owner image -> developer default -> bundled asset. */
 export function resolveMedia(
   bundle: ContentBundle,
