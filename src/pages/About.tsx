@@ -6,6 +6,24 @@ import GlobalFooter from "@/components/GlobalFooter";
 
 const routeApi = getRouteApi("/about");
 
+/**
+ * Tags outbound partner links so the partner sites can see traffic coming from
+ * oceancitydevelopment.com. Existing query params and hashes are preserved.
+ */
+function withPartnerUtm(url: string): string {
+  try {
+    const target = new URL(url, "https://oceancitydevelopment.com");
+    if (!target.searchParams.has("utm_source")) {
+      target.searchParams.set("utm_source", "oceancitydevelopment.com");
+      target.searchParams.set("utm_medium", "referral");
+      target.searchParams.set("utm_campaign", "partner-network");
+    }
+    return target.toString();
+  } catch {
+    return url;
+  }
+}
+
 const About = () => {
   const [scrollY, setScrollY] = useState(0);
   const about = routeApi.useLoaderData();
