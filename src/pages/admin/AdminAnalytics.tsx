@@ -9,12 +9,26 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Eye, Users, Inbox, TrendingUp, TrendingDown } from "lucide-react";
+import {
+  Eye,
+  Users,
+  Inbox,
+  TrendingUp,
+  TrendingDown,
+  Clock,
+  LogOut,
+  Layers,
+  Globe,
+  ExternalLink,
+} from "lucide-react";
+
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
   useAnalytics,
+  usePropertyTitles,
+
   percentChange,
   type AnalyticsRange,
 } from "@/hooks/admin/useAnalytics";
@@ -29,12 +43,20 @@ const SOURCE_LABEL: Record<string, string> = {
   direct: "Direct",
   google: "Google",
   search: "Other search",
+  ai: "AI assistants",
   facebook: "Facebook",
   instagram: "Instagram",
   linkedin: "LinkedIn",
   listings: "Listing sites",
   other: "Other sites",
 };
+
+const formatDuration = (seconds: number) => {
+  const s = Math.max(0, Math.round(seconds));
+  if (s < 60) return `${s}s`;
+  return `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, "0")}s`;
+};
+
 
 const DEVICE_LABEL: Record<string, string> = {
   desktop: "Desktop",
@@ -93,20 +115,62 @@ function StatCard({
   );
 }
 
+const COUNTRY_NAMES =
+  typeof Intl !== "undefined" && "DisplayNames" in Intl
+    ? new Intl.DisplayNames(["en"], { type: "region" })
+    : null;
+
+function countryLabel(code: string): string {
+  if (!code || code === "unknown") return "Unknown";
+  try {
+    return COUNTRY_NAMES?.of(code.toUpperCase()) ?? code;
+  } catch {
+    return code;
+  }
+}
+
+const STATIC_PAGE_NAMES: Record<string, string> = {
+  "/": "Home",
+  "/about": "About",
+  "/contact": "Contact",
+  "/gallery": "Gallery",
+  "/testimonials": "Testimonials",
+  "/developments": "Developments",
+  "/developments/current": "Current developments",
+  "/developments/sold": "Sold",
+  "/developments/active-listings": "Active listings",
+  "/developments/under-contract": "Under contract",
+  "/developments/coming-soon": "Coming soon",
+};
+
+/** Owners read property names, not URLs. */
+function pageLabel(path: string, titles: Record<string, string>): string {
+  const clean = path.replace(/\/+$/, "") || "/";
+  if (STATIC_PAGE_NAMES[clean]) return STATIC_PAGE_NAMES[clean];
+  const slug = clean.split("/").pop() ?? "";
+  return titles[slug] ?? path;
+}
+
 function BreakdownList({
   title,
   rows,
   total,
   empty,
+  icon: Icon,
 }: {
   title: string;
   rows: { label: string; views: number }[];
   total: number;
   empty: string;
+  icon?: typeof Eye;
 }) {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-5">
-      <h2 className="text-sm font-medium text-slate-900">{title}</h2>
+      <h2 className="flex items-center gap-2 text-sm font-medium text-slate-900">
+        {Icon && <Icon className="h-4 w-4 text-slate-400" />}
+        {title}
+      </h2>
+
       {rows.length === 0 ? (
         <p className="mt-4 text-sm text-slate-500">{empty}</p>
       ) : (
@@ -132,6 +196,8 @@ function BreakdownList({
 function AnalyticsInner() {
   const [range, setRange] = useState<AnalyticsRange>(30);
   const { data, isLoading, error } = useAnalytics(range);
+  const { data: titles = {} } = usePropertyTitles();
+
 
   const chartData = useMemo(() => {
     const byDay = new Map((data?.daily ?? []).map((d) => [d.day, d]));
@@ -209,6 +275,30 @@ function AnalyticsInner() {
             <StatCard label="Conversion" value={conversion} suffix="%" icon={TrendingUp} />
           </div>
 
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <StatCard
+              label="Avg. visit length"
+              value={formatDuration(Number(data?.totals?.avg_duration ?? 0))}
+              change={percentChange(
+                Number(data?.totals?.avg_duration ?? 0),
+                Number(data?.previous?.avg_duration ?? 0),
+              )}
+              icon={Clock}
+            />
+            <StatCard
+              label="Bounce rate"
+              value={Number(data?.totals?.bounce_rate ?? 0)}
+              suffix="%"
+              icon={LogOut}
+            />
+            <StatCard
+              label="Pages per visit"
+              value={Number(data?.totals?.pages_per_visit ?? 0).toFixed(2)}
+              icon={Layers}
+            />
+          </div>
+
+
           <div className="mt-6 rounded-lg border border-slate-200 bg-white p-5">
             <h2 className="mb-4 text-sm font-medium text-slate-900">Traffic</h2>
             <div className="h-72 w-full">
@@ -268,7 +358,7 @@ function AnalyticsInner() {
               total={totalViews}
               empty="No page views recorded yet."
               rows={(data?.top_pages ?? []).map((p) => ({
-                label: p.path,
+                label: pageLabel(p.path, titles),
                 views: Number(p.views),
               }))}
             />
@@ -291,6 +381,30 @@ function AnalyticsInner() {
               }))}
             />
           </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <BreakdownList
+              title="Countries"
+              icon={Globe}
+              total={totalViews}
+              empty="No country data recorded yet."
+              rows={(data?.countries ?? []).map((c) => ({
+                label: countryLabel(c.country),
+                views: Number(c.views),
+              }))}
+            />
+            <BreakdownList
+              title="Referring sites"
+              icon={ExternalLink}
+              total={totalViews}
+              empty="No referring sites recorded yet."
+              rows={(data?.referrers ?? []).map((r) => ({
+                label: r.host,
+                views: Number(r.views),
+              }))}
+            />
+          </div>
+
 
           {totalViews === 0 && (
             <p className="mt-6 text-sm text-slate-500">

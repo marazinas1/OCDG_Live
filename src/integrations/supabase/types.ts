@@ -242,10 +242,15 @@ export type Database = {
           created_at: string
           day: string
           device: string
+          duration_seconds: number | null
           id: string
           path: string
           referrer_host: string | null
+          session_id: string | null
           source: string
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
           visitor_hash: string
         }
         Insert: {
@@ -253,10 +258,15 @@ export type Database = {
           created_at?: string
           day?: string
           device?: string
+          duration_seconds?: number | null
           id?: string
           path: string
           referrer_host?: string | null
+          session_id?: string | null
           source?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
           visitor_hash: string
         }
         Update: {
@@ -264,10 +274,15 @@ export type Database = {
           created_at?: string
           day?: string
           device?: string
+          duration_seconds?: number | null
           id?: string
           path?: string
           referrer_host?: string | null
+          session_id?: string | null
           source?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
           visitor_hash?: string
         }
         Relationships: []
@@ -627,6 +642,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      analytics_purge_old: { Args: never; Returns: number }
       analytics_summary: { Args: { _from: string; _to: string }; Returns: Json }
       has_role: {
         Args: {

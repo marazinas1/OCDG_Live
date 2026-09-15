@@ -54,7 +54,7 @@ const GlobalFooter = () => {
             <span className="text-xs text-white/30">
               Platform developed and maintained by{" "}
               <a
-                href="https://www.deerva.com"
+                href="https://www.deerva.com/?utm_source=oceancitydevelopment.com&utm_medium=referral&utm_campaign=platform-badge"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/40 hover:text-white/70 transition-colors underline-offset-2 hover:underline"
