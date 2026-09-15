@@ -34,6 +34,17 @@ function deviceFrom(ua: string): "mobile" | "tablet" | "desktop" {
 function sourceFrom(host: string | null): string {
   if (!host) return "direct";
   const h = host.toLowerCase();
+  // AI assistants are a distinct acquisition channel and must not fall into "other".
+  if (
+    h.includes("chatgpt") ||
+    h.includes("openai") ||
+    h.includes("perplexity") ||
+    h.includes("claude") ||
+    h.includes("anthropic") ||
+    h.includes("copilot") ||
+    h.includes("gemini.google")
+  )
+    return "ai";
   if (h.includes("google")) return "google";
   if (h.includes("bing") || h.includes("duckduckgo") || h.includes("yahoo")) return "search";
   if (h.includes("facebook") || h.includes("fb.")) return "facebook";
@@ -52,6 +63,9 @@ async function sha256(value: string): Promise<string> {
     .join("");
 }
 
+const str = (v: unknown, max: number): string | null =>
+  typeof v === "string" && v ? v.slice(0, max) : null;
+
 const noContent = () => new Response(null, { status: 204, headers: corsHeaders });
 
 Deno.serve(async (req) => {
@@ -64,7 +78,7 @@ Deno.serve(async (req) => {
     const userAgent = req.headers.get("user-agent") ?? "";
     if (!userAgent || BOT_PATTERN.test(userAgent)) return noContent();
 
-    let body: { path?: unknown; referrer?: unknown } | null = null;
+    let body: Record<string, unknown> | null = null;
     try {
       const text = await req.text();
       if (text) body = JSON.parse(text);
@@ -73,13 +87,41 @@ Deno.serve(async (req) => {
     }
     if (!body) return noContent();
 
-    const path = typeof body.path === "string" ? body.path.slice(0, 300) : "";
-    if (!path.startsWith("/") || path.startsWith("/admin")) return noContent();
+    const path = typeof body["path"] === "string" ? body["path"].slice(0, 300) : "";
+    if (!path.startsWith("/") || path.startsWith("/admin") || path.startsWith("/api"))
+      return noContent();
+
+    const sessionId = str(body["session_id"], 64);
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } },
+    );
+
+    // Duration ping: update the visit that was already recorded for this session.
+    if (body["event"] === "duration") {
+      const seconds = Number(body["duration"]);
+      if (!sessionId || !Number.isFinite(seconds) || seconds <= 0) return noContent();
+      const capped = Math.min(Math.round(seconds), 3600);
+      const { data: row } = await supabase
+        .from("page_views")
+        .select("id")
+        .eq("session_id", sessionId)
+        .eq("path", path)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (row?.id) {
+        await supabase.from("page_views").update({ duration_seconds: capped }).eq("id", row.id);
+      }
+      return noContent();
+    }
 
     let referrerHost: string | null = null;
-    if (typeof body.referrer === "string" && body.referrer) {
+    if (typeof body["referrer"] === "string" && body["referrer"]) {
       try {
-        referrerHost = new URL(body.referrer).hostname.toLowerCase().slice(0, 200);
+        referrerHost = new URL(body["referrer"] as string).hostname.toLowerCase().slice(0, 200);
       } catch {
         referrerHost = null;
       }
@@ -96,19 +138,22 @@ Deno.serve(async (req) => {
     // One-way, daily-rotating. The raw IP / UA are never persisted.
     const visitorHash = await sha256(`${salt}|${utcDay}|${ip}|${userAgent}`);
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-      { auth: { persistSession: false } },
-    );
+    const utmSource = str(body["utm_source"], 100);
+    const source = utmSource
+      ? (sourceFrom(utmSource) === "other" ? "other" : sourceFrom(utmSource))
+      : sourceFrom(referrerHost);
 
     const { error } = await supabase.from("page_views").insert({
       path,
       referrer_host: referrerHost,
-      source: sourceFrom(referrerHost),
+      source,
       device: deviceFrom(userAgent),
       country: req.headers.get("x-vercel-ip-country") ?? req.headers.get("cf-ipcountry") ?? null,
       visitor_hash: visitorHash,
+      session_id: sessionId,
+      utm_source: utmSource,
+      utm_medium: str(body["utm_medium"], 100),
+      utm_campaign: str(body["utm_campaign"], 100),
       day: utcDay,
     });
     if (error) console.error("track-view insert failed:", error.message);
