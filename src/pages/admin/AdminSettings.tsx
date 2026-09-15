@@ -471,10 +471,16 @@ function SettingsBody() {
     page: string,
     entries: { slot: string; value: string }[],
     description: string,
+    preserveBlank?: string[],
   ) => {
     try {
-      await saveText.mutateAsync({ page, entries });
+      await saveText.mutateAsync({
+        page,
+        entries,
+        ...(preserveBlank ? { preserveBlank } : {}),
+      });
       toast({ title: "Saved", description });
+
     } catch (err) {
       toast({
         variant: "destructive",
@@ -499,7 +505,10 @@ function SettingsBody() {
         { slot: "business.instagram_url", value: business.instagramUrl },
       ],
       "Business details updated.",
+      // Clearing a social link must hide the icon, not restore the built-in URL.
+      ["business.facebook_url", "business.instagram_url"],
     );
+
 
   const handleSaveAppearance = () =>
     saveTextWithToast(
