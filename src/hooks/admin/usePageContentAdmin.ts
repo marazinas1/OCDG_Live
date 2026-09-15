@@ -35,10 +35,23 @@ export function findMedia(
 
 export type TextEntry = { slot: string; value: string };
 
-/** Upserts non-blank values and deletes the slots that were cleared. */
-export async function writeText(page: string, entries: TextEntry[]): Promise<void> {
-  const keep = entries.filter((e) => e.value.trim().length > 0);
-  const clear = entries.filter((e) => e.value.trim().length === 0).map((e) => e.slot);
+/**
+ * Upserts non-blank values and deletes the slots that were cleared.
+ *
+ * Slots listed in `preserveBlank` are stored as an empty row instead of being
+ * deleted: for those, "cleared" means "hide this", not "fall back to the
+ * built-in default".
+ */
+export async function writeText(
+  page: string,
+  entries: TextEntry[],
+  options: { preserveBlank?: string[] } = {},
+): Promise<void> {
+  const preserve = new Set(options.preserveBlank ?? []);
+  const keep = entries.filter((e) => e.value.trim().length > 0 || preserve.has(e.slot));
+  const clear = entries
+    .filter((e) => e.value.trim().length === 0 && !preserve.has(e.slot))
+    .map((e) => e.slot);
 
   if (keep.length) {
     const { error } = await supabase
@@ -49,6 +62,7 @@ export async function writeText(page: string, entries: TextEntry[]): Promise<voi
       );
     if (error) throw error;
   }
+
   if (clear.length) {
     const { error } = await supabase
       .from("page_text")
