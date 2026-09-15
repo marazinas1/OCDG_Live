@@ -133,7 +133,7 @@ const About = () => {
               return partner.url ? (
                 <a
                   key={partner.id}
-                  href={partner.url}
+                  href={withPartnerUtm(partner.url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex flex-col items-center text-center group cursor-pointer"
