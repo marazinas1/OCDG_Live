@@ -84,8 +84,8 @@ const Testimonials = () => {
           style={{ transform: `translateY(${scrollY * 0.25}px)` }} loading="lazy" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 text-center px-4 animate-fade-in-up">
-          <p className="label-uppercase text-white/70 mb-4">What Our Clients Say</p>
-          <h1 className="heading-display text-white">Testimonials</h1>
+          <p className="label-uppercase text-white/70 mb-4">{content.heroEyebrow}</p>
+          <h1 className="heading-display text-white">{content.heroTitle}</h1>
         </div>
       </section>
 
@@ -94,7 +94,7 @@ const Testimonials = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           {testimonials.length === 0 ? (
             <p className="text-center text-body">
-              {isLoading ? "Loading testimonials…" : "Testimonials are coming soon."}
+              {isLoading ? "Loading testimonials…" : content.emptyMessage}
             </p>
           ) : (
           <div className="relative">
@@ -166,14 +166,12 @@ const Testimonials = () => {
       {/* CTA */}
       <section id="contact" className="section-padding section-sand">
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-3xl text-center">
-          <p className="label-uppercase mb-4">Ready to Build?</p>
-          <h2 className="heading-section text-charcoal mb-6">Start Your Journey</h2>
+          <p className="label-uppercase mb-4">{content.ctaLabel}</p>
+          <h2 className="heading-section text-charcoal mb-6">{content.ctaHeading}</h2>
           <div className="divider mx-auto mb-8" />
-          <p className="text-body text-lg leading-relaxed mb-8">
-            Contact us today to discuss your dream home in Ocean City.
-          </p>
+          <p className="text-body text-lg leading-relaxed mb-8">{content.ctaBody}</p>
           <a href="/contact" className="btn-primary">
-            Get In Touch
+            {content.ctaButton}
           </a>
         </div>
       </section>
