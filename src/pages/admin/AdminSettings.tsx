@@ -863,6 +863,11 @@ function SettingsBody() {
           Business details, branding and page texts. Changes go live on the public site
           immediately.
         </p>
+        {isDirty && (
+          <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            You have unsaved changes. Use the save button in this section before leaving the page.
+          </p>
+        )}
       </div>
 
       <Tabs defaultValue="business" className="space-y-6">
