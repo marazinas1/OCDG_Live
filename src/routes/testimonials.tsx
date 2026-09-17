@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Testimonials from "@/pages/Testimonials";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { fetchContent } from "@/lib/content-resolver";
+import { resolveTestimonialsContent } from "@/lib/content/pages";
 
 export const Route = createFileRoute("/testimonials")({
+  loader: async () => resolveTestimonialsContent(await fetchContent(["testimonials"])),
   component: Testimonials,
   head: () =>
     pageHead({
