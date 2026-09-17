@@ -4,7 +4,7 @@ import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 import { fetchPropertyCards } from "@/lib/content/properties";
 
 export const Route = createFileRoute("/developments/current")({
-  loader: () => fetchPropertyCards({ status: ["active", "under_contract"] }),
+  loader: () => fetchPropertyCards({ status: ["active", "under_contract", "coming_soon"] }),
   component: CurrentDevelopmentsRoute,
   head: () =>
     pageHead({

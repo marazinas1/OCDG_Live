@@ -15,7 +15,7 @@ import {
   type DevelopmentsPageContent,
 } from "@/lib/content/pages";
 
-type DevStatus = "active" | "under-contract" | "sold";
+type DevStatus = "active" | "under-contract" | "coming-soon" | "sold";
 type DevGroup = "current" | "sold";
 
 const tabs: { label: string; value: DevGroup | "all" }[] = [
@@ -96,7 +96,15 @@ const Developments = ({
   };
 
   const toDevStatus = (s: PropertyStatus): DevStatus | null =>
-    s === "active" ? "active" : s === "under_contract" ? "under-contract" : s === "sold" ? "sold" : null;
+    s === "active"
+      ? "active"
+      : s === "under_contract"
+        ? "under-contract"
+        : s === "coming_soon"
+          ? "coming-soon"
+          : s === "sold"
+            ? "sold"
+            : null;
 
   const allDevelopments: Dev[] = allProps
     .map((p): Dev | null => {
@@ -125,7 +133,13 @@ const Developments = ({
     };
 
     const toPropStatus = (s: DevStatus): PropertyStatus =>
-      s === "active" ? "active" : s === "under-contract" ? "under_contract" : "sold";
+      s === "active"
+        ? "active"
+        : s === "under-contract"
+          ? "under_contract"
+          : s === "coming-soon"
+            ? "coming_soon"
+            : "sold";
 
     return (
       <div key={group} className="mb-16 last:mb-0">
@@ -155,14 +169,14 @@ const Developments = ({
 
   const soldDevs = allDevelopments.filter((d) => d.status === "sold");
   const currentDevs = allDevelopments.filter(
-    (d) => d.status === "active" || d.status === "under-contract",
+    (d) => d.status === "active" || d.status === "under-contract" || d.status === "coming-soon",
   );
 
   // Raw DB rows for the grid view (PublicPropertyCard consumes these directly)
   const filteredCards = allProps.filter((p) =>
     activeTab === "sold"
       ? p.status === "sold"
-      : p.status === "active" || p.status === "under_contract",
+      : p.status === "active" || p.status === "under_contract" || p.status === "coming_soon",
   );
   const visibleCards = filteredCards.slice(0, visibleCount);
   const hasMore = visibleCount < filteredCards.length;
