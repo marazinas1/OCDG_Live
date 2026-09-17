@@ -76,7 +76,7 @@ function AdminTestimonialsInner() {
   };
 
   return (
-    <div className="max-w-3xl space-y-8">
+    <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">Testimonials</h1>
         <p className="mt-2 text-sm text-muted-foreground">

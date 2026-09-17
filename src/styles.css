@@ -42,6 +42,14 @@
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-on-dark: hsl(var(--on-dark));
   --color-rule: hsl(var(--rule));
+  --color-status-active: hsl(var(--status-active));
+  --color-status-active-foreground: hsl(var(--status-active-foreground));
+  --color-status-under-contract: hsl(var(--status-under-contract));
+  --color-status-under-contract-foreground: hsl(var(--status-under-contract-foreground));
+  --color-status-coming-soon: hsl(var(--status-coming-soon));
+  --color-status-coming-soon-foreground: hsl(var(--status-coming-soon-foreground));
+  --color-status-sold: hsl(var(--status-sold));
+  --color-status-sold-foreground: hsl(var(--status-sold-foreground));
   --color-background-mist: hsl(var(--background-mist));
   --color-border: hsl(var(--border));
   --color-border-subtle: hsl(var(--border-subtle));
@@ -146,6 +154,16 @@
 
   /* Thin decorative rules and the lightest section wash */
   --rule: 0 0% 20%;
+
+  /* Property status palette — shared by the public cards and the admin list */
+  --status-active: 160 84% 39%;
+  --status-active-foreground: 0 0% 100%;
+  --status-under-contract: 32 95% 44%;
+  --status-under-contract-foreground: 0 0% 100%;
+  --status-coming-soon: 43 96% 52%;
+  --status-coming-soon-foreground: 0 0% 10%;
+  --status-sold: 0 0% 10%;
+  --status-sold-foreground: 0 0% 100%;
   --background-mist: 0 0% 98%;
 
   /* Borders */

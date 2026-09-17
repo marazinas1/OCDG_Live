@@ -198,7 +198,7 @@ function AdminUsersInner() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-10">
+    <div className="space-y-10">
       <header>
         <h1 className="text-2xl font-semibold text-foreground">Users</h1>
         <p className="text-sm text-muted-foreground mt-1">

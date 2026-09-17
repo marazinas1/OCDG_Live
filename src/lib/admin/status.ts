@@ -15,10 +15,10 @@ export const STATUS_LABELS: Record<PropertyStatus, string> = {
 };
 
 export const STATUS_BADGE_CLASSES: Record<PropertyStatus, string> = {
-  coming_soon: "bg-muted text-foreground",
-  active: "bg-emerald-500 text-on-dark",
-  under_contract: "bg-amber-600 text-on-dark",
-  sold: "bg-primary text-on-dark",
+  coming_soon: "bg-status-coming-soon text-status-coming-soon-foreground",
+  active: "bg-status-active text-status-active-foreground",
+  under_contract: "bg-status-under-contract text-status-under-contract-foreground",
+  sold: "bg-status-sold text-status-sold-foreground",
 };
 
 export function isPropertyStatus(v: string): v is PropertyStatus {
