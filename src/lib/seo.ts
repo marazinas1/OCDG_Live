@@ -12,6 +12,13 @@ export const SITE = "https://oceancitydevelopment.com";
  */
 export const DEFAULT_OG_IMAGE = `${SITE}/og-image.jpg`;
 
+/**
+ * Only absolute https URLs work as social previews. Bundled asset imports
+ * resolve to a relative path, so those fall back to the site image.
+ */
+export const absoluteOgImage = (url: string | null | undefined) =>
+  url && url.startsWith("https://") ? url : DEFAULT_OG_IMAGE;
+
 export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
   return {
     "@context": "https://schema.org",

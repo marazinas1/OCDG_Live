@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import About from "@/pages/About";
-import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { absoluteOgImage, breadcrumbJsonLd, pageHead } from "@/lib/seo";
 import { fetchContent } from "@/lib/content-resolver";
 import { resolveAboutContent } from "@/lib/content/about";
 
@@ -13,12 +13,13 @@ export const Route = createFileRoute("/about")({
     </div>
   ),
   notFoundComponent: () => <div className="p-8 text-center">Page not found.</div>,
-  head: () =>
+  head: ({ loaderData }) =>
     pageHead({
       title: "About Ocean City Development Group",
       description:
         "45+ years building luxury coastal homes in Ocean City, NJ. Meet Patrick Halliday and our partners at Halliday Architects.",
       path: "/about",
+      image: absoluteOgImage(loaderData?.heroImageUrl),
       jsonLd: breadcrumbJsonLd([
         { name: "Home", path: "/" },
         { name: "About", path: "/about" },
