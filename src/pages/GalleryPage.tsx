@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { getRouteApi } from "@tanstack/react-router";
 import { Link } from "@/lib/router-compat";
 import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
