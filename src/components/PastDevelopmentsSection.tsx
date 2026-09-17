@@ -48,10 +48,10 @@ const PastDevelopmentsSection = ({ items }: { items?: PublicPropertyCard[] | und
                 )}
                 <div className="absolute top-3 left-3">
                   <span
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white bg-charcoal/85 backdrop-blur-sm"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-on-dark bg-charcoal/85 backdrop-blur-sm"
                     style={{ borderRadius: "3px" }}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-on-dark/80" />
                     Sold {p.listed_date ? new Date(p.listed_date).getFullYear() : ""}
                   </span>
                 </div>

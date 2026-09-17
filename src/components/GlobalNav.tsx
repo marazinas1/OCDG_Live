@@ -44,7 +44,7 @@ const GlobalNav = () => {
   };
 
   const linkClass = `text-xs tracking-[0.12em] uppercase font-medium transition-all duration-300 ${
-    isScrolled ? "text-slate hover:text-charcoal" : "text-white hover:text-white/80"
+    isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark hover:text-on-dark/80"
   }`;
   const textShadow = !isScrolled ? "0 1px 3px rgba(0,0,0,0.4)" : "none";
 
@@ -108,7 +108,7 @@ const GlobalNav = () => {
 
                 {isDevDropdownOpen && (
                   <div
-                    className="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-52 bg-white border border-border shadow-lg z-50 animate-fade-in"
+                    className="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-52 bg-card border border-border shadow-lg z-50 animate-fade-in"
                     style={{ borderRadius: "4px" }}
                   >
                     <div className="p-3 space-y-0.5">
@@ -158,18 +158,18 @@ const GlobalNav = () => {
 
             >
               <div className="w-6 h-5 relative flex flex-col justify-between">
-                <span className={`w-full h-0.5 transition-all duration-300 ${isScrolled ? "bg-charcoal" : "bg-white"} ${isMobileMenuOpen ? "rotate-45 translate-y-2 bg-charcoal" : ""}`} />
-                <span className={`w-full h-0.5 transition-all duration-300 ${isScrolled ? "bg-charcoal" : "bg-white"} ${isMobileMenuOpen ? "opacity-0" : ""}`} />
-                <span className={`w-full h-0.5 transition-all duration-300 ${isScrolled ? "bg-charcoal" : "bg-white"} ${isMobileMenuOpen ? "-rotate-45 -translate-y-2 bg-charcoal" : ""}`} />
+                <span className={`w-full h-0.5 transition-all duration-300 ${isScrolled ? "bg-charcoal" : "bg-on-dark"} ${isMobileMenuOpen ? "rotate-45 translate-y-2 bg-charcoal" : ""}`} />
+                <span className={`w-full h-0.5 transition-all duration-300 ${isScrolled ? "bg-charcoal" : "bg-on-dark"} ${isMobileMenuOpen ? "opacity-0" : ""}`} />
+                <span className={`w-full h-0.5 transition-all duration-300 ${isScrolled ? "bg-charcoal" : "bg-on-dark"} ${isMobileMenuOpen ? "-rotate-45 -translate-y-2 bg-charcoal" : ""}`} />
               </div>
             </button>
           </div>
 
           {/* Mobile menu */}
           <div className={`md:hidden overflow-hidden transition-all duration-300 absolute top-full left-0 right-0 ${isMobileMenuOpen ? "max-h-[600px]" : "max-h-0"}`}>
-            <div className={`flex flex-col gap-5 px-6 pt-6 pb-8 ${isScrolled ? "bg-white border-t border-border" : "bg-charcoal"}`}>
+            <div className={`flex flex-col gap-5 px-6 pt-6 pb-8 ${isScrolled ? "bg-card border-t border-border" : "bg-charcoal"}`}>
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}>
+                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/90 hover:text-on-dark"}`}>
                 Home
               </Link>
 
@@ -178,14 +178,14 @@ const GlobalNav = () => {
                 <Link
                   to="/developments"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-left text-sm tracking-wider uppercase transition-colors flex-1 ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}
+                  className={`text-left text-sm tracking-wider uppercase transition-colors flex-1 ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/90 hover:text-on-dark"}`}
                 >
                   Developments
                 </Link>
                 <button
                   onClick={() => setIsMobileDevOpen(!isMobileDevOpen)}
                   aria-label="Toggle developments submenu"
-                  className={`btn-icon-plain -mr-2 ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}
+                  className={`btn-icon-plain -mr-2 ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/90 hover:text-on-dark"}`}
 
                 >
                   <svg className={`w-3 h-3 transition-transform ${isMobileDevOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -197,7 +197,7 @@ const GlobalNav = () => {
                 <div className="pl-4 space-y-1">
                   {developmentCategories.map((item) => (
                     <Link key={item.href} to={item.href} onClick={() => setIsMobileMenuOpen(false)}
-                      className={`block text-sm py-1.5 transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/80 hover:text-white"}`}>
+                      className={`block text-sm py-1.5 transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/80 hover:text-on-dark"}`}>
                       {item.label}
                     </Link>
                   ))}
@@ -205,19 +205,19 @@ const GlobalNav = () => {
               )}
 
               <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}>
+                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/90 hover:text-on-dark"}`}>
                 Gallery
               </Link>
               <Link to="/testimonials" onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}>
+                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/90 hover:text-on-dark"}`}>
                 Testimonials
               </Link>
               <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}>
+                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/90 hover:text-on-dark"}`}>
                 About Us
               </Link>
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-white/90 hover:text-white"}`}>
+                className={`text-left text-sm tracking-wider uppercase transition-colors ${isScrolled ? "text-slate hover:text-charcoal" : "text-on-dark/90 hover:text-on-dark"}`}>
                 Contact
               </Link>
 

@@ -43,8 +43,8 @@ const Sold = () => {
           style={{ transform: `translateY(${scrollY * 0.25}px)` }} loading="lazy" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 text-center px-4 animate-fade-in-up">
-          <p className="label-uppercase text-white/70 mb-4">Our Legacy</p>
-          <h1 className="heading-display text-white">Sold Projects</h1>
+          <p className="label-uppercase text-on-dark/70 mb-4">Our Legacy</p>
+          <h1 className="heading-display text-on-dark">Sold Projects</h1>
         </div>
       </section>
 
@@ -66,8 +66,8 @@ const Sold = () => {
                     </div>
                   </div>
                   <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-white bg-charcoal backdrop-blur-sm" style={{ borderRadius: "4px" }}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-on-dark bg-charcoal backdrop-blur-sm" style={{ borderRadius: "4px" }}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-on-dark/80" />
                       Sold
                     </span>
                   </div>
