@@ -483,7 +483,50 @@ function SettingsBody() {
       partnersHeading: text("about", "partners_heading"),
     });
     setPartners(partnersFromBundle(bundle));
+    savedSnapshot.current = null; // re-baselined by the effect below
   }, [bundle]);
+
+  /**
+   * Unsaved-changes guard: every editable field is folded into one snapshot and
+   * compared against the last loaded/saved state, so leaving the page with
+   * pending edits warns instead of silently dropping them.
+   */
+  const snapshot = JSON.stringify({
+    siteName,
+    eyebrow,
+    headline,
+    subline,
+    ctaLabel,
+    quote,
+    quoteAttribution,
+    about,
+    business,
+    logoScale,
+    maintenanceOn,
+    maintenanceMessage,
+    contactCopy,
+    advantages,
+    snippets,
+    galleryCopy,
+    testimonialsCopy,
+    developmentsCopy,
+    partners,
+  });
+  const savedSnapshot = useRef<string | null>(null);
+  useEffect(() => {
+    if (savedSnapshot.current === null) savedSnapshot.current = snapshot;
+  }, [snapshot]);
+  const isDirty = savedSnapshot.current !== null && savedSnapshot.current !== snapshot;
+
+  useEffect(() => {
+    if (!isDirty) return;
+    const warn = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [isDirty]);
 
   const mediaFor = (slot: SlotDef): PageMediaRow | null => findMedia(bundle, slot.page, slot.slot);
 
