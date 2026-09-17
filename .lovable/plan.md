@@ -1,57 +1,68 @@
-# Partnerių logotipai ir partnerių srauto matomumas
+# Du nauji namai: 1420 ir 1424 Pleasure Ave
 
-## Ką gausite
+Sukelti du naujus objektus taip, kaip darėme anksčiau: per esamą turinio sistemą, su
+nuotraukomis, aprašymais, aukštų vaizdais ir žemėlapiu. Abu publikuojami „Coming Soon"
+statusu, be kainos.
 
-About puslapio skiltyje „Our Partners / Trusted collaborators" virš kiekvieno partnerio
-pavadinimo atsiras jo logotipas:
+## Ką jau patikrinau
 
-- Halliday Architects — logotipas paimtas iš Halliday Architects svetainės projekto
-- Halliday-Leonard — logotipas paimtas iš Halliday-Leonard svetainės projekto
+- Dropbox aplankas pasiekiamas — 32 failai: bendri išorės renderiai (2 aerial, front/rear
+  ir closeup kiekvienam namui) plius atskiri poaplankiai su vidaus renderiais ir 3D aukštų
+  vaizdais kiekvienam namui.
+- PDF (preliminary variance set) duoda tikslius duomenis:
+  - 1424 Pleasure Ave — naujas sklypas 7.02, 35 pėdų plotis, 3 500 sq ft sklypas,
+    2 578 sq ft namas, 5 miegamieji, 3 parkavimo vietos.
+  - 1420 Pleasure Ave — naujas sklypas 8.02, 30 pėdų plotis, 3 000 sq ft sklypas,
+    2 227 sq ft namas, 4 miegamieji, 3 parkavimo vietos.
+  - Abu — keturi lygiai (Ground / 1st / 2nd / 3rd), liftas, R-B Residential Bayfront zona
+    prie Beach Thorofare (vandens pusė), architektas Halliday Architects.
+- Vonių skaičių suskaičiuosiu iš PDF aukštų planų ir nurodysiu kiekvienam namui atskirai.
 
-Logotipai nebus įrašyti „kietai" į kodą — jie bus įkelti per tą pačią vietą, kurią jau
-naudoja admin panelė (Settings → About texts → Partners), todėl ateityje logotipą bus
-galima pakeisti ar pašalinti pačioje panelėje, be programuotojo.
+## Nuotraukų paskirstymas
 
-Vaizdas bus toks pat, kaip Halliday Architects svetainėje (prisegtame paveikslėlyje):
-logotipas pilkas ir šiek tiek prigesintas, o užvedus pele — tampa spalvotas ir ryškus.
+Kiekvienam namui po 6 išorės vaizdus: priekis, galas, aerial, plius 3 close-up renderiai
+(priekio ir galo detalės). Aerial vaizdai — po vieną kiekvienam namui.
 
-## Analitika: partnerių tinklas
+Vidaus renderiai (virtuvė, svetainė, miegamieji, vonia) eina į objekto galeriją.
+3D aukštų vaizdai priskiriami atitinkamiems aukštams — Ground, First, Second, Third —
+kaip ir kituose objektuose.
 
-Trys įmonės susijusios, todėl analitikoje bus aiškiai matoma, kiek lankytojų ateina iš
-partnerių svetainių:
+Visos nuotraukos prieš įkėlimą sumažinamos iki 2400 px ir suspaudžiamos (dabar originalai
+8–18 MB), kad puslapis kraunasi greitai.
 
-- Naujas šaltinio tipas „Partner sites" — apsilankymai, atėję iš hallidayarchitects.com
-  ir hallidayleonardllc.com, bus rodomi atskira eilute, o ne bendrame „Referral" krūvyje.
-- Nuorodos į partnerius About puslapyje bus pažymėtos, kad partnerių svetainių analitika
-  matytų, jog lankytojas atėjo iš oceancitydevelopment.com.
+## Turinys
 
-Pastaba: kad OCDG matytų srautą iš partnerių svetainių, tose svetainėse turi būti
-nuorodos į oceancitydevelopment.com. Halliday Architects svetainė tokią nuorodą jau turi;
-Halliday-Leonard pusėje tai reikėtų padaryti atskirai, tame projekte.
+Kiekvienam namui parašysiu:
 
-## Kas nesikeičia
+- Pavadinimą, antraštę ir trumpą pristatymą
+- Aprašymą pagal PDF: keturi lygiai, liftas, bayfront vieta, sklypo ir namo dydis
+- Pagrindinius skaičius (miegamieji, vonios, kvadratūra, lygiai, liftas)
+- Aukštų aprašymus (Ground / First / Second / Third) pagal PDF kambarių išdėstymą
+- Vietos skiltį — Pleasure Ave, prie Beach Thorofare, su žemėlapiu pagal adresą
 
-Jokių kitų vizualinių pakeitimų, jokių pakeitimų kituose puslapiuose, admin panelės
-struktūra ta pati. Niekas nepublikuojama be atskiro Jūsų leidimo.
+Rašysiu tuo pačiu stiliumi kaip esami objektai; jokių išgalvotų kainų, jokių
+prekės ženklų ar įrangos, kurios nėra dokumentuose.
 
-## Techninė dalis
+## Statusas
 
-1. Abu logotipų failai nukopijuojami iš partnerių projektų momentinių kopijų
-   (`halliday-logo.png`, `halliday-leonard-logo.png`), optimizuojami (max 800 px plotis,
-   permatomas PNG išsaugomas) ir įkeliami į `page-media` bucket'ą į `about/partner-logo/`.
-2. Įrašomos `page_media` eilutės `about / partner.01.logo` ir `about / partner.02.logo`
-   (tas pats slot formatas, kurį rašo `AdminSettings.handleSaveAbout`), taip pat tos
-   pačios eilutės `page_media_defaults`, kad admin „atstatyti numatytąjį" grąžintų šiuos
-   logotipus.
-3. `src/pages/About.tsx` (eil. 115–125): logotipo `img` klasės papildomos
-   `opacity-55 grayscale group-hover:opacity-100 group-hover:grayscale-0` su švelniu
-   perėjimu — atitinka Halliday Architects `PartnersSection`.
-4. `src/pages/About.tsx`: partnerio nuoroda papildoma UTM parametrais
-   (`utm_source=oceancitydevelopment.com`, `utm_medium=referral`,
-   `utm_campaign=partner-network`), išsaugant esamus URL parametrus.
-5. `supabase/functions/track-view/index.ts` — `sourceFrom()` gauna `partner` grupę
-   (`hallidayarchitects.com`, `hallidayleonardllc.com`); funkcija perdeployinama.
-6. `src/pages/admin/AdminAnalytics.tsx` — `SOURCE_LABEL` papildomas
-   `partner: "Partner sites"`.
-7. Patikra: `bunx tsc --noEmit`, `bun run build`, About puslapis peržiūroje (logotipai
-   matomi, hover veikia), admin Settings → About rodo abu logotipus su galimybe pakeisti.
+Abu objektai — „Coming Soon", be kainos, publikuoti (matomi svetainėje ir sitemap).
+Naujausi objektai atsiduria sąrašo viršuje.
+
+## Techninės detalės
+
+- Nuotraukos keliamos į `property-images` bucket per tą pačią schemą kaip admin panelė
+  (`<slug>/<category>/<uuid>.jpg`), kategorijos: `hero`, `card`, `exterior`, `interior`,
+  `floor_plan` (su `floor_plan_id`), plius `vision`.
+- Eilutės rašomos į `properties` ir `property_images` — jokių schemos pakeitimų,
+  jokių migracijų.
+- Slug'ai: `1420-pleasure-avenue` ir `1424-pleasure-avenue`; kanoniniai URL
+  `/developments/1420-pleasure-avenue` ir `/developments/1424-pleasure-avenue`.
+- `map_embed_query` — tikslus adresas, kad žemėlapis rastų vietą.
+- Po įkėlimo patikrinsiu abu puslapius naršyklėje (nuotraukos, aukštai, žemėlapis,
+  inquiry forma) ir sitemap.
+
+## Ko nedarysiu
+
+- Nekeisiu jokio esamo objekto, dizaino ar admin panelės.
+- Nepublikuosiu svetainės (Publish) be atskiro Jūsų leidimo — objektai bus matomi
+  peržiūroje.
