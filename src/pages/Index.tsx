@@ -355,7 +355,7 @@ const Index = () => {
       <div className="w-full h-px bg-border" />
 
       {/* ─── Our Approach ─── */}
-      <section className="section-padding" className="section-padding bg-background-mist">
+      <section className="section-padding bg-background-mist">
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left — Visual */}
