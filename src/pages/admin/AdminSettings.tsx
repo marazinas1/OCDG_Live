@@ -432,6 +432,38 @@ function SettingsBody() {
       leadContact: text("contact", "lead_contact"),
     });
 
+    setAdvantages(
+      ADVANTAGE_FALLBACKS.map((_, i) => ({
+        title: text("home", advantageSlot(i, "title")),
+        description: text("home", advantageSlot(i, "description")),
+      })),
+    );
+    setSnippets(
+      SNIPPET_FALLBACKS.map((_, i) => ({
+        author: text("home", snippetSlot(i, "author")),
+        quote: text("home", snippetSlot(i, "quote")),
+      })),
+    );
+
+    setGalleryCopy({
+      heroEyebrow: text("gallery", "hero_eyebrow"),
+      heroTitle: text("gallery", "hero_title"),
+      emptyMessage: text("gallery", "empty_message"),
+    });
+    setTestimonialsCopy({
+      heroEyebrow: text("testimonials", "hero_eyebrow"),
+      heroTitle: text("testimonials", "hero_title"),
+      emptyMessage: text("testimonials", "empty_message"),
+      ctaLabel: text("testimonials", "cta_label"),
+      ctaHeading: text("testimonials", "cta_heading"),
+      ctaBody: text("testimonials", "cta_body"),
+      ctaButton: text("testimonials", "cta_button"),
+    });
+    setDevelopmentsCopy({
+      heroEyebrow: text("developments", "hero_eyebrow"),
+      heroTitle: text("developments", "hero_title"),
+    });
+
 
     setAbout({
       heroEyebrow: text("about", "hero_eyebrow"),
