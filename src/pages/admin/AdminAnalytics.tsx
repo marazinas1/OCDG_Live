@@ -88,7 +88,7 @@ function StatCard({
 }) {
   const positive = (change ?? 0) >= 0;
   return (
-    <div className="rounded-lg border border-border bg-white p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
         <Icon className="h-4 w-4 text-muted-foreground" />
@@ -166,7 +166,7 @@ function BreakdownList({
   icon?: typeof Eye;
 }) {
   return (
-    <div className="rounded-lg border border-border bg-white p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
         {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
         {title}
@@ -254,7 +254,7 @@ function AnalyticsInner() {
       )}
 
       {isLoading ? (
-        <div className="rounded-lg border border-border bg-white p-10 text-center text-sm text-muted-foreground">
+        <div className="rounded-lg border border-border bg-card p-10 text-center text-sm text-muted-foreground">
           Loading analytics…
         </div>
       ) : (
@@ -300,7 +300,7 @@ function AnalyticsInner() {
           </div>
 
 
-          <div className="mt-6 rounded-lg border border-border bg-white p-5">
+          <div className="mt-6 rounded-lg border border-border bg-card p-5">
             <h2 className="mb-4 text-sm font-medium text-foreground">Traffic</h2>
             <div className="h-72 w-full">
               <ResponsiveContainer width="100%" height="100%">

@@ -304,14 +304,14 @@ const Index = () => {
           <RevealSection>
             <div className="relative inline-block px-8 py-6">
               {/* L-shaped crop marks */}
-              <div className="absolute top-0 left-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute top-0 left-0 w-px h-6 bg-[#333333]" />
-              <div className="absolute top-0 right-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute top-0 right-0 w-px h-6 bg-[#333333]" />
-              <div className="absolute bottom-0 left-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute bottom-0 left-0 w-px h-6 bg-[#333333]" />
-              <div className="absolute bottom-0 right-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute bottom-0 right-0 w-px h-6 bg-[#333333]" />
+              <div className="absolute top-0 left-0 w-6 h-px bg-rule" />
+              <div className="absolute top-0 left-0 w-px h-6 bg-rule" />
+              <div className="absolute top-0 right-0 w-6 h-px bg-rule" />
+              <div className="absolute top-0 right-0 w-px h-6 bg-rule" />
+              <div className="absolute bottom-0 left-0 w-6 h-px bg-rule" />
+              <div className="absolute bottom-0 left-0 w-px h-6 bg-rule" />
+              <div className="absolute bottom-0 right-0 w-6 h-px bg-rule" />
+              <div className="absolute bottom-0 right-0 w-px h-6 bg-rule" />
 
               <svg className="w-10 h-10 mx-auto mb-8 text-on-dark/20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M11.3 2.5c-1.4.7-2.5 1.6-3.4 2.7C6.9 6.3 6.3 7.5 5.9 8.9c-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2zm10 0c-1.4.7-2.5 1.6-3.4 2.7-1 1.1-1.6 2.3-2 3.7-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2z" />
@@ -355,7 +355,7 @@ const Index = () => {
       <div className="w-full h-px bg-border" />
 
       {/* ─── Our Approach ─── */}
-      <section className="section-padding" style={{ backgroundColor: "#F9F9F9" }}>
+      <section className="section-padding" className="section-padding bg-background-mist">
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left — Visual */}

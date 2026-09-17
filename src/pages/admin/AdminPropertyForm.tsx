@@ -202,7 +202,7 @@ function ImageSlotBox({
   };
 
   return (
-    <div className="border border-border rounded-lg p-3 bg-white space-y-2">
+    <div className="border border-border rounded-lg p-3 bg-card space-y-2">
       <div className="text-xs font-medium text-muted-foreground">{title}</div>
       <div
         onDragOver={(e) => {

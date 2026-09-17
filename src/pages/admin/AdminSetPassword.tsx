@@ -64,7 +64,7 @@ export default function AdminSetPassword() {
 
   return (
     <div className="min-h-screen bg-muted flex items-center justify-center px-6">
-      <div className="w-full max-w-sm bg-white border border-border rounded-lg p-8">
+      <div className="w-full max-w-sm bg-card border border-border rounded-lg p-8">
         <h1 className="text-xl font-semibold text-foreground">Set your password</h1>
 
         {checking ? (

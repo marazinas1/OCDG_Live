@@ -253,7 +253,7 @@ const PropertyPage = () => {
       <div className="min-h-screen bg-background flex items-center justify-center px-6 text-center">
         <div>
           <p className="text-lg font-serif text-charcoal mb-2">No preview data</p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted-foreground">
             Open this preview from the admin property form's Preview button.
           </p>
         </div>

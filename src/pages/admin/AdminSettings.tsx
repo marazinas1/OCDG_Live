@@ -172,7 +172,7 @@ function AssetSlot({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="rounded-lg border border-border bg-white p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-foreground">{label}</p>
@@ -912,7 +912,7 @@ function SettingsBody() {
           and in search results.
         </p>
 
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <div>
             <Label htmlFor="site-name">Business name</Label>
             <Input
@@ -1040,7 +1040,7 @@ function SettingsBody() {
           />
         ))}
 
-        <div className="space-y-4 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-4 rounded-lg border border-border bg-card p-5">
           <div className="flex items-baseline justify-between">
             <Label htmlFor="logo-scale">Logo size</Label>
             <span className="text-xs tabular-nums text-muted-foreground">{logoScale}%</span>
@@ -1095,7 +1095,7 @@ function SettingsBody() {
           />
         ))}
 
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
 
           <div>
             <Label htmlFor="hero-eyebrow">Small line above the headline</Label>
@@ -1283,7 +1283,7 @@ function SettingsBody() {
           />
         ))}
 
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Page header</p>
           <div>
             <Label htmlFor="about-eyebrow">Small line above the title</Label>
@@ -1307,7 +1307,7 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Our Story</p>
           <div>
             <Label htmlFor="story-label">Small label</Label>
@@ -1373,7 +1373,7 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Leadership &amp; Our Promise</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
@@ -1430,7 +1430,7 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Trusted Collaborators</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
@@ -1563,7 +1563,7 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="contact" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <div>
             <Label htmlFor="contact-eyebrow">Small line above the title</Label>
             <Input
@@ -1645,7 +1645,7 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="maintenance" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <div className="flex items-start justify-between gap-6">
             <div>
               <p className="text-sm font-medium text-foreground">Maintenance mode</p>
@@ -1684,7 +1684,7 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="developments" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-xs text-muted-foreground">
             The header at the top of the Developments page. The homes themselves are managed under
             Properties.
@@ -1718,7 +1718,7 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="gallery" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-xs text-muted-foreground">
             The header of the Gallery page. The photos come from each property.
           </p>
@@ -1759,7 +1759,7 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="testimonials" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-xs text-muted-foreground">
             The header and the closing call to action. The reviews themselves are managed under
             Testimonials.

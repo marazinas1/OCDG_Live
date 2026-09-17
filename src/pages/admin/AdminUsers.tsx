@@ -207,7 +207,7 @@ function AdminUsersInner() {
       </header>
 
       {/* Invite */}
-      <section className="bg-white border border-border rounded-lg p-6">
+      <section className="bg-card border border-border rounded-lg p-6">
         <h2 className="text-sm font-semibold text-foreground">Invite a user</h2>
         <form onSubmit={submitInvite} className="mt-4 flex flex-col gap-3 sm:flex-row">
           <div className="flex-1 space-y-1.5">
@@ -268,7 +268,7 @@ function AdminUsersInner() {
             </div>
             {handover.actionLink && (
               <div className="flex items-center gap-2 mt-3">
-                <code className="flex-1 truncate rounded-lg bg-white border border-amber-200 px-3 py-2 text-xs text-foreground">
+                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
                   {handover.actionLink}
                 </code>
                 <Button
@@ -282,7 +282,7 @@ function AdminUsersInner() {
             )}
             {handover.password && (
               <div className="flex items-center gap-2 mt-2">
-                <code className="flex-1 truncate rounded-lg bg-white border border-amber-200 px-3 py-2 text-xs text-foreground">
+                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
                   {handover.password}
                 </code>
                 <Button
@@ -299,7 +299,7 @@ function AdminUsersInner() {
       </section>
 
       {/* Accounts */}
-      <section className="bg-white border border-border rounded-lg overflow-hidden">
+      <section className="bg-card border border-border rounded-lg overflow-hidden">
         <div className="border-b border-border px-6 py-4">
           <h2 className="text-sm font-semibold text-foreground">Accounts</h2>
         </div>

@@ -85,7 +85,7 @@ function AdminTestimonialsInner() {
         </p>
       </div>
 
-      <form onSubmit={handleAdd} className="space-y-4 rounded-lg border border-border bg-white p-5">
+      <form onSubmit={handleAdd} className="space-y-4 rounded-lg border border-border bg-card p-5">
         <p className="text-sm font-medium text-foreground">Add a testimonial</p>
         <div>
           <Label htmlFor="quote" className="text-sm">
@@ -137,7 +137,7 @@ function AdminTestimonialsInner() {
           <Loader2 className="h-4 w-4 animate-spin" /> Loading…
         </p>
       ) : items.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-border bg-white p-8 text-center text-sm text-muted-foreground">
+        <p className="rounded-lg border border-dashed border-border bg-card p-8 text-center text-sm text-muted-foreground">
           No testimonials yet.
         </p>
       ) : (
@@ -153,7 +153,7 @@ function AdminTestimonialsInner() {
               detailValue !== (item.author_detail ?? "");
 
             return (
-              <li key={item.id} className="rounded-lg border border-border bg-white p-5">
+              <li key={item.id} className="rounded-lg border border-border bg-card p-5">
                 <Textarea
                   rows={6}
                   value={quoteValue}
