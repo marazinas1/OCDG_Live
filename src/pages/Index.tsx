@@ -11,6 +11,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { usePublicProperties } from "@/hooks/usePublicProperties";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS } from "@/lib/admin/status";
 import approachImage from "@/assets/28th-approach-v4.jpg";
+import type { HomeAdvantage } from "@/lib/content/home";
 
 /** Anchors stay in code; the author and quote come from Settings → Home texts. */
 const snippetAnchors = ["#melfi", "#oneill", "#lavoice"];
@@ -195,7 +196,11 @@ const homeRoute = getRouteApi("/");
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
-  const { hero } = homeRoute.useLoaderData();
+  const { hero, advantages, snippets } = homeRoute.useLoaderData();
+  const snippetCards: SnippetCard[] = snippets.map((s, i) => ({
+    ...s,
+    anchor: snippetAnchors[i] ?? "",
+  }));
   const { siteName } = useGlobalBranding();
 
 
@@ -335,7 +340,7 @@ const Index = () => {
               <div className="divider mx-auto" />
             </div>
           </RevealSection>
-          <AdvantageCards />
+          <AdvantageCards items={advantages} />
           <RevealSection>
             <div className="text-center mt-10">
               <Link to="/about" className="btn-primary btn-compact">
@@ -399,7 +404,7 @@ const Index = () => {
               <div className="divider mx-auto" />
             </div>
           </RevealSection>
-          <TestimonialCards />
+          <TestimonialCards items={snippetCards} />
         </div>
       </section>
 
