@@ -128,10 +128,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      // Loaded here rather than via @import in CSS so the browser's preload
+      // scanner finds the font stylesheet immediately.
+      { rel: "stylesheet", href: FONTS_HREF },
     ],
     scripts: [
       { children: ROBOTS_GUARD },
-      { type: "application/ld+json", children: ORG_JSON_LD },
+      {
+        type: "application/ld+json",
+        children: orgJsonLd(loaderData?.business ?? DEFAULT_BUSINESS_INFO),
+      },
     ],
   }),
   shellComponent: RootShell,
