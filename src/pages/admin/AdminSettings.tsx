@@ -399,6 +399,14 @@ function SettingsBody() {
     const text = (page: string, slot: string) =>
       bundle.text.find((r) => r.page === page && r.slot === slot)?.value ?? "";
 
+    // A stored row wins (including a deliberately blank one); with no row at
+    // all the site renders the built-in link, so the field must show that.
+    const socialText = (slot: string, fallback: string) => {
+      const row = bundle.text.find((r) => r.page === "global" && r.slot === slot);
+      return row ? (row.value ?? "") : fallback;
+    };
+
+
     setSiteName(text("global", "site_name"));
     setEyebrow(text("home", "hero_eyebrow"));
     setHeadline(text("home", "hero_headline"));
@@ -414,8 +422,12 @@ function SettingsBody() {
       addressLine1: text("global", "business.address_line_1"),
       addressLine2: text("global", "business.address_line_2"),
       blurb: text("global", "business.blurb"),
-      facebookUrl: text("global", "business.facebook_url"),
-      instagramUrl: text("global", "business.instagram_url"),
+      // Social links are "preserve blank on save": an empty field means
+      // "hide this icon". So the form must start from the link the site is
+      // actually showing (stored row, or the built-in default) — otherwise a
+      // plain phone-number save would silently blank both icons.
+      facebookUrl: socialText("business.facebook_url", BUSINESS_FALLBACKS.facebookUrl),
+      instagramUrl: socialText("business.instagram_url", BUSINESS_FALLBACKS.instagramUrl),
     });
     const scaleRaw = Number.parseFloat(text("global", "logo.scale"));
     setLogoScale(Number.isFinite(scaleRaw) && scaleRaw > 0 ? scaleRaw : 100);
