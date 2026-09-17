@@ -21,7 +21,12 @@ import { reportLovableError } from "@/lib/lovable-error-reporting";
 import NotFound from "@/pages/NotFound";
 import { fetchContent } from "@/lib/content-resolver";
 import { resolveGlobalBranding } from "@/lib/content/global";
-import { resolveBusinessInfo, resolveMaintenance } from "@/lib/content/business";
+import {
+  DEFAULT_BUSINESS_INFO,
+  resolveBusinessInfo,
+  resolveMaintenance,
+  type BusinessInfo,
+} from "@/lib/content/business";
 import MaintenanceGate from "@/components/MaintenanceGate";
 import type { RootContent } from "@/hooks/useGlobalBranding";
 
