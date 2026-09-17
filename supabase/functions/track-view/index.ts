@@ -31,9 +31,23 @@ function deviceFrom(ua: string): "mobile" | "tablet" | "desktop" {
   return "desktop";
 }
 
+function isDevelopmentHost(host: string | null): boolean {
+  if (!host) return false;
+  const h = host.toLowerCase();
+  return (
+    h === "localhost" ||
+    h === "127.0.0.1" ||
+    h === "lovable.dev" ||
+    h.endsWith(".lovable.dev") ||
+    h.endsWith(".lovable.app") ||
+    h.endsWith(".lovableproject.com")
+  );
+}
+
 function sourceFrom(host: string | null): string {
   if (!host) return "direct";
   const h = host.toLowerCase();
+  if (isDevelopmentHost(h)) return "direct";
   // AI assistants are a distinct acquisition channel and must not fall into "other".
   if (
     h.includes("chatgpt") ||
@@ -128,8 +142,10 @@ Deno.serve(async (req) => {
         referrerHost = null;
       }
     }
-    // Internal navigation is not an acquisition source.
-    if (referrerHost && referrerHost.includes("oceancitydevelopment")) referrerHost = null;
+    // Internal navigation and Lovable development previews are not acquisition sources.
+    if (referrerHost && (referrerHost.includes("oceancitydevelopment") || isDevelopmentHost(referrerHost))) {
+      referrerHost = null;
+    }
 
     const salt = Deno.env.get("ANALYTICS_SALT") ?? "";
     const ip =
@@ -140,10 +156,10 @@ Deno.serve(async (req) => {
     // One-way, daily-rotating. The raw IP / UA are never persisted.
     const visitorHash = await sha256(`${salt}|${utcDay}|${ip}|${userAgent}`);
 
-    const utmSource = str(body["utm_source"], 100);
-    const source = utmSource
-      ? (sourceFrom(utmSource) === "other" ? "other" : sourceFrom(utmSource))
-      : sourceFrom(referrerHost);
+    const rawUtmSource = str(body["utm_source"], 100);
+    const utmSource = isDevelopmentHost(rawUtmSource) ? null : rawUtmSource;
+    const utmSourceGroup = sourceFrom(utmSource);
+    const source = utmSource ? (utmSourceGroup === "other" ? "other" : utmSourceGroup) : sourceFrom(referrerHost);
 
     const { error } = await supabase.from("page_views").insert({
       path,
