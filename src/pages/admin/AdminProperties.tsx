@@ -164,8 +164,8 @@ function AdminPropertiesInner() {
     <div className="space-y-6">
       <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
         <div className="min-w-0">
-          <h1 className="truncate text-2xl font-semibold text-slate-900">Properties</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="truncate text-2xl font-semibold text-foreground">Properties</h1>
+          <p className="text-sm text-muted-foreground">
             {rows.length} {rows.length === 1 ? "property" : "properties"} total
           </p>
         </div>
@@ -177,9 +177,9 @@ function AdminPropertiesInner() {
         </Button>
       </header>
 
-      <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-card p-3 sm:flex-row sm:flex-wrap sm:items-center">
+      <div className="flex flex-col gap-3 rounded-lg border border-border bg-card p-3 sm:flex-row sm:flex-wrap sm:items-center">
         <div className="relative min-w-0 flex-1 sm:min-w-[220px]">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -247,7 +247,7 @@ function AdminPropertiesInner() {
       </div>
 
       {isLoading ? (
-        <div className="py-16 text-center text-slate-500">Loading…</div>
+        <div className="py-16 text-center text-muted-foreground">Loading…</div>
       ) : rows.length === 0 ? (
         <EmptyState />
       ) : filtered.length === 0 ? (
@@ -289,7 +289,7 @@ function PublishBadge({ published }: { published: boolean }) {
       variant="secondary"
       className={cn(
         "border-transparent",
-        published ? "bg-emerald-500/15 text-emerald-700" : "bg-muted text-slate-600",
+        published ? "bg-emerald-500/15 text-emerald-700" : "bg-muted text-muted-foreground",
       )}
     >
       {published ? "Published" : "Draft"}
@@ -299,7 +299,7 @@ function PublishBadge({ published }: { published: boolean }) {
 
 function RecordOnlyBadge() {
   return (
-    <Badge variant="secondary" className="border-transparent bg-slate-900/10 text-slate-700">
+    <Badge variant="secondary" className="border-transparent bg-primary/10 text-foreground">
       Record only
     </Badge>
   );
@@ -308,7 +308,7 @@ function RecordOnlyBadge() {
 function Thumb({ src, alt, className }: { src?: string | null; alt: string; className?: string }) {
   if (!src) {
     return (
-      <div className={cn("grid place-items-center bg-slate-100 text-slate-400", className)}>
+      <div className={cn("grid place-items-center bg-muted text-muted-foreground", className)}>
         <ImageOff className="h-5 w-5" />
       </div>
     );
@@ -381,10 +381,10 @@ function GridView({
           </div>
           <CardContent className="space-y-3 pt-4">
             <div className="min-w-0">
-              <h3 className="truncate font-semibold text-slate-900">{p.title}</h3>
-              <p className="truncate text-xs text-slate-500">/{p.slug}</p>
+              <h3 className="truncate font-semibold text-foreground">{p.title}</h3>
+              <p className="truncate text-xs text-muted-foreground">/{p.slug}</p>
             </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
               <span>{p.price ?? "—"}</span>
               {p.listed_date ? (
                 <span className="inline-flex items-center gap-1">
@@ -394,7 +394,7 @@ function GridView({
               ) : null}
               {!p.has_page && <RecordOnlyBadge />}
             </div>
-            <div className="flex items-center gap-2 text-sm text-slate-500">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Switch
                 checked={p.published}
                 onCheckedChange={(c) => onTogglePublished(p.id, c)}
@@ -403,7 +403,7 @@ function GridView({
               <span>{p.published ? "Visible on site" : "Hidden"}</span>
             </div>
           </CardContent>
-          <CardFooter className="flex items-center justify-between gap-2 border-t border-slate-200 pt-4">
+          <CardFooter className="flex items-center justify-between gap-2 border-t border-border pt-4">
             <Button asChild variant="secondary" size="sm" className="flex-1">
               <Link to={`/admin/properties/${p.id}/edit`}>
                 <Pencil className="h-4 w-4" />
@@ -427,7 +427,7 @@ function TableView({
 }: { items: PropertyListItem[] } & RowHandlers) {
   const navigate = useNavigate();
   return (
-    <div className="overflow-x-auto rounded-lg border border-slate-200 bg-card">
+    <div className="overflow-x-auto rounded-lg border border-border bg-card">
       <Table>
         <TableHeader>
           <TableRow>
@@ -450,15 +450,15 @@ function TableView({
                     className="h-10 w-10 shrink-0 rounded-md"
                   />
                   <div className="min-w-0">
-                    <div className="truncate font-medium text-slate-900">{p.title}</div>
-                    <div className="flex items-center gap-2 truncate text-xs text-slate-500">
+                    <div className="truncate font-medium text-foreground">{p.title}</div>
+                    <div className="flex items-center gap-2 truncate text-xs text-muted-foreground">
                       <span>/{p.slug}</span>
                       {!p.has_page && <RecordOnlyBadge />}
                     </div>
                   </div>
                 </div>
               </TableCell>
-              <TableCell className="text-slate-600">{p.price ?? "—"}</TableCell>
+              <TableCell className="text-muted-foreground">{p.price ?? "—"}</TableCell>
               <TableCell>
                 <Select value={p.status} onValueChange={(v) => onChangeStatus(p.id, v)}>
                   <SelectTrigger className="h-8 w-[150px] text-xs">
@@ -480,7 +480,7 @@ function TableView({
                   aria-label="Published"
                 />
               </TableCell>
-              <TableCell className="text-slate-600">{p.listed_date ?? "—"}</TableCell>
+              <TableCell className="text-muted-foreground">{p.listed_date ?? "—"}</TableCell>
               <TableCell>
                 <div className="flex items-center justify-end gap-1">
                   <Button
@@ -504,9 +504,9 @@ function TableView({
 
 function EmptyState() {
   return (
-    <div className="rounded-lg border border-dashed border-slate-200 bg-card p-10 text-center">
-      <h3 className="text-lg font-semibold text-slate-900">No properties yet</h3>
-      <p className="mt-1 text-sm text-slate-500">Add your first property to get started.</p>
+    <div className="rounded-lg border border-dashed border-border bg-card p-10 text-center">
+      <h3 className="text-lg font-semibold text-foreground">No properties yet</h3>
+      <p className="mt-1 text-sm text-muted-foreground">Add your first property to get started.</p>
       <Button asChild className="mt-4">
         <Link to="/admin/properties/new">
           <Plus className="h-4 w-4" />
@@ -519,9 +519,9 @@ function EmptyState() {
 
 function NoResults({ onClear }: { onClear: () => void }) {
   return (
-    <div className="rounded-lg border border-dashed border-slate-200 bg-card p-10 text-center">
-      <h3 className="text-lg font-semibold text-slate-900">No properties match your filters</h3>
-      <p className="mt-1 text-sm text-slate-500">Try adjusting the search or filters.</p>
+    <div className="rounded-lg border border-dashed border-border bg-card p-10 text-center">
+      <h3 className="text-lg font-semibold text-foreground">No properties match your filters</h3>
+      <p className="mt-1 text-sm text-muted-foreground">Try adjusting the search or filters.</p>
       <Button variant="outline" className="mt-4" onClick={onClear}>
         Clear filters
       </Button>

@@ -103,10 +103,10 @@ const PropertyCarousel = ({ items }: PropertyCarouselProps) => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" decoding="async" />
                   <div className="absolute top-4 left-4">
                     <span
-                      className={`inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-white ${item.badgeColor} backdrop-blur-sm`}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-on-dark ${item.badgeColor} backdrop-blur-sm`}
                       style={{ borderRadius: "4px" }}
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-on-dark/80" />
                       {item.badgeLabel}
                     </span>
                   </div>

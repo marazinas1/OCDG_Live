@@ -202,8 +202,8 @@ function ImageSlotBox({
   };
 
   return (
-    <div className="border border-slate-200 rounded-lg p-3 bg-white space-y-2">
-      <div className="text-xs font-medium text-slate-600">{title}</div>
+    <div className="border border-border rounded-lg p-3 bg-card space-y-2">
+      <div className="text-xs font-medium text-muted-foreground">{title}</div>
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -214,15 +214,15 @@ function ImageSlotBox({
         onClick={() => inputRef.current?.click()}
         className={
           "aspect-[4/3] rounded-lg border-2 border-dashed flex items-center justify-center overflow-hidden cursor-pointer transition " +
-          (dragOver ? "border-slate-900 bg-slate-50" : "border-slate-200 bg-slate-50 hover:bg-slate-100")
+          (dragOver ? "border-primary bg-muted" : "border-border bg-muted hover:bg-muted")
         }
       >
         {uploading ? (
-          <Loader2 className="w-6 h-6 animate-spin text-slate-500" />
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
         ) : src ? (
           <img src={src} alt={slot?.alt_text ?? ""} className="w-full h-full object-cover" />
         ) : (
-          <span className="text-xs text-slate-400">Click or drop image</span>
+          <span className="text-xs text-muted-foreground">Click or drop image</span>
         )}
       </div>
       <input
@@ -963,7 +963,7 @@ function FormInner() {
   };
 
   if (isEdit && isLoading) {
-    return <div className="py-16 text-center text-slate-500">Loading…</div>;
+    return <div className="py-16 text-center text-muted-foreground">Loading…</div>;
   }
 
   const slugError =
@@ -980,11 +980,11 @@ function FormInner() {
           <button
             type="button"
             onClick={() => navigate("/admin/properties")}
-            className="text-sm text-slate-500 hover:text-slate-900"
+            className="text-sm text-muted-foreground hover:text-foreground"
           >
             ← Back to properties
           </button>
-          <h1 className="text-2xl font-semibold text-slate-900 mt-2">
+          <h1 className="text-2xl font-semibold text-foreground mt-2">
             {isEdit ? "Edit property" : "New property"}
           </h1>
         </div>
@@ -1062,7 +1062,7 @@ function FormInner() {
               <p className="text-xs text-emerald-600">Slug is available.</p>
             )}
             {slugState.status === "checking" && (
-              <p className="text-xs text-slate-500">Checking…</p>
+              <p className="text-xs text-muted-foreground">Checking…</p>
             )}
           </div>
           <div className="space-y-2">
@@ -1095,7 +1095,7 @@ function FormInner() {
               value={listedDate}
               onChange={(e) => { setListedDate(e.target.value); markDirty(); }}
             />
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted-foreground">
               Determines ordering — newest first on the public site.
             </p>
           </div>
@@ -1104,7 +1104,7 @@ function FormInner() {
             <Label>Published</Label>
             <div className="flex items-center h-10">
               <Switch checked={published} onCheckedChange={(v) => { setPublished(v); markDirty(); }} />
-              <span className="ml-3 text-sm text-slate-600">
+              <span className="ml-3 text-sm text-muted-foreground">
                 {published ? "Visible on the public site" : "Draft"}
               </span>
             </div>
@@ -1119,7 +1119,7 @@ function FormInner() {
                   markDirty();
                 }}
               />
-              <span className="ml-3 text-sm text-slate-600">
+              <span className="ml-3 text-sm text-muted-foreground">
                 {hasPage
                   ? "Renders a full clickable property page."
                   : "Record only — appears as a non-clickable card in Past Developments. Hidden from the sitemap and prev/next loop."}
@@ -1133,7 +1133,7 @@ function FormInner() {
               placeholder="https://sjsr.paragonrels.com/…"
               onChange={(e) => { setMlsUrl(e.target.value); markDirty(); }}
             />
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted-foreground">
               Optional. When set, renders an "Official Property Record: South Jersey MLS" link under the specs section.
             </p>
           </div>
@@ -1169,7 +1169,7 @@ function FormInner() {
               value={locationHeading}
               onChange={(e) => { setLocationHeading(e.target.value); markDirty(); }}
             />
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted-foreground">
               Bespoke "Life in …" heading for the Location section. Falls back to Location highlight.
             </p>
           </div>
@@ -1180,7 +1180,7 @@ function FormInner() {
               value={mapEmbedQuery}
               onChange={(e) => { setMapEmbedQuery(e.target.value); markDirty(); }}
             />
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted-foreground">
               Address for the Google Maps embed. Leave empty to hide the map.
             </p>
           </div>
@@ -1200,7 +1200,7 @@ function FormInner() {
               value={visionHeadline}
               onChange={(e) => { setVisionHeadline(e.target.value); markDirty(); }}
             />
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted-foreground">
               Bespoke Vision heading. Falls back to Headline, then Title.
             </p>
           </div>
@@ -1239,13 +1239,13 @@ function FormInner() {
               </Button>
             </div>
             {visionFloors.length === 0 && (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                 Empty falls back to the plain Description paragraph.
               </p>
             )}
             <div className="space-y-3">
               {visionFloors.map((f, i) => (
-                <div key={i} className="border border-slate-200 rounded-lg p-3 space-y-2">
+                <div key={i} className="border border-border rounded-lg p-3 space-y-2">
                   <div className="flex gap-2">
                     <Input
                       placeholder="Ground Floor"
@@ -1293,7 +1293,7 @@ function FormInner() {
           <CardTitle>Highlights bar</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             Cells shown in the strip below the hero. Empty falls back to
             Bedrooms / Bathrooms / Total Rooms / Sqft.
           </p>
@@ -1429,11 +1429,11 @@ function FormInner() {
             for (let i = 0; i < slotCount; i++) items.push(cur[i] ?? null);
             return (
               <div key={group.category}>
-                <h3 className="text-sm font-semibold text-slate-900">
+                <h3 className="text-sm font-semibold text-foreground">
                   {group.label} · {cur.length}/{group.required}
                   {group.allowExtra ? "+" : ""}
                 </h3>
-                <p className="text-xs text-slate-500 mb-3">{group.hint}</p>
+                <p className="text-xs text-muted-foreground mb-3">{group.hint}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {items.map((slot, i) => (
                     <ImageSlotBox
@@ -1458,7 +1458,7 @@ function FormInner() {
                   {showAdd && group.allowExtra && (
                     <button
                       type="button"
-                      className="aspect-[4/3] border-2 border-dashed border-slate-300 rounded-lg flex items-center justify-center text-slate-500 hover:bg-slate-50"
+                      className="aspect-[4/3] border-2 border-dashed border-border rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted"
                       onClick={() => {
                         const input = document.createElement("input");
                         input.type = "file";
@@ -1486,7 +1486,7 @@ function FormInner() {
           <CardTitle>Floor plans</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-xs text-slate-500 -mt-2">
+          <p className="text-xs text-muted-foreground -mt-2">
             Shown as tabs in the Floor Plans section, one per level.
           </p>
           {floorPlans.map((fp, idx) => {
@@ -1494,11 +1494,11 @@ function FormInner() {
             return (
               <div
                 key={fp.id}
-                className="border border-slate-200 rounded-lg p-4 space-y-3"
+                className="border border-border rounded-lg p-4 space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-slate-500">
+                    <span className="text-xs font-semibold text-muted-foreground">
                       Level {idx + 1}
                     </span>
                     <Button

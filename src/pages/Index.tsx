@@ -249,10 +249,10 @@ const Index = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto animate-fade-in-up">
-          <p className="label-uppercase text-white/70 mb-6">{hero.eyebrow}</p>
-          <h1 className="heading-display text-white mb-6 whitespace-pre-line">{hero.headline}</h1>
-          <div className="w-16 h-px bg-white/40 mx-auto mb-6" />
-          <p className="text-lg md:text-xl text-white/80 font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="label-uppercase text-on-dark/70 mb-6">{hero.eyebrow}</p>
+          <h1 className="heading-display text-on-dark mb-6 whitespace-pre-line">{hero.headline}</h1>
+          <div className="w-16 h-px bg-on-dark/40 mx-auto mb-6" />
+          <p className="text-lg md:text-xl text-on-dark/80 font-light max-w-2xl mx-auto leading-relaxed">
             {hero.subline}
           </p>
           <button
@@ -304,23 +304,23 @@ const Index = () => {
           <RevealSection>
             <div className="relative inline-block px-8 py-6">
               {/* L-shaped crop marks */}
-              <div className="absolute top-0 left-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute top-0 left-0 w-px h-6 bg-[#333333]" />
-              <div className="absolute top-0 right-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute top-0 right-0 w-px h-6 bg-[#333333]" />
-              <div className="absolute bottom-0 left-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute bottom-0 left-0 w-px h-6 bg-[#333333]" />
-              <div className="absolute bottom-0 right-0 w-6 h-px bg-[#333333]" />
-              <div className="absolute bottom-0 right-0 w-px h-6 bg-[#333333]" />
+              <div className="absolute top-0 left-0 w-6 h-px bg-rule" />
+              <div className="absolute top-0 left-0 w-px h-6 bg-rule" />
+              <div className="absolute top-0 right-0 w-6 h-px bg-rule" />
+              <div className="absolute top-0 right-0 w-px h-6 bg-rule" />
+              <div className="absolute bottom-0 left-0 w-6 h-px bg-rule" />
+              <div className="absolute bottom-0 left-0 w-px h-6 bg-rule" />
+              <div className="absolute bottom-0 right-0 w-6 h-px bg-rule" />
+              <div className="absolute bottom-0 right-0 w-px h-6 bg-rule" />
 
-              <svg className="w-10 h-10 mx-auto mb-8 text-white/20" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-10 h-10 mx-auto mb-8 text-on-dark/20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M11.3 2.5c-1.4.7-2.5 1.6-3.4 2.7C6.9 6.3 6.3 7.5 5.9 8.9c-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2zm10 0c-1.4.7-2.5 1.6-3.4 2.7-1 1.1-1.6 2.3-2 3.7-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2z" />
               </svg>
-              <p className="text-xl md:text-2xl lg:text-3xl font-serif font-light text-white leading-relaxed italic mb-8">
+              <p className="text-xl md:text-2xl lg:text-3xl font-serif font-light text-on-dark leading-relaxed italic mb-8">
                 {hero.quote}
               </p>
-              <div className="w-12 h-px bg-white/30 mx-auto mb-4" />
-              <p className="text-sm uppercase tracking-widest text-white/50">{hero.quoteAttribution}</p>
+              <div className="w-12 h-px bg-on-dark/30 mx-auto mb-4" />
+              <p className="text-sm uppercase tracking-widest text-on-dark/50">{hero.quoteAttribution}</p>
 
             </div>
           </RevealSection>
@@ -355,7 +355,7 @@ const Index = () => {
       <div className="w-full h-px bg-border" />
 
       {/* ─── Our Approach ─── */}
-      <section className="section-padding" style={{ backgroundColor: "#F9F9F9" }}>
+      <section className="section-padding bg-background-mist">
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left — Visual */}

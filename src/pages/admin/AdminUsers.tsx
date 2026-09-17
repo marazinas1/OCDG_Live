@@ -49,14 +49,14 @@ function formatLastSignIn(value: string | null) {
 function RoleBadge({ role }: { role: string | null }) {
   if (!role) {
     return (
-      <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+      <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
         No access
       </span>
     );
   }
   const tone =
     role === "developer"
-      ? "bg-slate-900 text-white"
+      ? "bg-primary text-on-dark"
       : role === "owner"
         ? "bg-emerald-100 text-emerald-800"
         : "bg-sky-100 text-sky-800";
@@ -200,15 +200,15 @@ function AdminUsersInner() {
   return (
     <div className="max-w-5xl mx-auto space-y-10">
       <header>
-        <h1 className="text-2xl font-semibold text-slate-900">Users</h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <h1 className="text-2xl font-semibold text-foreground">Users</h1>
+        <p className="text-sm text-muted-foreground mt-1">
           Invite teammates and manage who can access the admin.
         </p>
       </header>
 
       {/* Invite */}
-      <section className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-sm font-semibold text-slate-900">Invite a user</h2>
+      <section className="bg-card border border-border rounded-lg p-6">
+        <h2 className="text-sm font-semibold text-foreground">Invite a user</h2>
         <form onSubmit={submitInvite} className="mt-4 flex flex-col gap-3 sm:flex-row">
           <div className="flex-1 space-y-1.5">
             <Label htmlFor="invite-email" className="sr-only">Email</Label>
@@ -268,7 +268,7 @@ function AdminUsersInner() {
             </div>
             {handover.actionLink && (
               <div className="flex items-center gap-2 mt-3">
-                <code className="flex-1 truncate rounded-lg bg-white border border-amber-200 px-3 py-2 text-xs text-slate-700">
+                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
                   {handover.actionLink}
                 </code>
                 <Button
@@ -282,7 +282,7 @@ function AdminUsersInner() {
             )}
             {handover.password && (
               <div className="flex items-center gap-2 mt-2">
-                <code className="flex-1 truncate rounded-lg bg-white border border-amber-200 px-3 py-2 text-xs text-slate-700">
+                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
                   {handover.password}
                 </code>
                 <Button
@@ -299,14 +299,14 @@ function AdminUsersInner() {
       </section>
 
       {/* Accounts */}
-      <section className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-        <div className="border-b border-slate-100 px-6 py-4">
-          <h2 className="text-sm font-semibold text-slate-900">Accounts</h2>
+      <section className="bg-card border border-border rounded-lg overflow-hidden">
+        <div className="border-b border-border px-6 py-4">
+          <h2 className="text-sm font-semibold text-foreground">Accounts</h2>
         </div>
 
         {isLoading && (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           </div>
         )}
 
@@ -315,7 +315,7 @@ function AdminUsersInner() {
         )}
 
         {!isLoading && !error && (
-          <ul className="divide-y divide-slate-100">
+          <ul className="divide-y divide-border">
             {(users ?? []).map((u) => {
               const isSelf = u.id === callerId;
               const readOnly = (u.isDeveloper && !callerIsDeveloper) || isSelf;
@@ -327,7 +327,7 @@ function AdminUsersInner() {
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="truncate font-medium text-slate-900">
+                      <span className="truncate font-medium text-foreground">
                         {u.email}
                       </span>
                       {isSelf && (
@@ -347,7 +347,7 @@ function AdminUsersInner() {
                       )}
                       {!u.confirmed && <Badge variant="outline">Invited</Badge>}
                     </div>
-                    <div className="mt-1 text-xs text-slate-500">
+                    <div className="mt-1 text-xs text-muted-foreground">
                       {u.role ? ROLE_LABELS[u.role] ?? u.role : "No access"} ·{" "}
                       {formatLastSignIn(u.lastSignInAt)}
                     </div>
@@ -440,7 +440,7 @@ function AdminUsersInner() {
               );
             })}
             {(users ?? []).length === 0 && (
-              <li className="px-6 py-10 text-center text-sm text-slate-500">
+              <li className="px-6 py-10 text-center text-sm text-muted-foreground">
                 No users yet.
               </li>
             )}
@@ -474,7 +474,7 @@ function AdminUsersInner() {
               onClick={confirmPending}
               className={
                 pending?.kind === "delete"
-                  ? "bg-red-600 hover:bg-red-700 text-white"
+                  ? "bg-red-600 hover:bg-red-700 text-on-dark"
                   : undefined
               }
             >

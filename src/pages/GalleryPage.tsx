@@ -34,13 +34,13 @@ const GalleryTile = ({
       />
       <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-300" />
       <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-gradient-to-t from-charcoal/70 to-transparent">
-        <span className="text-white text-xs md:text-sm font-light tracking-wider uppercase">
+        <span className="text-on-dark text-xs md:text-sm font-light tracking-wider uppercase">
           {image.project}
         </span>
       </div>
       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="w-10 h-10 border border-white rounded-full flex items-center justify-center">
-          <span className="text-white text-xl">+</span>
+        <div className="w-10 h-10 border border-on-dark rounded-full flex items-center justify-center">
+          <span className="text-on-dark text-xl">+</span>
         </div>
       </div>
     </div>
@@ -235,8 +235,8 @@ const GalleryPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 text-center px-4 animate-fade-in-up">
-          <p className="label-uppercase text-white/70 mb-4">{content.heroEyebrow}</p>
-          <h1 className="heading-display text-white">{content.heroTitle}</h1>
+          <p className="label-uppercase text-on-dark/70 mb-4">{content.heroEyebrow}</p>
+          <h1 className="heading-display text-on-dark">{content.heroTitle}</h1>
         </div>
       </section>
 
@@ -282,21 +282,21 @@ const GalleryPage = () => {
 
       {lightboxOpen && allImages.length > 0 && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
-          <button aria-label="Close gallery" className="btn-icon-plain absolute top-6 right-6 text-white/80 hover:text-white z-10" onClick={closeLightbox}>
+          <button aria-label="Close gallery" className="btn-icon-plain absolute top-6 right-6 text-on-dark/80 hover:text-on-dark z-10" onClick={closeLightbox}>
             <X className="w-8 h-8" />
           </button>
-          <button aria-label="Previous image" className="btn-icon-plain absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
+          <button aria-label="Previous image" className="btn-icon-plain absolute left-6 top-1/2 -translate-y-1/2 text-on-dark/80 hover:text-on-dark z-10" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
             <ChevronLeft className="w-10 h-10" />
           </button>
-          <button aria-label="Next image" className="btn-icon-plain absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
+          <button aria-label="Next image" className="btn-icon-plain absolute right-6 top-1/2 -translate-y-1/2 text-on-dark/80 hover:text-on-dark z-10" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
             <ChevronRight className="w-10 h-10" />
           </button>
           <img src={allImages[currentIndex]!.src} alt={allImages[currentIndex]!.alt} className="max-w-[90vw] max-h-[85vh] object-contain" decoding="async" loading="lazy" onClick={(e) => e.stopPropagation()} />
           <img src={allImages[(currentIndex + 1) % allImages.length]!.src} alt="" className="hidden" aria-hidden="true" loading="lazy" decoding="async" />
           <img src={allImages[(currentIndex - 1 + allImages.length) % allImages.length]!.src} alt="" className="hidden" aria-hidden="true" loading="lazy" decoding="async" />
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
-            <p className="text-white/80 text-sm font-medium">{allImages[currentIndex]!.project}</p>
-            <p className="text-white/50 text-xs mt-1">{currentIndex + 1} / {allImages.length}</p>
+            <p className="text-on-dark/80 text-sm font-medium">{allImages[currentIndex]!.project}</p>
+            <p className="text-on-dark/50 text-xs mt-1">{currentIndex + 1} / {allImages.length}</p>
           </div>
         </div>
       )}

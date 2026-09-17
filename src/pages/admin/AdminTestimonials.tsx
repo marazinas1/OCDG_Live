@@ -78,15 +78,15 @@ function AdminTestimonialsInner() {
   return (
     <div className="max-w-3xl space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Testimonials</h1>
-        <p className="mt-2 text-sm text-slate-600">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Testimonials</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
           Words from clients. Nothing shows on the website until you switch a quote to published.
           Separate paragraphs with a blank line.
         </p>
       </div>
 
-      <form onSubmit={handleAdd} className="space-y-4 rounded-lg border border-slate-200 bg-white p-5">
-        <p className="text-sm font-medium text-slate-900">Add a testimonial</p>
+      <form onSubmit={handleAdd} className="space-y-4 rounded-lg border border-border bg-card p-5">
+        <p className="text-sm font-medium text-foreground">Add a testimonial</p>
         <div>
           <Label htmlFor="quote" className="text-sm">
             Quote
@@ -133,11 +133,11 @@ function AdminTestimonialsInner() {
       </form>
 
       {isLoading ? (
-        <p className="flex items-center gap-2 text-sm text-slate-600">
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <Loader2 className="h-4 w-4 animate-spin" /> Loading…
         </p>
       ) : items.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
+        <p className="rounded-lg border border-dashed border-border bg-card p-8 text-center text-sm text-muted-foreground">
           No testimonials yet.
         </p>
       ) : (
@@ -153,7 +153,7 @@ function AdminTestimonialsInner() {
               detailValue !== (item.author_detail ?? "");
 
             return (
-              <li key={item.id} className="rounded-lg border border-slate-200 bg-white p-5">
+              <li key={item.id} className="rounded-lg border border-border bg-card p-5">
                 <Textarea
                   rows={6}
                   value={quoteValue}
@@ -194,7 +194,7 @@ function AdminTestimonialsInner() {
                         )
                       }
                     />
-                    <span className="text-sm text-slate-600">
+                    <span className="text-sm text-muted-foreground">
                       {item.published ? "Published" : "Hidden"}
                     </span>
                   </div>

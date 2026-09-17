@@ -147,7 +147,7 @@ const AdminLogin = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center px-8 py-3 text-sm font-medium tracking-wider uppercase bg-charcoal text-white rounded-lg hover:bg-charcoal/90 transition disabled:opacity-60"
+                className="w-full inline-flex items-center justify-center px-8 py-3 text-sm font-medium tracking-wider uppercase bg-charcoal text-on-dark rounded-lg hover:bg-charcoal/90 transition disabled:opacity-60"
               >
                 {loading ? "Signing In…" : "Sign In"}
               </button>
@@ -171,7 +171,7 @@ const AdminLogin = () => {
       {/* Right — branded panel */}
       <aside className="hidden md:flex flex-col items-center justify-center bg-charcoal px-16 py-24">
         <BrandLogo variant="dark" className="h-16 w-auto" />
-        <div className="mt-10 h-px w-12 bg-white/20" />
+        <div className="mt-10 h-px w-12 bg-card/20" />
       </aside>
     </main>
   );

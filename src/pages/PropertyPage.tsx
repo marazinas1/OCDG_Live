@@ -253,7 +253,7 @@ const PropertyPage = () => {
       <div className="min-h-screen bg-background flex items-center justify-center px-6 text-center">
         <div>
           <p className="text-lg font-serif text-charcoal mb-2">No preview data</p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted-foreground">
             Open this preview from the admin property form's Preview button.
           </p>
         </div>
@@ -426,32 +426,32 @@ const PropertyPage = () => {
             {statusLabel && (
               <Link
                 to="/developments"
-                className="inline-flex items-center gap-2 px-4 py-2 mb-4 text-[10px] font-medium tracking-[0.2em] uppercase text-white/90 border border-white/30 backdrop-blur-sm bg-white/5 transition-all duration-300 hover:bg-white/15 hover:border-white/50"
+                className="inline-flex items-center gap-2 px-4 py-2 mb-4 text-[10px] font-medium tracking-[0.2em] uppercase text-on-dark/90 border border-on-dark/30 backdrop-blur-sm bg-on-dark/5 transition-all duration-300 hover:bg-on-dark/15 hover:border-on-dark/50"
                 style={{ borderRadius: "4px" }}
               >
                 <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                 {statusLabel}
               </Link>
             )}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-normal text-white mb-2 tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-normal text-on-dark mb-2 tracking-tight leading-tight">
               {property.title}
             </h1>
             {property.unit && (
-              <p className="text-sm sm:text-base font-light tracking-[0.2em] uppercase text-white/70 mb-3">
+              <p className="text-sm sm:text-base font-light tracking-[0.2em] uppercase text-on-dark/70 mb-3">
                 {property.unit}
               </p>
             )}
             {property.headline && (
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif text-white/90 mb-3">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif text-on-dark/90 mb-3">
                 {property.headline}
               </p>
             )}
             {property.price && (
-              <p className="text-lg sm:text-xl md:text-2xl font-light text-white/80 tracking-wide mb-6">
+              <p className="text-lg sm:text-xl md:text-2xl font-light text-on-dark/80 tracking-wide mb-6">
                 {property.price}
               </p>
             )}
-            <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-6 text-white/80">
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-6 text-on-dark/80">
               {property.bedrooms != null && (
                 <div className="flex items-center gap-2">
                   <Bed className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />
@@ -472,7 +472,7 @@ const PropertyPage = () => {
               )}
             </div>
             {property.tagline && (
-              <p className="text-base md:text-lg lg:text-xl text-white/80 font-light leading-relaxed mb-8 md:mb-10 max-w-2xl">
+              <p className="text-base md:text-lg lg:text-xl text-on-dark/80 font-light leading-relaxed mb-8 md:mb-10 max-w-2xl">
                 {property.tagline}
               </p>
             )}
@@ -486,8 +486,8 @@ const PropertyPage = () => {
         </div>
 
         <div className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 z-10">
-          <div className="w-px h-12 md:h-16 bg-white/30 relative">
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-white animate-pulse" />
+          <div className="w-px h-12 md:h-16 bg-on-dark/30 relative">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-on-dark animate-pulse" />
           </div>
         </div>
       </section>
@@ -570,7 +570,7 @@ const PropertyPage = () => {
                       decoding="async"
                     />
                     {(property.vision_caption_eyebrow || property.vision_caption_title) && (
-                      <div className="absolute -bottom-6 -left-6 w-40 h-24 border border-border bg-white flex items-center justify-center p-4">
+                      <div className="absolute -bottom-6 -left-6 w-40 h-24 border border-border bg-card flex items-center justify-center p-4">
                         <div className="text-center">
                           {property.vision_caption_eyebrow && (
                             <p className="text-xs uppercase tracking-wider text-muted-slate mb-1">
@@ -611,7 +611,7 @@ const PropertyPage = () => {
                 return (
                   <div
                     key={index}
-                    className={`bg-white p-6 md:p-8 border border-border-subtle hover:border-border hover:shadow-sm hover:-translate-y-0.5 transition-all duration-700 ${
+                    className={`bg-card p-6 md:p-8 border border-border-subtle hover:border-border hover:shadow-sm hover:-translate-y-0.5 transition-all duration-700 ${
                       specsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                     }`}
                     style={{ borderRadius: "4px", transitionDelay: `${200 + index * 150}ms` }}
@@ -698,7 +698,7 @@ const PropertyPage = () => {
             >
               <div className="lg:col-span-2 order-1 lg:order-2">
                 <div
-                  className="bg-white p-3 md:p-4 border border-border min-h-[300px] sm:min-h-[400px] lg:min-h-0"
+                  className="bg-card p-3 md:p-4 border border-border min-h-[300px] sm:min-h-[400px] lg:min-h-0"
                   style={{ borderRadius: "4px" }}
                 >
                   {floorPlanImageBy[currentFloor.id] ? (
@@ -790,8 +790,8 @@ const PropertyPage = () => {
                         />
                         <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-300" />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-12 h-12 border border-white rounded-full flex items-center justify-center">
-                            <span className="text-white text-2xl">+</span>
+                          <div className="w-12 h-12 border border-on-dark rounded-full flex items-center justify-center">
+                            <span className="text-on-dark text-2xl">+</span>
                           </div>
                         </div>
                       </div>
@@ -826,8 +826,8 @@ const PropertyPage = () => {
                         />
                         <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-300" />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-12 h-12 border border-white rounded-full flex items-center justify-center">
-                            <span className="text-white text-2xl">+</span>
+                          <div className="w-12 h-12 border border-on-dark rounded-full flex items-center justify-center">
+                            <span className="text-on-dark text-2xl">+</span>
                           </div>
                         </div>
                       </div>
@@ -841,14 +841,14 @@ const PropertyPage = () => {
           {lightboxOpen && allGallery[lightboxIndex] && (
             <div className="lightbox-overlay" onClick={closeLightbox}>
               <button
-                className="btn-icon-plain absolute top-6 right-6 text-white/80 hover:text-white z-10"
+                className="btn-icon-plain absolute top-6 right-6 text-on-dark/80 hover:text-on-dark z-10"
                 onClick={closeLightbox}
                 aria-label="Close lightbox"
               >
                 <X className="w-8 h-8" />
               </button>
               <button
-                className="btn-icon-plain absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10"
+                className="btn-icon-plain absolute left-6 top-1/2 -translate-y-1/2 text-on-dark/80 hover:text-on-dark z-10"
                 onClick={(e) => {
                   e.stopPropagation();
                   prevImage();
@@ -858,7 +858,7 @@ const PropertyPage = () => {
                 <ChevronLeft className="w-10 h-10" />
               </button>
               <button
-                className="btn-icon-plain absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10"
+                className="btn-icon-plain absolute right-6 top-1/2 -translate-y-1/2 text-on-dark/80 hover:text-on-dark z-10"
                 onClick={(e) => {
                   e.stopPropagation();
                   nextImage();
@@ -875,7 +875,7 @@ const PropertyPage = () => {
                 decoding="async"
                 onClick={(e) => e.stopPropagation()}
               />
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-on-dark/60 text-sm">
                 {lightboxIndex + 1} / {allGallery.length}
               </div>
             </div>
@@ -995,7 +995,7 @@ const PropertyPage = () => {
               </p>
             </div>
 
-            <div className="bg-white border border-border-subtle p-6 mb-8" style={{ borderRadius: "4px" }}>
+            <div className="bg-card border border-border-subtle p-6 mb-8" style={{ borderRadius: "4px" }}>
               <p className="text-xs uppercase tracking-wider text-muted-slate mb-4 text-center">
                 Direct Contact
               </p>

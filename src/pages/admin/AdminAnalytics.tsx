@@ -88,14 +88,14 @@ function StatCard({
 }) {
   const positive = (change ?? 0) >= 0;
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <div className="flex items-center justify-between">
-        <p className="text-xs uppercase tracking-wider text-slate-500">{label}</p>
-        <Icon className="h-4 w-4 text-slate-400" />
+        <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
+        <Icon className="h-4 w-4 text-muted-foreground" />
       </div>
-      <p className="mt-3 text-3xl font-semibold text-slate-900">
+      <p className="mt-3 text-3xl font-semibold text-foreground">
         {value}
-        {suffix && <span className="text-lg text-slate-500">{suffix}</span>}
+        {suffix && <span className="text-lg text-muted-foreground">{suffix}</span>}
       </p>
       {change !== undefined && change !== null && (
         <p
@@ -166,21 +166,21 @@ function BreakdownList({
   icon?: typeof Eye;
 }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-5">
-      <h2 className="flex items-center gap-2 text-sm font-medium text-slate-900">
-        {Icon && <Icon className="h-4 w-4 text-slate-400" />}
+    <div className="rounded-lg border border-border bg-card p-5">
+      <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
+        {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
         {title}
       </h2>
 
       {rows.length === 0 ? (
-        <p className="mt-4 text-sm text-slate-500">{empty}</p>
+        <p className="mt-4 text-sm text-muted-foreground">{empty}</p>
       ) : (
         <ul className="mt-4 space-y-3">
           {rows.map((row) => (
             <li key={row.label}>
               <div className="flex items-center justify-between text-sm">
-                <span className="truncate pr-3 text-slate-700">{row.label}</span>
-                <span className="shrink-0 tabular-nums text-slate-900">{row.views}</span>
+                <span className="truncate pr-3 text-foreground">{row.label}</span>
+                <span className="shrink-0 tabular-nums text-foreground">{row.views}</span>
               </div>
               <Progress
                 value={total ? (row.views / total) * 100 : 0}
@@ -227,8 +227,8 @@ function AnalyticsInner() {
     <div className="p-6 md:p-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="mb-1 text-2xl font-semibold text-slate-900">Analytics</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="mb-1 text-2xl font-semibold text-foreground">Analytics</h1>
+          <p className="text-sm text-muted-foreground">
             First-party traffic data. No cookies, no third-party tracking.
           </p>
         </div>
@@ -254,7 +254,7 @@ function AnalyticsInner() {
       )}
 
       {isLoading ? (
-        <div className="rounded-lg border border-slate-200 bg-white p-10 text-center text-sm text-slate-500">
+        <div className="rounded-lg border border-border bg-card p-10 text-center text-sm text-muted-foreground">
           Loading analytics…
         </div>
       ) : (
@@ -300,8 +300,8 @@ function AnalyticsInner() {
           </div>
 
 
-          <div className="mt-6 rounded-lg border border-slate-200 bg-white p-5">
-            <h2 className="mb-4 text-sm font-medium text-slate-900">Traffic</h2>
+          <div className="mt-6 rounded-lg border border-border bg-card p-5">
+            <h2 className="mb-4 text-sm font-medium text-foreground">Traffic</h2>
             <div className="h-72 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ left: -20, right: 8, top: 8 }}>
@@ -408,7 +408,7 @@ function AnalyticsInner() {
 
 
           {totalViews === 0 && (
-            <p className="mt-6 text-sm text-slate-500">
+            <p className="mt-6 text-sm text-muted-foreground">
               Data starts collecting as soon as this update is live on the public site. Visits to{" "}
               <Link to="/" className="underline underline-offset-4">
                 the website
