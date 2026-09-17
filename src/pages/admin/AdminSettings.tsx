@@ -627,8 +627,52 @@ function SettingsBody() {
         { slot: "hero_cta_label", value: ctaLabel },
         { slot: "quote", value: quote },
         { slot: "quote_attribution", value: quoteAttribution },
+        ...advantages.flatMap((a, i) => [
+          { slot: advantageSlot(i, "title"), value: a.title },
+          { slot: advantageSlot(i, "description"), value: a.description },
+        ]),
+        ...snippets.flatMap((s, i) => [
+          { slot: snippetSlot(i, "author"), value: s.author },
+          { slot: snippetSlot(i, "quote"), value: s.quote },
+        ]),
       ],
       "Homepage content updated.",
+    );
+
+  const handleSaveGallery = () =>
+    saveTextWithToast(
+      "gallery",
+      [
+        { slot: "hero_eyebrow", value: galleryCopy.heroEyebrow },
+        { slot: "hero_title", value: galleryCopy.heroTitle },
+        { slot: "empty_message", value: galleryCopy.emptyMessage },
+      ],
+      "Gallery page content updated.",
+    );
+
+  const handleSaveTestimonials = () =>
+    saveTextWithToast(
+      "testimonials",
+      [
+        { slot: "hero_eyebrow", value: testimonialsCopy.heroEyebrow },
+        { slot: "hero_title", value: testimonialsCopy.heroTitle },
+        { slot: "empty_message", value: testimonialsCopy.emptyMessage },
+        { slot: "cta_label", value: testimonialsCopy.ctaLabel },
+        { slot: "cta_heading", value: testimonialsCopy.ctaHeading },
+        { slot: "cta_body", value: testimonialsCopy.ctaBody },
+        { slot: "cta_button", value: testimonialsCopy.ctaButton },
+      ],
+      "Testimonials page content updated.",
+    );
+
+  const handleSaveDevelopments = () =>
+    saveTextWithToast(
+      "developments",
+      [
+        { slot: "hero_eyebrow", value: developmentsCopy.heroEyebrow },
+        { slot: "hero_title", value: developmentsCopy.heroTitle },
+      ],
+      "Developments page content updated.",
     );
 
   /**
