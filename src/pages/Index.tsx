@@ -112,12 +112,12 @@ const MobileCarousel = ({ children, itemCount }: { children: React.ReactNode[]; 
   );
 };
 
-const AdvantageCards = () => {
+const AdvantageCards = ({ items }: { items: HomeAdvantage[] }) => {
   const isMobile = useIsMobile();
 
-  const cards = advantageItems.map((item) => (
+  const cards = items.map((item, i) => (
     <div key={item.title} className="text-center p-8">
-      <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{item.icon}</div>
+      <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{advantageIcons[i]}</div>
       <h3 className="heading-card text-charcoal mb-4">{item.title}</h3>
       <div className="w-8 h-px bg-charcoal/30 mx-auto mb-4" />
       <p className="text-body leading-relaxed">{item.description}</p>
@@ -127,17 +127,17 @@ const AdvantageCards = () => {
   if (isMobile) {
     return (
       <RevealSection>
-        <MobileCarousel itemCount={advantageItems.length}>{cards}</MobileCarousel>
+        <MobileCarousel itemCount={items.length}>{cards}</MobileCarousel>
       </RevealSection>
     );
   }
 
   return (
     <div className="grid grid-cols-3 gap-8">
-      {advantageItems.map((item, i) => (
+      {items.map((item, i) => (
         <RevealSection key={item.title} className={`delay-${i * 100}`}>
           <div className="text-center p-8">
-            <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{item.icon}</div>
+            <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{advantageIcons[i]}</div>
             <h3 className="heading-card text-charcoal mb-4">{item.title}</h3>
             <div className="w-8 h-px bg-charcoal/30 mx-auto mb-4" />
             <p className="text-body leading-relaxed">{item.description}</p>
@@ -147,7 +147,7 @@ const AdvantageCards = () => {
     </div>
   );
 };
-const TestimonialCard = ({ t }: { t: typeof testimonialSnippets[0] }) => (
+const TestimonialCard = ({ t }: { t: SnippetCard }) => (
   <div className="card-elegant p-8 h-full flex flex-col">
     <svg className="w-6 h-6 mb-4 text-charcoal/20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M11.3 2.5c-1.4.7-2.5 1.6-3.4 2.7C6.9 6.3 6.3 7.5 5.9 8.9c-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2zm10 0c-1.4.7-2.5 1.6-3.4 2.7-1 1.1-1.6 2.3-2 3.7-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2z" />
