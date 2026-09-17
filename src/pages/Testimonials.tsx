@@ -9,8 +9,11 @@ import { useTestimonials, quoteParagraphs } from "@/hooks/useTestimonials";
 import subpageHero from "@/assets/subpage-hero.jpg";
 
 
+const testimonialsRoute = getRouteApi("/testimonials");
+
 const Testimonials = () => {
   const [scrollY, setScrollY] = useState(0);
+  const content = testimonialsRoute.useLoaderData();
   const location = useLocation();
   const { data: testimonials = [], isLoading } = useTestimonials();
 
