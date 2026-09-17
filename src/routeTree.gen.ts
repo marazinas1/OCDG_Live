@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SoldRouteImport } from './routes/sold'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
@@ -60,6 +61,11 @@ const ContactRoute = ContactRouteImport.update({
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SoldRoute = SoldRouteImport.update({
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sold': typeof SoldRoute
   '/testimonials': typeof TestimonialsRoute
   '/admin/$': typeof AdminSplatRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sold': typeof SoldRoute
   '/testimonials': typeof TestimonialsRoute
   '/admin/$': typeof AdminSplatRoute
@@ -284,6 +292,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sold': typeof SoldRoute
   '/testimonials': typeof TestimonialsRoute
   '/admin/$': typeof AdminSplatRoute
@@ -320,6 +329,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/gallery'
+    | '/sitemap.xml'
     | '/sold'
     | '/testimonials'
     | '/admin/$'
@@ -354,6 +364,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/gallery'
+    | '/sitemap.xml'
     | '/sold'
     | '/testimonials'
     | '/admin/$'
@@ -388,6 +399,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/gallery'
+    | '/sitemap.xml'
     | '/sold'
     | '/testimonials'
     | '/admin/$'
@@ -423,6 +435,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoldRoute: typeof SoldRoute
   TestimonialsRoute: typeof TestimonialsRoute
   AdminSplatRoute: typeof AdminSplatRoute
@@ -481,6 +494,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sold': {
@@ -687,6 +707,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoldRoute: SoldRoute,
   TestimonialsRoute: TestimonialsRoute,
   AdminSplatRoute: AdminSplatRoute,
