@@ -133,7 +133,13 @@ const Developments = ({
     };
 
     const toPropStatus = (s: DevStatus): PropertyStatus =>
-      s === "active" ? "active" : s === "under-contract" ? "under_contract" : "sold";
+      s === "active"
+        ? "active"
+        : s === "under-contract"
+          ? "under_contract"
+          : s === "coming-soon"
+            ? "coming_soon"
+            : "sold";
 
     return (
       <div key={group} className="mb-16 last:mb-0">
@@ -163,14 +169,14 @@ const Developments = ({
 
   const soldDevs = allDevelopments.filter((d) => d.status === "sold");
   const currentDevs = allDevelopments.filter(
-    (d) => d.status === "active" || d.status === "under-contract",
+    (d) => d.status === "active" || d.status === "under-contract" || d.status === "coming-soon",
   );
 
   // Raw DB rows for the grid view (PublicPropertyCard consumes these directly)
   const filteredCards = allProps.filter((p) =>
     activeTab === "sold"
       ? p.status === "sold"
-      : p.status === "active" || p.status === "under_contract",
+      : p.status === "active" || p.status === "under_contract" || p.status === "coming_soon",
   );
   const visibleCards = filteredCards.slice(0, visibleCount);
   const hasMore = visibleCount < filteredCards.length;

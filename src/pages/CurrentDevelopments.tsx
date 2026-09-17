@@ -3,7 +3,7 @@ import type { PublicPropertyCard } from "@/hooks/usePublicProperties";
 
 const CurrentDevelopments = ({ properties }: { properties?: PublicPropertyCard[] | undefined }) => (
   <CategoryPage
-    status={["active", "under_contract"]}
+    status={["active", "under_contract", "coming_soon"]}
     eyebrow="Our Portfolio"
     heading="Current Developments"
     seoTitle="Current Developments — Ocean City Custom Homes"
