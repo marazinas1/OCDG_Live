@@ -414,8 +414,12 @@ function SettingsBody() {
       addressLine1: text("global", "business.address_line_1"),
       addressLine2: text("global", "business.address_line_2"),
       blurb: text("global", "business.blurb"),
-      facebookUrl: text("global", "business.facebook_url"),
-      instagramUrl: text("global", "business.instagram_url"),
+      // Social links are "preserve blank on save": an empty field means
+      // "hide this icon". So the form must start from the link the site is
+      // actually showing (stored row, or the built-in default) — otherwise a
+      // plain phone-number save would silently blank both icons.
+      facebookUrl: socialText("business.facebook_url", BUSINESS_FALLBACKS.facebookUrl),
+      instagramUrl: socialText("business.instagram_url", BUSINESS_FALLBACKS.instagramUrl),
     });
     const scaleRaw = Number.parseFloat(text("global", "logo.scale"));
     setLogoScale(Number.isFinite(scaleRaw) && scaleRaw > 0 ? scaleRaw : 100);
