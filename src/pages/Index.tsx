@@ -165,14 +165,14 @@ const TestimonialCard = ({ t }: { t: SnippetCard }) => (
   </div>
 );
 
-const TestimonialCards = () => {
+const TestimonialCards = ({ items }: { items: SnippetCard[] }) => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
     return (
       <RevealSection>
-        <MobileCarousel itemCount={testimonialSnippets.length}>
-          {testimonialSnippets.map((t) => (
+        <MobileCarousel itemCount={items.length}>
+          {items.map((t) => (
             <TestimonialCard key={t.author} t={t} />
           ))}
         </MobileCarousel>
@@ -182,7 +182,7 @@ const TestimonialCards = () => {
 
   return (
     <div className="grid grid-cols-3 gap-8">
-      {testimonialSnippets.map((t, i) => (
+      {items.map((t, i) => (
         <RevealSection key={t.author} className={`delay-${i * 100}`}>
           <TestimonialCard t={t} />
         </RevealSection>
