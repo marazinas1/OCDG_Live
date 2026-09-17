@@ -47,7 +47,7 @@ function InquiryDetail({
           <>
             <SheetHeader className="text-left">
               <SheetTitle className="text-xl">{inquiry.name}</SheetTitle>
-              <p className="text-xs text-slate-500">{formatDate(inquiry.created_at)}</p>
+              <p className="text-xs text-muted-foreground">{formatDate(inquiry.created_at)}</p>
             </SheetHeader>
 
             <div className="mt-6 space-y-4">
@@ -56,7 +56,7 @@ function InquiryDetail({
                   href={`mailto:${inquiry.email}?subject=${encodeURIComponent(
                     "Re: Your inquiry to Ocean City Development Group",
                   )}`}
-                  className="inline-flex items-center gap-2 text-sm text-slate-900 underline underline-offset-4"
+                  className="inline-flex items-center gap-2 text-sm text-foreground underline underline-offset-4"
                 >
                   <Mail className="h-4 w-4" />
                   {inquiry.email}
@@ -64,7 +64,7 @@ function InquiryDetail({
                 {inquiry.phone && (
                   <a
                     href={`tel:${inquiry.phone.replace(/[^0-9+]/g, "")}`}
-                    className="inline-flex items-center gap-2 text-sm text-slate-900 underline underline-offset-4"
+                    className="inline-flex items-center gap-2 text-sm text-foreground underline underline-offset-4"
                   >
                     <Phone className="h-4 w-4" />
                     {inquiry.phone}
@@ -75,26 +75,26 @@ function InquiryDetail({
               <dl className="grid grid-cols-[110px_1fr] gap-y-2 text-sm">
                 {inquiry.interest && (
                   <>
-                    <dt className="text-slate-500">Interest</dt>
-                    <dd className="text-slate-900">{inquiry.interest}</dd>
+                    <dt className="text-muted-foreground">Interest</dt>
+                    <dd className="text-foreground">{inquiry.interest}</dd>
                   </>
                 )}
                 {inquiry.source && (
                   <>
-                    <dt className="text-slate-500">Source</dt>
-                    <dd className="text-slate-900">{inquiry.source}</dd>
+                    <dt className="text-muted-foreground">Source</dt>
+                    <dd className="text-foreground">{inquiry.source}</dd>
                   </>
                 )}
               </dl>
 
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">Message</p>
+              <div className="rounded-lg border border-border bg-muted p-4">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">Message</p>
                 {inquiry.message ? (
-                  <p className="text-sm text-slate-900 whitespace-pre-wrap leading-relaxed">
+                  <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
                     {inquiry.message}
                   </p>
                 ) : (
-                  <p className="text-sm italic text-slate-500">No message was submitted.</p>
+                  <p className="text-sm italic text-muted-foreground">No message was submitted.</p>
                 )}
               </div>
 
@@ -171,15 +171,15 @@ function InquiriesBody() {
 
   return (
     <div className="max-w-5xl">
-      <h1 className="text-2xl font-semibold text-slate-900 mb-1">Inquiries</h1>
-      <p className="text-sm text-slate-500 mb-6">
+      <h1 className="text-2xl font-semibold text-foreground mb-1">Inquiries</h1>
+      <p className="text-sm text-muted-foreground mb-6">
         Everything submitted through the contact forms. Archiving hides an inquiry — it is never
         deleted.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 mb-5">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -200,15 +200,15 @@ function InquiriesBody() {
       </div>
 
       {isLoading ? (
-        <p className="text-sm text-slate-500">Loading…</p>
+        <p className="text-sm text-muted-foreground">Loading…</p>
       ) : !inquiries || inquiries.length === 0 ? (
-        <div className="border border-slate-200 rounded-lg bg-card p-10 text-center">
-          <p className="text-sm text-slate-500">
+        <div className="border border-border rounded-lg bg-card p-10 text-center">
+          <p className="text-sm text-muted-foreground">
             {filter === "archived" ? "Nothing archived." : "No inquiries yet."}
           </p>
         </div>
       ) : (
-        <div className="border border-slate-200 rounded-lg bg-card divide-y divide-slate-100 overflow-hidden">
+        <div className="border border-border rounded-lg bg-card divide-y divide-border overflow-hidden">
           {inquiries.map((inquiry) => {
             const unread = !inquiry.read_at;
             return (
@@ -216,22 +216,22 @@ function InquiriesBody() {
                 key={inquiry.id}
                 type="button"
                 onClick={() => setOpenId(inquiry.id)}
-                className={`w-full text-left px-4 py-4 hover:bg-slate-50 transition-colors ${
-                  unread ? "bg-slate-50/70" : ""
+                className={`w-full text-left px-4 py-4 hover:bg-muted transition-colors ${
+                  unread ? "bg-muted/70" : ""
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <span
                     aria-hidden
                     className={`mt-2 h-2 w-2 rounded-full shrink-0 ${
-                      unread ? "bg-slate-900" : "bg-transparent"
+                      unread ? "bg-primary" : "bg-transparent"
                     }`}
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span
                         className={`truncate ${
-                          unread ? "font-semibold text-slate-900" : "text-slate-900"
+                          unread ? "font-semibold text-foreground" : "text-foreground"
                         }`}
                       >
                         {inquiry.name}
@@ -239,19 +239,19 @@ function InquiriesBody() {
                       {unread && <Badge variant="secondary">New</Badge>}
                       {inquiry.archived_at && <Badge variant="outline">Archived</Badge>}
                     </div>
-                    <p className="text-sm text-slate-500 truncate">
+                    <p className="text-sm text-muted-foreground truncate">
                       {inquiry.email}
                       {inquiry.phone ? ` · ${inquiry.phone}` : ""}
                     </p>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {[inquiry.interest, inquiry.source].filter(Boolean).join(" · ") || "—"}
                     </p>
-                    <p className="text-sm text-slate-600 mt-1 line-clamp-2">
-                      {inquiry.message ? inquiry.message : <span className="italic text-slate-400">No message</span>}
+                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                      {inquiry.message ? inquiry.message : <span className="italic text-muted-foreground">No message</span>}
                     </p>
 
                   </div>
-                  <span className="text-xs text-slate-500 shrink-0 whitespace-nowrap">
+                  <span className="text-xs text-muted-foreground shrink-0 whitespace-nowrap">
                     {formatDate(inquiry.created_at)}
                   </span>
                 </div>

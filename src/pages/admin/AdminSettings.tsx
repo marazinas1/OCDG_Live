@@ -172,11 +172,11 @@ function AssetSlot({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-5">
+    <div className="rounded-lg border border-border bg-white p-5">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-slate-900">{label}</p>
-          <p className="mt-1 text-xs text-slate-500">{help}</p>
+          <p className="text-sm font-medium text-foreground">{label}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{help}</p>
         </div>
         <div className="flex shrink-0 gap-2">
           <Button
@@ -198,19 +198,19 @@ function AssetSlot({
 
       <div
         className={`flex h-28 items-center justify-center overflow-hidden rounded-lg px-6 ${
-          dark ? "bg-slate-900" : "bg-slate-100"
+          dark ? "bg-primary" : "bg-muted"
         }`}
       >
         {url ? (
           <img src={url} alt={label} className="max-h-24 w-auto object-contain" />
         ) : (
-          <span className={`text-xs ${dark ? "text-white/50" : "text-slate-400"}`}>
+          <span className={`text-xs ${dark ? "text-white/50" : "text-muted-foreground"}`}>
             Nothing uploaded
           </span>
         )}
       </div>
 
-      {!hasUpload && note && <p className="mt-3 text-xs text-slate-500">{note}</p>}
+      {!hasUpload && note && <p className="mt-3 text-xs text-muted-foreground">{note}</p>}
       {busy && <Progress value={progress} className="mt-3 h-1" />}
 
       <input
@@ -242,11 +242,11 @@ function PartnerLogoField({
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="flex items-center gap-4">
-      <div className="flex h-16 w-32 items-center justify-center rounded-lg bg-slate-100 px-3">
+      <div className="flex h-16 w-32 items-center justify-center rounded-lg bg-muted px-3">
         {url ? (
           <img src={url} alt="Partner logo" className="max-h-12 w-auto object-contain" />
         ) : (
-          <span className="text-[11px] text-slate-400">No logo</span>
+          <span className="text-[11px] text-muted-foreground">No logo</span>
         )}
       </div>
       <div className="flex gap-2">
@@ -862,7 +862,7 @@ function SettingsBody() {
   };
 
   if (isLoading) {
-    return <p className="text-sm text-slate-500">Loading settings…</p>;
+    return <p className="text-sm text-muted-foreground">Loading settings…</p>;
   }
 
   const textSaving = saveText.isPending;
@@ -870,8 +870,8 @@ function SettingsBody() {
   return (
     <div className="mx-auto max-w-3xl space-y-8 pb-16">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Settings</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Settings</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           Business details, branding and page texts. Changes go live on the public site
           immediately.
         </p>
@@ -907,12 +907,12 @@ function SettingsBody() {
 
 
       <TabsContent value="business" className="space-y-4">
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-muted-foreground">
           Name, contact details and social links. These appear in the footer, on the contact page
           and in search results.
         </p>
 
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
           <div>
             <Label htmlFor="site-name">Business name</Label>
             <Input
@@ -1010,7 +1010,7 @@ function SettingsBody() {
               />
             </div>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             Leave a social link empty to hide that icon in the footer.
           </p>
           <Button onClick={handleSaveBusiness} disabled={textSaving}>
@@ -1020,7 +1020,7 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="appearance" className="space-y-4">
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-muted-foreground">
           Logo, favicon and logo size. Uploading an image saves it right away.
         </p>
 
@@ -1040,10 +1040,10 @@ function SettingsBody() {
           />
         ))}
 
-        <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-5">
+        <div className="space-y-4 rounded-lg border border-border bg-white p-5">
           <div className="flex items-baseline justify-between">
             <Label htmlFor="logo-scale">Logo size</Label>
-            <span className="text-xs tabular-nums text-slate-500">{logoScale}%</span>
+            <span className="text-xs tabular-nums text-muted-foreground">{logoScale}%</span>
           </div>
           <Slider
             id="logo-scale"
@@ -1053,7 +1053,7 @@ function SettingsBody() {
             step={5}
             onValueChange={(v) => setLogoScale(v[0] ?? 100)}
           />
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             100% is the standard size used everywhere on the site.
           </p>
           <div className="flex gap-2">
@@ -1095,7 +1095,7 @@ function SettingsBody() {
           />
         ))}
 
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
 
           <div>
             <Label htmlFor="hero-eyebrow">Small line above the headline</Label>
@@ -1118,7 +1118,7 @@ function SettingsBody() {
               rows={2}
               className="mt-2"
             />
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-xs text-muted-foreground">
               Press Enter to break the headline onto a second line.
             </p>
           </div>
@@ -1169,15 +1169,15 @@ function SettingsBody() {
             />
           </div>
 
-          <div className="space-y-5 border-t border-slate-200 pt-5">
+          <div className="space-y-5 border-t border-border pt-5">
             <div>
-              <h3 className="text-sm font-medium text-slate-900">The OCDG Advantage cards</h3>
-              <p className="mt-1 text-xs text-slate-500">
+              <h3 className="text-sm font-medium text-foreground">The OCDG Advantage cards</h3>
+              <p className="mt-1 text-xs text-muted-foreground">
                 Three cards below the homepage intro. The icons stay the same.
               </p>
             </div>
             {advantages.map((item, i) => (
-              <div key={`advantage-${i}`} className="space-y-3 rounded-lg bg-slate-50 p-4">
+              <div key={`advantage-${i}`} className="space-y-3 rounded-lg bg-muted p-4">
                 <div>
                   <Label htmlFor={`advantage-title-${i}`}>Card {i + 1} title</Label>
                   <Input
@@ -1211,16 +1211,16 @@ function SettingsBody() {
             ))}
           </div>
 
-          <div className="space-y-5 border-t border-slate-200 pt-5">
+          <div className="space-y-5 border-t border-border pt-5">
             <div>
-              <h3 className="text-sm font-medium text-slate-900">Client quote teasers</h3>
-              <p className="mt-1 text-xs text-slate-500">
+              <h3 className="text-sm font-medium text-foreground">Client quote teasers</h3>
+              <p className="mt-1 text-xs text-muted-foreground">
                 Short quotes near the bottom of the homepage. Each one links to the full
                 testimonial.
               </p>
             </div>
             {snippets.map((item, i) => (
-              <div key={`snippet-${i}`} className="space-y-3 rounded-lg bg-slate-50 p-4">
+              <div key={`snippet-${i}`} className="space-y-3 rounded-lg bg-muted p-4">
                 <div>
                   <Label htmlFor={`snippet-author-${i}`}>Quote {i + 1} — client name</Label>
                   <Input
@@ -1254,7 +1254,7 @@ function SettingsBody() {
             ))}
           </div>
 
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             Leave a field empty to fall back to the default wording shown in grey.
           </p>
 
@@ -1283,8 +1283,8 @@ function SettingsBody() {
           />
         ))}
 
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-sm font-medium text-slate-900">Page header</p>
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+          <p className="text-sm font-medium text-foreground">Page header</p>
           <div>
             <Label htmlFor="about-eyebrow">Small line above the title</Label>
             <Input
@@ -1307,8 +1307,8 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-sm font-medium text-slate-900">Our Story</p>
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+          <p className="text-sm font-medium text-foreground">Our Story</p>
           <div>
             <Label htmlFor="story-label">Small label</Label>
             <Input
@@ -1373,8 +1373,8 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-sm font-medium text-slate-900">Leadership &amp; Our Promise</p>
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+          <p className="text-sm font-medium text-foreground">Leadership &amp; Our Promise</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <Label htmlFor="leader-name">Name under the portrait</Label>
@@ -1430,8 +1430,8 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-sm font-medium text-slate-900">Trusted Collaborators</p>
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+          <p className="text-sm font-medium text-foreground">Trusted Collaborators</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <Label htmlFor="partners-label">Small label</Label>
@@ -1457,9 +1457,9 @@ function SettingsBody() {
 
           <div className="space-y-4">
             {partners.map((partner, index) => (
-              <div key={partner.id} className="space-y-4 rounded-lg border border-slate-200 p-4">
+              <div key={partner.id} className="space-y-4 rounded-lg border border-border p-4">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     Partner {index + 1}
                   </p>
                   <div className="flex gap-1">
@@ -1553,7 +1553,7 @@ function SettingsBody() {
           </Button>
         </div>
 
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-muted-foreground">
           Leave a field empty to fall back to the default wording shown in grey.
         </p>
 
@@ -1563,7 +1563,7 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="contact" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
           <div>
             <Label htmlFor="contact-eyebrow">Small line above the title</Label>
             <Input
@@ -1635,7 +1635,7 @@ function SettingsBody() {
               className="mt-2"
             />
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             Phone, email and address on this page come from the Business tab.
           </p>
           <Button onClick={handleSaveContact} disabled={textSaving}>
@@ -1645,11 +1645,11 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="maintenance" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <p className="text-sm font-medium text-slate-900">Maintenance mode</p>
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="text-sm font-medium text-foreground">Maintenance mode</p>
+              <p className="mt-1 text-xs text-muted-foreground">
                 Visitors see a short holding page instead of the site. You stay signed in and keep
                 seeing the real site, with a reminder bar at the top.
               </p>
@@ -1684,8 +1684,8 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="developments" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-xs text-slate-500">
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+          <p className="text-xs text-muted-foreground">
             The header at the top of the Developments page. The homes themselves are managed under
             Properties.
           </p>
@@ -1718,8 +1718,8 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="gallery" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-xs text-slate-500">
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+          <p className="text-xs text-muted-foreground">
             The header of the Gallery page. The photos come from each property.
           </p>
           <div>
@@ -1759,8 +1759,8 @@ function SettingsBody() {
       </TabsContent>
 
       <TabsContent value="testimonials" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-xs text-slate-500">
+        <div className="space-y-5 rounded-lg border border-border bg-white p-5">
+          <p className="text-xs text-muted-foreground">
             The header and the closing call to action. The reviews themselves are managed under
             Testimonials.
           </p>

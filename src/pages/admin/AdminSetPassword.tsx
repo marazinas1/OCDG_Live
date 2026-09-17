@@ -63,15 +63,15 @@ export default function AdminSetPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
-      <div className="w-full max-w-sm bg-white border border-slate-200 rounded-lg p-8">
-        <h1 className="text-xl font-semibold text-slate-900">Set your password</h1>
+    <div className="min-h-screen bg-muted flex items-center justify-center px-6">
+      <div className="w-full max-w-sm bg-white border border-border rounded-lg p-8">
+        <h1 className="text-xl font-semibold text-foreground">Set your password</h1>
 
         {checking ? (
-          <p className="text-sm text-slate-500 mt-4">Checking your invite link…</p>
+          <p className="text-sm text-muted-foreground mt-4">Checking your invite link…</p>
         ) : !hasSession ? (
           <div className="mt-4 space-y-4">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-muted-foreground">
               This link is invalid or has expired. Ask an owner to send you a new
               invitation.
             </p>
