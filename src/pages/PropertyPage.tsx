@@ -429,7 +429,7 @@ const PropertyPage = () => {
                 className="inline-flex items-center gap-2 px-4 py-2 mb-4 text-[10px] font-medium tracking-[0.2em] uppercase text-on-dark/90 border border-on-dark/30 backdrop-blur-sm bg-on-dark/5 transition-all duration-300 hover:bg-on-dark/15 hover:border-on-dark/50"
                 style={{ borderRadius: "4px" }}
               >
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                <span className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" />
                 {statusLabel}
               </Link>
             )}
