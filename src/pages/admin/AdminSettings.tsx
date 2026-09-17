@@ -830,6 +830,9 @@ function SettingsBody() {
             { value: "homepage", label: "Home texts" },
             { value: "about", label: "About texts" },
             { value: "contact", label: "Contact texts" },
+            { value: "developments", label: "Developments texts" },
+            { value: "gallery", label: "Gallery texts" },
+            { value: "testimonials", label: "Testimonials texts" },
             { value: "maintenance", label: "Maintenance" },
           ].map((t) => (
             <TabsTrigger
