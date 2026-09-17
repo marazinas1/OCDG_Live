@@ -363,6 +363,30 @@ function SettingsBody() {
     formIntro: "",
     leadContact: "",
   });
+  const [advantages, setAdvantages] = useState(
+    ADVANTAGE_FALLBACKS.map(() => ({ title: "", description: "" })),
+  );
+  const [snippets, setSnippets] = useState(
+    SNIPPET_FALLBACKS.map(() => ({ author: "", quote: "" })),
+  );
+  const [galleryCopy, setGalleryCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+    emptyMessage: "",
+  });
+  const [testimonialsCopy, setTestimonialsCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+    emptyMessage: "",
+    ctaLabel: "",
+    ctaHeading: "",
+    ctaBody: "",
+    ctaButton: "",
+  });
+  const [developmentsCopy, setDevelopmentsCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+  });
   const [partners, setPartners] = useState<PartnerDraft[]>([]);
   /** Storage objects to delete once the About page saves successfully. */
   const [orphanedLogos, setOrphanedLogos] = useState<{ bucket: string; storagePath: string }[]>([]);
