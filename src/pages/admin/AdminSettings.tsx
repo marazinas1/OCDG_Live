@@ -1622,6 +1622,168 @@ function SettingsBody() {
           </Button>
         </div>
       </TabsContent>
+
+      <TabsContent value="developments" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <p className="text-xs text-slate-500">
+            The header at the top of the Developments page. The homes themselves are managed under
+            Properties.
+          </p>
+          <div>
+            <Label htmlFor="dev-eyebrow">Small line above the title</Label>
+            <Input
+              id="dev-eyebrow"
+              value={developmentsCopy.heroEyebrow}
+              onChange={(e) =>
+                setDevelopmentsCopy((p) => ({ ...p, heroEyebrow: e.target.value }))
+              }
+              placeholder={DEVELOPMENTS_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="dev-title">Page title</Label>
+            <Input
+              id="dev-title"
+              value={developmentsCopy.heroTitle}
+              onChange={(e) => setDevelopmentsCopy((p) => ({ ...p, heroTitle: e.target.value }))}
+              placeholder={DEVELOPMENTS_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <Button onClick={handleSaveDevelopments} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save developments content"}
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="gallery" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <p className="text-xs text-slate-500">
+            The header of the Gallery page. The photos come from each property.
+          </p>
+          <div>
+            <Label htmlFor="gallery-eyebrow">Small line above the title</Label>
+            <Input
+              id="gallery-eyebrow"
+              value={galleryCopy.heroEyebrow}
+              onChange={(e) => setGalleryCopy((p) => ({ ...p, heroEyebrow: e.target.value }))}
+              placeholder={GALLERY_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="gallery-title">Page title</Label>
+            <Input
+              id="gallery-title"
+              value={galleryCopy.heroTitle}
+              onChange={(e) => setGalleryCopy((p) => ({ ...p, heroTitle: e.target.value }))}
+              placeholder={GALLERY_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="gallery-empty">Message when there are no photos yet</Label>
+            <Input
+              id="gallery-empty"
+              value={galleryCopy.emptyMessage}
+              onChange={(e) => setGalleryCopy((p) => ({ ...p, emptyMessage: e.target.value }))}
+              placeholder={GALLERY_FALLBACKS.emptyMessage}
+              className="mt-2"
+            />
+          </div>
+          <Button onClick={handleSaveGallery} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save gallery content"}
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="testimonials" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <p className="text-xs text-slate-500">
+            The header and the closing call to action. The reviews themselves are managed under
+            Testimonials.
+          </p>
+          <div>
+            <Label htmlFor="testi-eyebrow">Small line above the title</Label>
+            <Input
+              id="testi-eyebrow"
+              value={testimonialsCopy.heroEyebrow}
+              onChange={(e) =>
+                setTestimonialsCopy((p) => ({ ...p, heroEyebrow: e.target.value }))
+              }
+              placeholder={TESTIMONIALS_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-title">Page title</Label>
+            <Input
+              id="testi-title"
+              value={testimonialsCopy.heroTitle}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, heroTitle: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-empty">Message when there are no reviews yet</Label>
+            <Input
+              id="testi-empty"
+              value={testimonialsCopy.emptyMessage}
+              onChange={(e) =>
+                setTestimonialsCopy((p) => ({ ...p, emptyMessage: e.target.value }))
+              }
+              placeholder={TESTIMONIALS_FALLBACKS.emptyMessage}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-label">Call to action — small line</Label>
+            <Input
+              id="testi-cta-label"
+              value={testimonialsCopy.ctaLabel}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaLabel: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaLabel}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-heading">Call to action — heading</Label>
+            <Input
+              id="testi-cta-heading"
+              value={testimonialsCopy.ctaHeading}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaHeading: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaHeading}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-body">Call to action — text</Label>
+            <Textarea
+              id="testi-cta-body"
+              value={testimonialsCopy.ctaBody}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaBody: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaBody}
+              rows={2}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-button">Call to action — button label</Label>
+            <Input
+              id="testi-cta-button"
+              value={testimonialsCopy.ctaButton}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaButton: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaButton}
+              className="mt-2"
+            />
+          </div>
+          <Button onClick={handleSaveTestimonials} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save testimonials content"}
+          </Button>
+        </div>
+      </TabsContent>
       </Tabs>
     </div>
 
