@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { getRouteApi } from "@tanstack/react-router";
 import { useLocation } from "@/lib/router-compat";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
