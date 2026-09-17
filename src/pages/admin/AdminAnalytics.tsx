@@ -39,6 +39,22 @@ const RANGES: { value: AnalyticsRange; label: string }[] = [
   { value: 90, label: "90 days" },
 ];
 
+const DEVELOPMENT_HOST_PATTERNS = [
+  "lovable.dev",
+  ".lovable.dev",
+  ".lovable.app",
+  ".lovableproject.com",
+  "localhost",
+  "127.0.0.1",
+];
+
+function isDevelopmentHost(host: string): boolean {
+  const h = host.toLowerCase();
+  return DEVELOPMENT_HOST_PATTERNS.some((pattern) =>
+    pattern.startsWith(".") ? h.endsWith(pattern) : h === pattern || h.endsWith(`.${pattern}`),
+  );
+}
+
 const SOURCE_LABEL: Record<string, string> = {
   direct: "Direct",
   google: "Google",
@@ -399,10 +415,12 @@ function AnalyticsInner() {
               icon={ExternalLink}
               total={totalViews}
               empty="No referring sites recorded yet."
-              rows={(data?.referrers ?? []).map((r) => ({
-                label: r.host,
-                views: Number(r.views),
-              }))}
+              rows={(data?.referrers ?? [])
+                .filter((r) => !isDevelopmentHost(r.host))
+                .map((r) => ({
+                  label: r.host,
+                  views: Number(r.views),
+                }))}
             />
           </div>
 
