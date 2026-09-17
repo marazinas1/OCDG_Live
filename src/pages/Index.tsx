@@ -12,23 +12,10 @@ import { usePublicProperties } from "@/hooks/usePublicProperties";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS } from "@/lib/admin/status";
 import approachImage from "@/assets/28th-approach-v4.jpg";
 
-const testimonialSnippets = [
-  {
-    author: "Patti & Ralph Melfi",
-    snippet: "Patti and I are very happy that we chose Scott Halliday to build our Ocean City dream home...",
-    anchor: "#melfi",
-  },
-  {
-    author: "Ken & Trudie O'Neill",
-    snippet: "What a wonderful experience it was working with Patrick Halliday! He was so extremely helpful...",
-    anchor: "#oneill",
-  },
-  {
-    author: "Mara & Jack LaVoice",
-    snippet: "My wife and I would just like to express our appreciation for your excellent customer service...",
-    anchor: "#lavoice",
-  },
-];
+/** Anchors stay in code; the author and quote come from Settings → Home texts. */
+const snippetAnchors = ["#melfi", "#oneill", "#lavoice"];
+
+type SnippetCard = { author: string; snippet: string; anchor: string };
 
 /* Intersection Observer hook for scroll-triggered fade-in */
 function useScrollReveal() {
