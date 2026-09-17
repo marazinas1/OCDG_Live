@@ -15,7 +15,7 @@ import {
   type DevelopmentsPageContent,
 } from "@/lib/content/pages";
 
-type DevStatus = "active" | "under-contract" | "sold";
+type DevStatus = "active" | "under-contract" | "coming-soon" | "sold";
 type DevGroup = "current" | "sold";
 
 const tabs: { label: string; value: DevGroup | "all" }[] = [
@@ -96,7 +96,15 @@ const Developments = ({
   };
 
   const toDevStatus = (s: PropertyStatus): DevStatus | null =>
-    s === "active" ? "active" : s === "under_contract" ? "under-contract" : s === "sold" ? "sold" : null;
+    s === "active"
+      ? "active"
+      : s === "under_contract"
+        ? "under-contract"
+        : s === "coming_soon"
+          ? "coming-soon"
+          : s === "sold"
+            ? "sold"
+            : null;
 
   const allDevelopments: Dev[] = allProps
     .map((p): Dev | null => {
