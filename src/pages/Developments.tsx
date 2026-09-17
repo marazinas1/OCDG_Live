@@ -10,6 +10,10 @@ import {
   type PublicPropertyCard as PublicPropertyCardData,
 } from "@/hooks/usePublicProperties";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS, type PropertyStatus } from "@/lib/admin/status";
+import {
+  DEFAULT_DEVELOPMENTS_CONTENT,
+  type DevelopmentsPageContent,
+} from "@/lib/content/pages";
 
 type DevStatus = "active" | "under-contract" | "sold";
 type DevGroup = "current" | "sold";
@@ -41,9 +45,12 @@ const CardSkeleton = () => (
 
 const Developments = ({
   properties,
+  content = DEFAULT_DEVELOPMENTS_CONTENT,
 }: {
   /** Server-rendered rows from the route loader; hydrates the query cache. */
   properties?: PublicPropertyCardData[] | undefined;
+  /** Editable hero copy from Settings; falls back to the wording in code. */
+  content?: DevelopmentsPageContent;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [scrollY, setScrollY] = useState(0);
