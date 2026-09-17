@@ -40,6 +40,7 @@
   --color-accent-foreground: hsl(var(--accent-foreground));
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-on-dark: hsl(var(--on-dark));
   --color-border: hsl(var(--border));
   --color-border-subtle: hsl(var(--border-subtle));
   --color-input: hsl(var(--input));
@@ -136,6 +137,10 @@
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
+
+  /* Text/graphics that sit on dark photography or the charcoal footer.
+     Always light, independent of theme — that is the point of the token. */
+  --on-dark: 0 0% 100%;
 
   /* Borders */
   --border: 220 10% 90%;
