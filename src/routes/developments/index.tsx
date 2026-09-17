@@ -2,9 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import Developments from "@/pages/Developments";
 import { absoluteOgImage, breadcrumbJsonLd, pageHead } from "@/lib/seo";
 import { fetchPropertyCards } from "@/lib/content/properties";
+import { fetchContent } from "@/lib/content-resolver";
+import { resolveDevelopmentsContent } from "@/lib/content/pages";
 
 export const Route = createFileRoute("/developments/")({
-  loader: () => fetchPropertyCards(),
+  loader: async () => {
+    const [properties, bundle] = await Promise.all([
+      fetchPropertyCards(),
+      fetchContent(["developments"]),
+    ]);
+    return { properties, content: resolveDevelopmentsContent(bundle) };
+  },
   component: DevelopmentsRoute,
   head: ({ loaderData }) =>
     pageHead({
