@@ -20,7 +20,7 @@ export const Route = createFileRoute("/developments/")({
       description:
         "Browse Ocean City Development Group's portfolio: active listings, under contract, and sold luxury coastal homes.",
       path: "/developments",
-      image: absoluteOgImage(loaderData?.[0]?.card_image_url),
+      image: absoluteOgImage(loaderData?.properties?.[0]?.card_image_url),
       jsonLd: breadcrumbJsonLd([
         { name: "Home", path: "/" },
         { name: "Developments", path: "/developments" },
@@ -29,6 +29,6 @@ export const Route = createFileRoute("/developments/")({
 });
 
 function DevelopmentsRoute() {
-  const properties = Route.useLoaderData();
-  return <Developments properties={properties} />;
+  const { properties, content } = Route.useLoaderData();
+  return <Developments properties={properties} content={content} />;
 }
