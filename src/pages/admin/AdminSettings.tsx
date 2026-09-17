@@ -399,6 +399,14 @@ function SettingsBody() {
     const text = (page: string, slot: string) =>
       bundle.text.find((r) => r.page === page && r.slot === slot)?.value ?? "";
 
+    // A stored row wins (including a deliberately blank one); with no row at
+    // all the site renders the built-in link, so the field must show that.
+    const socialText = (slot: string, fallback: string) => {
+      const row = bundle.text.find((r) => r.page === "global" && r.slot === slot);
+      return row ? (row.value ?? "") : fallback;
+    };
+
+
     setSiteName(text("global", "site_name"));
     setEyebrow(text("home", "hero_eyebrow"));
     setHeadline(text("home", "hero_headline"));
