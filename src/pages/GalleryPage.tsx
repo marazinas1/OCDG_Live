@@ -156,7 +156,10 @@ const PhotoGrid = ({
   </div>
 );
 
+const galleryRoute = getRouteApi("/gallery");
+
 const GalleryPage = () => {
+  const content = galleryRoute.useLoaderData();
   const [scrollY, setScrollY] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
