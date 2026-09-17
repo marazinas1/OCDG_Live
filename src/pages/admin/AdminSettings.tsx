@@ -38,10 +38,29 @@ import { NotAnImageError, type BrandAssetKind } from "@/lib/admin/uploadBrandAss
 import type { ContentBundle, PageMediaRow } from "@/lib/content-resolver";
 import { BUSINESS_FALLBACKS, MAINTENANCE_FALLBACK_MESSAGE } from "@/lib/content/business";
 import { CONTACT_FALLBACKS } from "@/lib/content/contact";
+import {
+  ADVANTAGE_FALLBACKS,
+  SNIPPET_FALLBACKS,
+  advantageSlot,
+  snippetSlot,
+} from "@/lib/content/home";
+import {
+  DEVELOPMENTS_FALLBACKS,
+  GALLERY_FALLBACKS,
+  TESTIMONIALS_FALLBACKS,
+} from "@/lib/content/pages";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 
-const PAGES = ["global", "home", "about", "contact"];
+const PAGES = [
+  "global",
+  "home",
+  "about",
+  "contact",
+  "gallery",
+  "testimonials",
+  "developments",
+];
 
 type SlotDef = {
   page: string;
