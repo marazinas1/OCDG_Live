@@ -1109,6 +1109,91 @@ function SettingsBody() {
             />
           </div>
 
+          <div className="space-y-5 border-t border-slate-200 pt-5">
+            <div>
+              <h3 className="text-sm font-medium text-slate-900">The OCDG Advantage cards</h3>
+              <p className="mt-1 text-xs text-slate-500">
+                Three cards below the homepage intro. The icons stay the same.
+              </p>
+            </div>
+            {advantages.map((item, i) => (
+              <div key={`advantage-${i}`} className="space-y-3 rounded-lg bg-slate-50 p-4">
+                <div>
+                  <Label htmlFor={`advantage-title-${i}`}>Card {i + 1} title</Label>
+                  <Input
+                    id={`advantage-title-${i}`}
+                    value={item.title}
+                    onChange={(e) =>
+                      setAdvantages((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, title: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={ADVANTAGE_FALLBACKS[i]?.title}
+                    className="mt-2"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor={`advantage-text-${i}`}>Card {i + 1} text</Label>
+                  <Textarea
+                    id={`advantage-text-${i}`}
+                    value={item.description}
+                    onChange={(e) =>
+                      setAdvantages((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, description: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={ADVANTAGE_FALLBACKS[i]?.description}
+                    rows={3}
+                    className="mt-2"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-5 border-t border-slate-200 pt-5">
+            <div>
+              <h3 className="text-sm font-medium text-slate-900">Client quote teasers</h3>
+              <p className="mt-1 text-xs text-slate-500">
+                Short quotes near the bottom of the homepage. Each one links to the full
+                testimonial.
+              </p>
+            </div>
+            {snippets.map((item, i) => (
+              <div key={`snippet-${i}`} className="space-y-3 rounded-lg bg-slate-50 p-4">
+                <div>
+                  <Label htmlFor={`snippet-author-${i}`}>Quote {i + 1} — client name</Label>
+                  <Input
+                    id={`snippet-author-${i}`}
+                    value={item.author}
+                    onChange={(e) =>
+                      setSnippets((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, author: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={SNIPPET_FALLBACKS[i]?.author}
+                    className="mt-2"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor={`snippet-quote-${i}`}>Quote {i + 1} — short quote</Label>
+                  <Textarea
+                    id={`snippet-quote-${i}`}
+                    value={item.quote}
+                    onChange={(e) =>
+                      setSnippets((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, quote: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={SNIPPET_FALLBACKS[i]?.snippet}
+                    rows={3}
+                    className="mt-2"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
           <p className="text-xs text-slate-500">
             Leave a field empty to fall back to the default wording shown in grey.
           </p>
