@@ -170,7 +170,7 @@ function InquiriesBody() {
   };
 
   return (
-    <div className="max-w-5xl">
+    <div>
       <h1 className="text-2xl font-semibold text-foreground mb-1">Inquiries</h1>
       <p className="text-sm text-muted-foreground mb-6">
         Everything submitted through the contact forms. Archiving hides an inquiry — it is never
