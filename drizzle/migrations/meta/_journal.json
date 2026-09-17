@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1789645139088,
+      "tag": "0000_filter_development_analytics_referrers",
+      "breakpoints": true
+    }
+  ]
+}
