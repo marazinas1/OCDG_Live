@@ -56,7 +56,7 @@ function RoleBadge({ role }: { role: string | null }) {
   }
   const tone =
     role === "developer"
-      ? "bg-primary text-white"
+      ? "bg-primary text-on-dark"
       : role === "owner"
         ? "bg-emerald-100 text-emerald-800"
         : "bg-sky-100 text-sky-800";
@@ -474,7 +474,7 @@ function AdminUsersInner() {
               onClick={confirmPending}
               className={
                 pending?.kind === "delete"
-                  ? "bg-red-600 hover:bg-red-700 text-white"
+                  ? "bg-red-600 hover:bg-red-700 text-on-dark"
                   : undefined
               }
             >

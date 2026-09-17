@@ -204,7 +204,7 @@ function AssetSlot({
         {url ? (
           <img src={url} alt={label} className="max-h-24 w-auto object-contain" />
         ) : (
-          <span className={`text-xs ${dark ? "text-white/50" : "text-muted-foreground"}`}>
+          <span className={`text-xs ${dark ? "text-on-dark/50" : "text-muted-foreground"}`}>
             Nothing uploaded
           </span>
         )}
@@ -898,7 +898,7 @@ function SettingsBody() {
             <TabsTrigger
               key={t.value}
               value={t.value}
-              className="rounded-[4px] px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 border border-border bg-transparent text-slate shadow-none hover:text-charcoal data-[state=active]:bg-charcoal data-[state=active]:text-white data-[state=active]:border-charcoal data-[state=active]:shadow-none"
+              className="rounded-[4px] px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 border border-border bg-transparent text-slate shadow-none hover:text-charcoal data-[state=active]:bg-charcoal data-[state=active]:text-on-dark data-[state=active]:border-charcoal data-[state=active]:shadow-none"
             >
               {t.label}
             </TabsTrigger>
