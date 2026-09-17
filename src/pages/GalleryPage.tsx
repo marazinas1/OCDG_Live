@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { getRouteApi } from "@tanstack/react-router";
 import { Link } from "@/lib/router-compat";
 import GlobalNav from "@/components/GlobalNav";
 import GlobalFooter from "@/components/GlobalFooter";
@@ -155,7 +156,10 @@ const PhotoGrid = ({
   </div>
 );
 
+const galleryRoute = getRouteApi("/gallery");
+
 const GalleryPage = () => {
+  const content = galleryRoute.useLoaderData();
   const [scrollY, setScrollY] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -231,8 +235,8 @@ const GalleryPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 text-center px-4 animate-fade-in-up">
-          <p className="label-uppercase text-white/70 mb-4">Our Work</p>
-          <h1 className="heading-display text-white">Gallery</h1>
+          <p className="label-uppercase text-white/70 mb-4">{content.heroEyebrow}</p>
+          <h1 className="heading-display text-white">{content.heroTitle}</h1>
         </div>
       </section>
 
@@ -244,7 +248,7 @@ const GalleryPage = () => {
             </div>
           ) : layoutBlocks.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-body text-lg">No gallery images yet.</p>
+              <p className="text-body text-lg">{content.emptyMessage}</p>
             </div>
           ) : (
             visibleBlocks.map((lb) =>

@@ -10,6 +10,10 @@ import {
   type PublicPropertyCard as PublicPropertyCardData,
 } from "@/hooks/usePublicProperties";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS, type PropertyStatus } from "@/lib/admin/status";
+import {
+  DEFAULT_DEVELOPMENTS_CONTENT,
+  type DevelopmentsPageContent,
+} from "@/lib/content/pages";
 
 type DevStatus = "active" | "under-contract" | "sold";
 type DevGroup = "current" | "sold";
@@ -41,9 +45,12 @@ const CardSkeleton = () => (
 
 const Developments = ({
   properties,
+  content = DEFAULT_DEVELOPMENTS_CONTENT,
 }: {
   /** Server-rendered rows from the route loader; hydrates the query cache. */
   properties?: PublicPropertyCardData[] | undefined;
+  /** Editable hero copy from Settings; falls back to the wording in code. */
+  content?: DevelopmentsPageContent;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [scrollY, setScrollY] = useState(0);
@@ -173,8 +180,8 @@ const Developments = ({
           style={{ transform: `translateY(${scrollY * 0.25}px)` }} loading="lazy" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 text-center px-4 animate-fade-in-up">
-          <p className="label-uppercase text-white/70 mb-4">Our Portfolio</p>
-          <h1 className="heading-display text-white">Developments</h1>
+          <p className="label-uppercase text-white/70 mb-4">{content.heroEyebrow}</p>
+          <h1 className="heading-display text-white">{content.heroTitle}</h1>
         </div>
       </section>
 

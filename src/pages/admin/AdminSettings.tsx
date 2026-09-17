@@ -38,10 +38,29 @@ import { NotAnImageError, type BrandAssetKind } from "@/lib/admin/uploadBrandAss
 import type { ContentBundle, PageMediaRow } from "@/lib/content-resolver";
 import { BUSINESS_FALLBACKS, MAINTENANCE_FALLBACK_MESSAGE } from "@/lib/content/business";
 import { CONTACT_FALLBACKS } from "@/lib/content/contact";
+import {
+  ADVANTAGE_FALLBACKS,
+  SNIPPET_FALLBACKS,
+  advantageSlot,
+  snippetSlot,
+} from "@/lib/content/home";
+import {
+  DEVELOPMENTS_FALLBACKS,
+  GALLERY_FALLBACKS,
+  TESTIMONIALS_FALLBACKS,
+} from "@/lib/content/pages";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 
-const PAGES = ["global", "home", "about", "contact"];
+const PAGES = [
+  "global",
+  "home",
+  "about",
+  "contact",
+  "gallery",
+  "testimonials",
+  "developments",
+];
 
 type SlotDef = {
   page: string;
@@ -344,6 +363,30 @@ function SettingsBody() {
     formIntro: "",
     leadContact: "",
   });
+  const [advantages, setAdvantages] = useState(
+    ADVANTAGE_FALLBACKS.map(() => ({ title: "", description: "" })),
+  );
+  const [snippets, setSnippets] = useState(
+    SNIPPET_FALLBACKS.map(() => ({ author: "", quote: "" })),
+  );
+  const [galleryCopy, setGalleryCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+    emptyMessage: "",
+  });
+  const [testimonialsCopy, setTestimonialsCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+    emptyMessage: "",
+    ctaLabel: "",
+    ctaHeading: "",
+    ctaBody: "",
+    ctaButton: "",
+  });
+  const [developmentsCopy, setDevelopmentsCopy] = useState({
+    heroEyebrow: "",
+    heroTitle: "",
+  });
   const [partners, setPartners] = useState<PartnerDraft[]>([]);
   /** Storage objects to delete once the About page saves successfully. */
   const [orphanedLogos, setOrphanedLogos] = useState<{ bucket: string; storagePath: string }[]>([]);
@@ -389,6 +432,38 @@ function SettingsBody() {
       leadContact: text("contact", "lead_contact"),
     });
 
+    setAdvantages(
+      ADVANTAGE_FALLBACKS.map((_, i) => ({
+        title: text("home", advantageSlot(i, "title")),
+        description: text("home", advantageSlot(i, "description")),
+      })),
+    );
+    setSnippets(
+      SNIPPET_FALLBACKS.map((_, i) => ({
+        author: text("home", snippetSlot(i, "author")),
+        quote: text("home", snippetSlot(i, "quote")),
+      })),
+    );
+
+    setGalleryCopy({
+      heroEyebrow: text("gallery", "hero_eyebrow"),
+      heroTitle: text("gallery", "hero_title"),
+      emptyMessage: text("gallery", "empty_message"),
+    });
+    setTestimonialsCopy({
+      heroEyebrow: text("testimonials", "hero_eyebrow"),
+      heroTitle: text("testimonials", "hero_title"),
+      emptyMessage: text("testimonials", "empty_message"),
+      ctaLabel: text("testimonials", "cta_label"),
+      ctaHeading: text("testimonials", "cta_heading"),
+      ctaBody: text("testimonials", "cta_body"),
+      ctaButton: text("testimonials", "cta_button"),
+    });
+    setDevelopmentsCopy({
+      heroEyebrow: text("developments", "hero_eyebrow"),
+      heroTitle: text("developments", "hero_title"),
+    });
+
 
     setAbout({
       heroEyebrow: text("about", "hero_eyebrow"),
@@ -408,7 +483,50 @@ function SettingsBody() {
       partnersHeading: text("about", "partners_heading"),
     });
     setPartners(partnersFromBundle(bundle));
+    savedSnapshot.current = null; // re-baselined by the effect below
   }, [bundle]);
+
+  /**
+   * Unsaved-changes guard: every editable field is folded into one snapshot and
+   * compared against the last loaded/saved state, so leaving the page with
+   * pending edits warns instead of silently dropping them.
+   */
+  const snapshot = JSON.stringify({
+    siteName,
+    eyebrow,
+    headline,
+    subline,
+    ctaLabel,
+    quote,
+    quoteAttribution,
+    about,
+    business,
+    logoScale,
+    maintenanceOn,
+    maintenanceMessage,
+    contactCopy,
+    advantages,
+    snippets,
+    galleryCopy,
+    testimonialsCopy,
+    developmentsCopy,
+    partners,
+  });
+  const savedSnapshot = useRef<string | null>(null);
+  useEffect(() => {
+    if (savedSnapshot.current === null) savedSnapshot.current = snapshot;
+  }, [snapshot]);
+  const isDirty = savedSnapshot.current !== null && savedSnapshot.current !== snapshot;
+
+  useEffect(() => {
+    if (!isDirty) return;
+    const warn = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [isDirty]);
 
   const mediaFor = (slot: SlotDef): PageMediaRow | null => findMedia(bundle, slot.page, slot.slot);
 
@@ -552,8 +670,52 @@ function SettingsBody() {
         { slot: "hero_cta_label", value: ctaLabel },
         { slot: "quote", value: quote },
         { slot: "quote_attribution", value: quoteAttribution },
+        ...advantages.flatMap((a, i) => [
+          { slot: advantageSlot(i, "title"), value: a.title },
+          { slot: advantageSlot(i, "description"), value: a.description },
+        ]),
+        ...snippets.flatMap((s, i) => [
+          { slot: snippetSlot(i, "author"), value: s.author },
+          { slot: snippetSlot(i, "quote"), value: s.quote },
+        ]),
       ],
       "Homepage content updated.",
+    );
+
+  const handleSaveGallery = () =>
+    saveTextWithToast(
+      "gallery",
+      [
+        { slot: "hero_eyebrow", value: galleryCopy.heroEyebrow },
+        { slot: "hero_title", value: galleryCopy.heroTitle },
+        { slot: "empty_message", value: galleryCopy.emptyMessage },
+      ],
+      "Gallery page content updated.",
+    );
+
+  const handleSaveTestimonials = () =>
+    saveTextWithToast(
+      "testimonials",
+      [
+        { slot: "hero_eyebrow", value: testimonialsCopy.heroEyebrow },
+        { slot: "hero_title", value: testimonialsCopy.heroTitle },
+        { slot: "empty_message", value: testimonialsCopy.emptyMessage },
+        { slot: "cta_label", value: testimonialsCopy.ctaLabel },
+        { slot: "cta_heading", value: testimonialsCopy.ctaHeading },
+        { slot: "cta_body", value: testimonialsCopy.ctaBody },
+        { slot: "cta_button", value: testimonialsCopy.ctaButton },
+      ],
+      "Testimonials page content updated.",
+    );
+
+  const handleSaveDevelopments = () =>
+    saveTextWithToast(
+      "developments",
+      [
+        { slot: "hero_eyebrow", value: developmentsCopy.heroEyebrow },
+        { slot: "hero_title", value: developmentsCopy.heroTitle },
+      ],
+      "Developments page content updated.",
     );
 
   /**
@@ -701,6 +863,11 @@ function SettingsBody() {
           Business details, branding and page texts. Changes go live on the public site
           immediately.
         </p>
+        {isDirty && (
+          <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            You have unsaved changes. Use the save button in this section before leaving the page.
+          </p>
+        )}
       </div>
 
       <Tabs defaultValue="business" className="space-y-6">
@@ -711,6 +878,9 @@ function SettingsBody() {
             { value: "homepage", label: "Home texts" },
             { value: "about", label: "About texts" },
             { value: "contact", label: "Contact texts" },
+            { value: "developments", label: "Developments texts" },
+            { value: "gallery", label: "Gallery texts" },
+            { value: "testimonials", label: "Testimonials texts" },
             { value: "maintenance", label: "Maintenance" },
           ].map((t) => (
             <TabsTrigger
@@ -985,6 +1155,91 @@ function SettingsBody() {
               placeholder={HERO_FALLBACKS.quoteAttribution}
               className="mt-2"
             />
+          </div>
+
+          <div className="space-y-5 border-t border-slate-200 pt-5">
+            <div>
+              <h3 className="text-sm font-medium text-slate-900">The OCDG Advantage cards</h3>
+              <p className="mt-1 text-xs text-slate-500">
+                Three cards below the homepage intro. The icons stay the same.
+              </p>
+            </div>
+            {advantages.map((item, i) => (
+              <div key={`advantage-${i}`} className="space-y-3 rounded-lg bg-slate-50 p-4">
+                <div>
+                  <Label htmlFor={`advantage-title-${i}`}>Card {i + 1} title</Label>
+                  <Input
+                    id={`advantage-title-${i}`}
+                    value={item.title}
+                    onChange={(e) =>
+                      setAdvantages((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, title: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={ADVANTAGE_FALLBACKS[i]?.title}
+                    className="mt-2"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor={`advantage-text-${i}`}>Card {i + 1} text</Label>
+                  <Textarea
+                    id={`advantage-text-${i}`}
+                    value={item.description}
+                    onChange={(e) =>
+                      setAdvantages((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, description: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={ADVANTAGE_FALLBACKS[i]?.description}
+                    rows={3}
+                    className="mt-2"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-5 border-t border-slate-200 pt-5">
+            <div>
+              <h3 className="text-sm font-medium text-slate-900">Client quote teasers</h3>
+              <p className="mt-1 text-xs text-slate-500">
+                Short quotes near the bottom of the homepage. Each one links to the full
+                testimonial.
+              </p>
+            </div>
+            {snippets.map((item, i) => (
+              <div key={`snippet-${i}`} className="space-y-3 rounded-lg bg-slate-50 p-4">
+                <div>
+                  <Label htmlFor={`snippet-author-${i}`}>Quote {i + 1} — client name</Label>
+                  <Input
+                    id={`snippet-author-${i}`}
+                    value={item.author}
+                    onChange={(e) =>
+                      setSnippets((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, author: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={SNIPPET_FALLBACKS[i]?.author}
+                    className="mt-2"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor={`snippet-quote-${i}`}>Quote {i + 1} — short quote</Label>
+                  <Textarea
+                    id={`snippet-quote-${i}`}
+                    value={item.quote}
+                    onChange={(e) =>
+                      setSnippets((prev) =>
+                        prev.map((p, j) => (j === i ? { ...p, quote: e.target.value } : p)),
+                      )
+                    }
+                    placeholder={SNIPPET_FALLBACKS[i]?.snippet}
+                    rows={3}
+                    className="mt-2"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
 
           <p className="text-xs text-slate-500">
@@ -1412,6 +1667,168 @@ function SettingsBody() {
             disabled={textSaving}
           >
             {textSaving ? "Saving…" : "Save message"}
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="developments" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <p className="text-xs text-slate-500">
+            The header at the top of the Developments page. The homes themselves are managed under
+            Properties.
+          </p>
+          <div>
+            <Label htmlFor="dev-eyebrow">Small line above the title</Label>
+            <Input
+              id="dev-eyebrow"
+              value={developmentsCopy.heroEyebrow}
+              onChange={(e) =>
+                setDevelopmentsCopy((p) => ({ ...p, heroEyebrow: e.target.value }))
+              }
+              placeholder={DEVELOPMENTS_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="dev-title">Page title</Label>
+            <Input
+              id="dev-title"
+              value={developmentsCopy.heroTitle}
+              onChange={(e) => setDevelopmentsCopy((p) => ({ ...p, heroTitle: e.target.value }))}
+              placeholder={DEVELOPMENTS_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <Button onClick={handleSaveDevelopments} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save developments content"}
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="gallery" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <p className="text-xs text-slate-500">
+            The header of the Gallery page. The photos come from each property.
+          </p>
+          <div>
+            <Label htmlFor="gallery-eyebrow">Small line above the title</Label>
+            <Input
+              id="gallery-eyebrow"
+              value={galleryCopy.heroEyebrow}
+              onChange={(e) => setGalleryCopy((p) => ({ ...p, heroEyebrow: e.target.value }))}
+              placeholder={GALLERY_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="gallery-title">Page title</Label>
+            <Input
+              id="gallery-title"
+              value={galleryCopy.heroTitle}
+              onChange={(e) => setGalleryCopy((p) => ({ ...p, heroTitle: e.target.value }))}
+              placeholder={GALLERY_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="gallery-empty">Message when there are no photos yet</Label>
+            <Input
+              id="gallery-empty"
+              value={galleryCopy.emptyMessage}
+              onChange={(e) => setGalleryCopy((p) => ({ ...p, emptyMessage: e.target.value }))}
+              placeholder={GALLERY_FALLBACKS.emptyMessage}
+              className="mt-2"
+            />
+          </div>
+          <Button onClick={handleSaveGallery} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save gallery content"}
+          </Button>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="testimonials" className="space-y-4">
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <p className="text-xs text-slate-500">
+            The header and the closing call to action. The reviews themselves are managed under
+            Testimonials.
+          </p>
+          <div>
+            <Label htmlFor="testi-eyebrow">Small line above the title</Label>
+            <Input
+              id="testi-eyebrow"
+              value={testimonialsCopy.heroEyebrow}
+              onChange={(e) =>
+                setTestimonialsCopy((p) => ({ ...p, heroEyebrow: e.target.value }))
+              }
+              placeholder={TESTIMONIALS_FALLBACKS.heroEyebrow}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-title">Page title</Label>
+            <Input
+              id="testi-title"
+              value={testimonialsCopy.heroTitle}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, heroTitle: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.heroTitle}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-empty">Message when there are no reviews yet</Label>
+            <Input
+              id="testi-empty"
+              value={testimonialsCopy.emptyMessage}
+              onChange={(e) =>
+                setTestimonialsCopy((p) => ({ ...p, emptyMessage: e.target.value }))
+              }
+              placeholder={TESTIMONIALS_FALLBACKS.emptyMessage}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-label">Call to action — small line</Label>
+            <Input
+              id="testi-cta-label"
+              value={testimonialsCopy.ctaLabel}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaLabel: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaLabel}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-heading">Call to action — heading</Label>
+            <Input
+              id="testi-cta-heading"
+              value={testimonialsCopy.ctaHeading}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaHeading: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaHeading}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-body">Call to action — text</Label>
+            <Textarea
+              id="testi-cta-body"
+              value={testimonialsCopy.ctaBody}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaBody: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaBody}
+              rows={2}
+              className="mt-2"
+            />
+          </div>
+          <div>
+            <Label htmlFor="testi-cta-button">Call to action — button label</Label>
+            <Input
+              id="testi-cta-button"
+              value={testimonialsCopy.ctaButton}
+              onChange={(e) => setTestimonialsCopy((p) => ({ ...p, ctaButton: e.target.value }))}
+              placeholder={TESTIMONIALS_FALLBACKS.ctaButton}
+              className="mt-2"
+            />
+          </div>
+          <Button onClick={handleSaveTestimonials} disabled={textSaving}>
+            {textSaving ? "Saving…" : "Save testimonials content"}
           </Button>
         </div>
       </TabsContent>

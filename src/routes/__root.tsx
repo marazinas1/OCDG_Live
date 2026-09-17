@@ -21,7 +21,12 @@ import { reportLovableError } from "@/lib/lovable-error-reporting";
 import NotFound from "@/pages/NotFound";
 import { fetchContent } from "@/lib/content-resolver";
 import { resolveGlobalBranding } from "@/lib/content/global";
-import { resolveBusinessInfo, resolveMaintenance } from "@/lib/content/business";
+import {
+  DEFAULT_BUSINESS_INFO,
+  resolveBusinessInfo,
+  resolveMaintenance,
+  type BusinessInfo,
+} from "@/lib/content/business";
 import MaintenanceGate from "@/components/MaintenanceGate";
 import type { RootContent } from "@/hooks/useGlobalBranding";
 
@@ -35,37 +40,50 @@ const SITE_DESCRIPTION =
 // parse the head further. (Ported from index.html.)
 const ROBOTS_GUARD = `(function () { try { var host = window.location.hostname; var isProd = host === "www.oceancitydevelopment.com" || host === "oceancitydevelopment.com"; if (!isProd) { var m = document.querySelector('meta[name="robots"]'); if (m) m.setAttribute("content", "noindex, nofollow"); } } catch (e) {} })();`;
 
-// Organization / WebSite JSON-LD, ported verbatim from index.html.
-const ORG_JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://oceancitydevelopment.com/#website",
-      url: "https://oceancitydevelopment.com/",
-      name: "Ocean City Development Group",
-      description: "Premier custom luxury home builder in Ocean City, NJ.",
-      publisher: { "@id": "https://oceancitydevelopment.com/#organization" },
-    },
-    {
-      "@type": ["Organization", "HomeAndConstructionBusiness"],
-      "@id": "https://oceancitydevelopment.com/#organization",
-      name: "Ocean City Development Group",
-      url: "https://oceancitydevelopment.com/",
-      telephone: "+1-609-602-3917",
-      email: "PatrickAHalliday@gmail.com",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "700 Haven Avenue",
-        addressLocality: "Ocean City",
-        addressRegion: "NJ",
-        postalCode: "08226",
-        addressCountry: "US",
+const FONTS_HREF =
+  "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap";
+
+/**
+ * Organization / WebSite JSON-LD built from the Business settings so search
+ * engines see the same contact details the site shows. Falls back to the
+ * built-in values when the loader has not resolved yet.
+ */
+const orgJsonLd = (business: BusinessInfo) => {
+  // "700 Haven Avenue" + "Ocean City, NJ 08226" → PostalAddress parts.
+  const cityLine = business.addressLine2.trim();
+  const match = cityLine.match(/^(.*?),\s*([A-Z]{2})\s*(\d{5})?/);
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://oceancitydevelopment.com/#website",
+        url: "https://oceancitydevelopment.com/",
+        name: "Ocean City Development Group",
+        description: "Premier custom luxury home builder in Ocean City, NJ.",
+        publisher: { "@id": "https://oceancitydevelopment.com/#organization" },
       },
-      areaServed: { "@type": "City", name: "Ocean City, NJ" },
-    },
-  ],
-});
+      {
+        "@type": ["Organization", "HomeAndConstructionBusiness"],
+        "@id": "https://oceancitydevelopment.com/#organization",
+        name: "Ocean City Development Group",
+        url: "https://oceancitydevelopment.com/",
+        telephone: business.phoneHref.replace("tel:", "") || undefined,
+        email: business.email,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: business.addressLine1,
+          addressLocality: match?.[1] ?? "Ocean City",
+          addressRegion: match?.[2] ?? "NJ",
+          postalCode: match?.[3] ?? "08226",
+          addressCountry: "US",
+        },
+        sameAs: [business.facebookUrl, business.instagramUrl].filter(Boolean),
+        areaServed: { "@type": "City", name: "Ocean City, NJ" },
+      },
+    ],
+  });
+};
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   // Site-wide branding (logo, dark logo, site name) fetched once per request so
@@ -110,10 +128,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      // Loaded here rather than via @import in CSS so the browser's preload
+      // scanner finds the font stylesheet immediately.
+      { rel: "stylesheet", href: FONTS_HREF },
     ],
     scripts: [
       { children: ROBOTS_GUARD },
-      { type: "application/ld+json", children: ORG_JSON_LD },
+      {
+        type: "application/ld+json",
+        children: orgJsonLd(loaderData?.business ?? DEFAULT_BUSINESS_INFO),
+      },
     ],
   }),
   shellComponent: RootShell,

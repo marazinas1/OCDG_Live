@@ -6,6 +6,47 @@
 import { resolveMedia, resolveText, type ContentBundle } from "@/lib/content-resolver";
 import { FALLBACK_HERO, HERO_FALLBACKS } from "@/hooks/useSiteSettings";
 
+/** The three "why us" cards. Icons stay in code; only the copy is editable. */
+export const ADVANTAGE_FALLBACKS = [
+  {
+    title: "Architectural Excellence",
+    description:
+      "A decades-long partnership with Halliday Architects ensures every home is a masterwork of design, engineering, and enduring beauty.",
+  },
+  {
+    title: "Premier Locations",
+    description:
+      "We focus exclusively on the most desirable Ocean City neighborhoods — from coveted beach blocks to the prestigious Gardens.",
+  },
+  {
+    title: "Turnkey Luxury",
+    description:
+      "From initial concept to the final finishing touch, we deliver a seamless, white-glove building experience with no detail overlooked.",
+  },
+] as const;
+
+/** Short testimonial teasers on the homepage. The anchors stay in code. */
+export const SNIPPET_FALLBACKS = [
+  {
+    author: "Patti & Ralph Melfi",
+    snippet:
+      "Patti and I are very happy that we chose Scott Halliday to build our Ocean City dream home...",
+  },
+  {
+    author: "Ken & Trudie O'Neill",
+    snippet:
+      "What a wonderful experience it was working with Patrick Halliday! He was so extremely helpful...",
+  },
+  {
+    author: "Mara & Jack LaVoice",
+    snippet:
+      "My wife and I would just like to express our appreciation for your excellent customer service...",
+  },
+] as const;
+
+export type HomeAdvantage = { title: string; description: string };
+export type HomeSnippet = { author: string; snippet: string };
+
 export type HomePageContent = {
   hero: {
     imageUrl: string;
@@ -16,7 +57,14 @@ export type HomePageContent = {
     quote: string;
     quoteAttribution: string;
   };
+  advantages: HomeAdvantage[];
+  snippets: HomeSnippet[];
 };
+
+export const advantageSlot = (index: number, field: "title" | "description") =>
+  `advantage.0${index + 1}.${field}`;
+export const snippetSlot = (index: number, field: "author" | "quote") =>
+  `snippet.0${index + 1}.${field}`;
 
 export function resolveHomeContent(bundle: ContentBundle): HomePageContent {
   return {
@@ -34,5 +82,18 @@ export function resolveHomeContent(bundle: ContentBundle): HomePageContent {
         HERO_FALLBACKS.quoteAttribution,
       ),
     },
+    advantages: ADVANTAGE_FALLBACKS.map((fallback, i) => ({
+      title: resolveText(bundle, "home", advantageSlot(i, "title"), fallback.title),
+      description: resolveText(
+        bundle,
+        "home",
+        advantageSlot(i, "description"),
+        fallback.description,
+      ),
+    })),
+    snippets: SNIPPET_FALLBACKS.map((fallback, i) => ({
+      author: resolveText(bundle, "home", snippetSlot(i, "author"), fallback.author),
+      snippet: resolveText(bundle, "home", snippetSlot(i, "quote"), fallback.snippet),
+    })),
   };
 }

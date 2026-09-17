@@ -11,24 +11,12 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { usePublicProperties } from "@/hooks/usePublicProperties";
 import { STATUS_BADGE_CLASSES, STATUS_LABELS } from "@/lib/admin/status";
 import approachImage from "@/assets/28th-approach-v4.jpg";
+import type { HomeAdvantage } from "@/lib/content/home";
 
-const testimonialSnippets = [
-  {
-    author: "Patti & Ralph Melfi",
-    snippet: "Patti and I are very happy that we chose Scott Halliday to build our Ocean City dream home...",
-    anchor: "#melfi",
-  },
-  {
-    author: "Ken & Trudie O'Neill",
-    snippet: "What a wonderful experience it was working with Patrick Halliday! He was so extremely helpful...",
-    anchor: "#oneill",
-  },
-  {
-    author: "Mara & Jack LaVoice",
-    snippet: "My wife and I would just like to express our appreciation for your excellent customer service...",
-    anchor: "#lavoice",
-  },
-];
+/** Anchors stay in code; the author and quote come from Settings → Home texts. */
+const snippetAnchors = ["#melfi", "#oneill", "#lavoice"];
+
+type SnippetCard = { author: string; snippet: string; anchor: string };
 
 /* Intersection Observer hook for scroll-triggered fade-in */
 function useScrollReveal() {
@@ -61,35 +49,24 @@ const RevealSection = ({ children, className = "" }: { children: React.ReactNode
   );
 };
 
-const advantageItems = [
-  {
-    title: "Architectural Excellence",
-    description: "A decades-long partnership with Halliday Architects ensures every home is a masterwork of design, engineering, and enduring beauty.",
-    icon: (
-      <svg className="w-8 h-8 text-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21" />
-      </svg>
-    ),
-  },
-  {
-    title: "Premier Locations",
-    description: "We focus exclusively on the most desirable Ocean City neighborhoods — from coveted beach blocks to the prestigious Gardens.",
-    icon: (
-      <svg className="w-8 h-8 text-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Turnkey Luxury",
-    description: "From initial concept to the final finishing touch, we deliver a seamless, white-glove building experience with no detail overlooked.",
-    icon: (
-      <svg className="w-8 h-8 text-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
-      </svg>
-    ),
-  },
+/** Icons stay in code; the titles and descriptions come from Settings. */
+const advantageIcons = [
+  (
+    <svg className="w-8 h-8 text-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21" />
+    </svg>
+  ),
+  (
+    <svg className="w-8 h-8 text-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+    </svg>
+  ),
+  (
+    <svg className="w-8 h-8 text-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
+    </svg>
+  ),
 ];
 
 /* Mobile horizontal carousel for cards */
@@ -136,12 +113,12 @@ const MobileCarousel = ({ children, itemCount }: { children: React.ReactNode[]; 
   );
 };
 
-const AdvantageCards = () => {
+const AdvantageCards = ({ items }: { items: HomeAdvantage[] }) => {
   const isMobile = useIsMobile();
 
-  const cards = advantageItems.map((item) => (
+  const cards = items.map((item, i) => (
     <div key={item.title} className="text-center p-8">
-      <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{item.icon}</div>
+      <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{advantageIcons[i]}</div>
       <h3 className="heading-card text-charcoal mb-4">{item.title}</h3>
       <div className="w-8 h-px bg-charcoal/30 mx-auto mb-4" />
       <p className="text-body leading-relaxed">{item.description}</p>
@@ -151,17 +128,17 @@ const AdvantageCards = () => {
   if (isMobile) {
     return (
       <RevealSection>
-        <MobileCarousel itemCount={advantageItems.length}>{cards}</MobileCarousel>
+        <MobileCarousel itemCount={items.length}>{cards}</MobileCarousel>
       </RevealSection>
     );
   }
 
   return (
     <div className="grid grid-cols-3 gap-8">
-      {advantageItems.map((item, i) => (
+      {items.map((item, i) => (
         <RevealSection key={item.title} className={`delay-${i * 100}`}>
           <div className="text-center p-8">
-            <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{item.icon}</div>
+            <div className="w-12 h-12 mx-auto mb-6 flex items-center justify-center">{advantageIcons[i]}</div>
             <h3 className="heading-card text-charcoal mb-4">{item.title}</h3>
             <div className="w-8 h-px bg-charcoal/30 mx-auto mb-4" />
             <p className="text-body leading-relaxed">{item.description}</p>
@@ -171,7 +148,7 @@ const AdvantageCards = () => {
     </div>
   );
 };
-const TestimonialCard = ({ t }: { t: typeof testimonialSnippets[0] }) => (
+const TestimonialCard = ({ t }: { t: SnippetCard }) => (
   <div className="card-elegant p-8 h-full flex flex-col">
     <svg className="w-6 h-6 mb-4 text-charcoal/20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M11.3 2.5c-1.4.7-2.5 1.6-3.4 2.7C6.9 6.3 6.3 7.5 5.9 8.9c-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2zm10 0c-1.4.7-2.5 1.6-3.4 2.7-1 1.1-1.6 2.3-2 3.7-.4 1.3-.5 2.8-.3 4.3h.1c.5-.5 1.2-.8 2-.8 1 0 1.9.4 2.6 1.1.7.7 1.1 1.6 1.1 2.7 0 1-.4 1.9-1.1 2.6-.7.7-1.6 1.1-2.7 1.1-1.2 0-2.2-.5-3-1.4-.8-1-1.2-2.2-1.2-3.8 0-2 .4-3.8 1.2-5.5.8-1.7 1.9-3.1 3.3-4.2 1.4-1.1 2.9-1.9 4.5-2.3l-.1-.2z" />
@@ -189,14 +166,14 @@ const TestimonialCard = ({ t }: { t: typeof testimonialSnippets[0] }) => (
   </div>
 );
 
-const TestimonialCards = () => {
+const TestimonialCards = ({ items }: { items: SnippetCard[] }) => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
     return (
       <RevealSection>
-        <MobileCarousel itemCount={testimonialSnippets.length}>
-          {testimonialSnippets.map((t) => (
+        <MobileCarousel itemCount={items.length}>
+          {items.map((t) => (
             <TestimonialCard key={t.author} t={t} />
           ))}
         </MobileCarousel>
@@ -206,7 +183,7 @@ const TestimonialCards = () => {
 
   return (
     <div className="grid grid-cols-3 gap-8">
-      {testimonialSnippets.map((t, i) => (
+      {items.map((t, i) => (
         <RevealSection key={t.author} className={`delay-${i * 100}`}>
           <TestimonialCard t={t} />
         </RevealSection>
@@ -219,7 +196,11 @@ const homeRoute = getRouteApi("/");
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
-  const { hero } = homeRoute.useLoaderData();
+  const { hero, advantages, snippets } = homeRoute.useLoaderData();
+  const snippetCards: SnippetCard[] = snippets.map((s, i) => ({
+    ...s,
+    anchor: snippetAnchors[i] ?? "",
+  }));
   const { siteName } = useGlobalBranding();
 
 
@@ -359,7 +340,7 @@ const Index = () => {
               <div className="divider mx-auto" />
             </div>
           </RevealSection>
-          <AdvantageCards />
+          <AdvantageCards items={advantages} />
           <RevealSection>
             <div className="text-center mt-10">
               <Link to="/about" className="btn-primary btn-compact">
@@ -423,7 +404,7 @@ const Index = () => {
               <div className="divider mx-auto" />
             </div>
           </RevealSection>
-          <TestimonialCards />
+          <TestimonialCards items={snippetCards} />
         </div>
       </section>
 
