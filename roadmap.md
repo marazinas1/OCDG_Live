@@ -1,4 +1,9 @@
-- [ ] Palyginti visą OCDG šriftų sistemą su Halliday Architects
-- [ ] Suvienodinti viešos svetainės ir administravimo šriftus pagal Halliday Architects
-- [ ] Pakartotinai patikrinti administravimo dalį pagal aktyvius Deerva standartus
-- [ ] Patikrinti rezultatą naršyklėje ir automatinėmis patikromis
+- [ ] Pakeisti visą OCDG šriftų sistemą į Halliday Architects naudojamą Urbanist
+- [ ] Pašalinti serif nutekėjimą į admin ir auth ekranus
+- [ ] Pakeisti admin turinį į visą galimą plotį
+- [ ] Užbaigti AdminTabs ir Maintenance pagal aktyvų Deerva standartą
+- [ ] Įleisti editor rolę su permission-aware navigacija ir veiksmais
+- [ ] Suderinti turinio RLS su editor teisėmis, išlaikant owner/developer apsaugas
+- [ ] Užbaigti admin loading/accessibility/read-only būsenas
+- [ ] Atnaujinti AGENTS.md ir FRONTEND.md
+- [ ] Patikrinti public ir admin desktop/mobile bei automatines patikras
