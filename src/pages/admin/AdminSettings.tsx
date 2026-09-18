@@ -1327,7 +1327,7 @@ function SettingsBody() {
           />
         ))}
 
-        {isManager ? <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Page header</p>
           <div>
             <Label htmlFor="about-eyebrow">Small line above the title</Label>
@@ -1349,13 +1349,9 @@ function SettingsBody() {
               className="mt-2"
             />
           </div>
-        </div> : (
-          <div className="rounded-lg border border-border bg-muted p-5 text-sm text-muted-foreground">
-            Partner records are read only for Editors. An Owner or Developer can add, reorder, or remove them.
-          </div>
-        )}
+        </div>
 
-        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+        {isManager ? <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Our Story</p>
           <div>
             <Label htmlFor="story-label">Small label</Label>
@@ -1419,7 +1415,11 @@ function SettingsBody() {
               className="mt-2"
             />
           </div>
-        </div>
+        </div> : (
+          <div className="rounded-lg border border-border bg-muted p-5 text-sm text-muted-foreground">
+            Partner records are read only for Editors. An Owner or Developer can add, reorder, or remove them.
+          </div>
+        )}
 
         <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Leadership &amp; Our Promise</p>
