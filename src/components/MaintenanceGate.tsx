@@ -91,7 +91,7 @@ function HoldingPage({ message }: { message: string }) {
 
 function StaffBanner({ onPreview }: { onPreview: () => void }) {
   return (
-    <div className="sticky top-0 z-[100] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 bg-amber-500 px-4 py-2 text-center text-xs font-medium text-amber-950">
+    <div className="sticky top-0 z-[100] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 bg-warning px-4 py-2 text-center text-xs font-medium text-warning-foreground">
       <span>
         Maintenance mode is on — you can see the site because you are signed in. Visitors see a
         holding page.

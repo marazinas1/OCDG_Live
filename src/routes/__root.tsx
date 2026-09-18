@@ -41,7 +41,7 @@ const SITE_DESCRIPTION =
 const ROBOTS_GUARD = `(function () { try { var host = window.location.hostname; var isProd = host === "www.oceancitydevelopment.com" || host === "oceancitydevelopment.com"; if (!isProd) { var m = document.querySelector('meta[name="robots"]'); if (m) m.setAttribute("content", "noindex, nofollow"); } } catch (e) {} })();`;
 
 const FONTS_HREF =
-  "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap";
+  "https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap";
 
 /**
  * Organization / WebSite JSON-LD built from the Business settings so search

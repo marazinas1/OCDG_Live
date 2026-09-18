@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useUnreadInquiryCount } from "@/hooks/admin/useInquiries";
 import { relativeTime, useContentCounts, useRecentActivity } from "@/hooks/admin/useDashboard";
 import { useAnalytics } from "@/hooks/admin/useAnalytics";
+import { useAdminAuth } from "@/hooks/admin/useAdminAuth";
 
 function Stat({ value, label, to }: { value: number; label: string; to: string }) {
   return (
@@ -32,13 +33,15 @@ function AttentionRow({ to, children }: { to: string; children: React.ReactNode 
 }
 
 function AdminDashboardInner() {
+  const auth = useAdminAuth();
+  const isManager = auth.status === "admin" && auth.role !== "editor";
   const { data: counts } = useContentCounts();
-  const { data: traffic } = useAnalytics(7);
-  const { data: unread = 0 } = useUnreadInquiryCount();
+  const { data: traffic } = useAnalytics(7, isManager);
+  const { data: unread = 0 } = useUnreadInquiryCount(isManager);
   const { data: activity = [] } = useRecentActivity();
 
   const drafts = counts?.draftProperties ?? 0;
-  const waiting = unread > 0 || drafts > 0;
+  const waiting = (isManager && unread > 0) || drafts > 0;
 
   return (
     <div className="space-y-14">
@@ -58,7 +61,7 @@ function AdminDashboardInner() {
         <div className="mt-4">
           {waiting ? (
             <div className="rounded-lg border border-border bg-card px-6">
-              {unread > 0 && (
+              {isManager && unread > 0 && (
                 <AttentionRow to="/admin/inquiries">
                   {unread} unread {unread === 1 ? "inquiry" : "inquiries"}
                 </AttentionRow>
@@ -80,16 +83,8 @@ function AdminDashboardInner() {
       <section>
         <h2 className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Numbers</h2>
         <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
-          <Stat
-            value={Number(traffic?.totals?.views ?? 0)}
-            label="Views this week"
-            to="/admin/analytics"
-          />
-          <Stat
-            value={Number(traffic?.totals?.visitors ?? 0)}
-            label="Visitors this week"
-            to="/admin/analytics"
-          />
+          {isManager && <Stat value={Number(traffic?.totals?.views ?? 0)} label="Views this week" to="/admin/analytics" />}
+          {isManager && <Stat value={Number(traffic?.totals?.visitors ?? 0)} label="Visitors this week" to="/admin/analytics" />}
           <Stat
             value={counts?.publishedProperties ?? 0}
             label="Published"
@@ -110,18 +105,18 @@ function AdminDashboardInner() {
               Add a property
             </Link>
           </Button>
-          <Button asChild variant="outline">
+           {isManager && <Button asChild variant="outline">
             <Link to="/admin/inquiries">
               <Inbox className="h-4 w-4" />
               Inquiries
             </Link>
-          </Button>
-          <Button asChild variant="outline">
+           </Button>}
+           {isManager && <Button asChild variant="outline">
             <Link to="/admin/users">
               <UserCog className="h-4 w-4" />
               Users
             </Link>
-          </Button>
+           </Button>}
           <Button asChild variant="ghost">
             <a href="/" target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-4 w-4" />

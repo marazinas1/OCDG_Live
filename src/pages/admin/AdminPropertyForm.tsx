@@ -46,6 +46,7 @@ import {
   uploadImage,
 } from "@/lib/admin/imageUpload";
 import { isValidSlug, slugify } from "@/lib/admin/slug";
+import { canDeleteContent, useAdminAuth } from "@/hooks/admin/useAdminAuth";
 import {
   PROPERTY_STATUSES,
   STATUS_LABELS,
@@ -92,6 +93,8 @@ type ImageSlot =
       sort_order: number;
       category: ImageCategory;
       floor_plan_id: string | null;
+      replaceDbId?: string;
+      previousStoragePath?: string;
     };
 
 const FIXED_GROUPS: {
@@ -177,6 +180,7 @@ function ImageSlotBox({
   uploading,
   title,
   altPrefill,
+  canRemove,
 }: {
   slot: ImageSlot | null;
   onFile: (file: File) => void;
@@ -186,6 +190,7 @@ function ImageSlotBox({
   uploading: boolean;
   title: string;
   altPrefill: string;
+  canRemove: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -272,7 +277,7 @@ function ImageSlotBox({
               )}
             </div>
             <div className="flex gap-1">
-              <Button
+              {canRemove && <Button
                 type="button"
                 variant="outline"
                 size="sm"
@@ -280,7 +285,7 @@ function ImageSlotBox({
                 onClick={() => inputRef.current?.click()}
               >
                 Replace
-              </Button>
+              </Button>}
               <Button
                 type="button"
                 variant="ghost"
@@ -302,6 +307,8 @@ function ImageSlotBox({
 }
 
 function FormInner() {
+  const auth = useAdminAuth();
+  const canDelete = auth.status === "admin" && canDeleteContent(auth.role);
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
   const navigate = useNavigate();
@@ -551,10 +558,10 @@ function FormInner() {
     const cur = slotsByCategory[cat] ?? [];
     const old = cur[index];
     if (!old) return;
-    if (old.kind === "existing") {
+    if (old.kind === "existing" && canDelete) {
       setDeletedStoragePaths((p) => [...p, old.storage_path]);
       setDeletedDbIds((p) => [...p, old.dbId]);
-    } else {
+    } else if (old.kind === "pending") {
       URL.revokeObjectURL(old.previewUrl);
     }
     const slot: ImageSlot = {
@@ -566,6 +573,9 @@ function FormInner() {
       sort_order: old.sort_order,
       category: old.category,
       floor_plan_id: old.floor_plan_id,
+      ...(old.kind === "existing" && !canDelete
+        ? { replaceDbId: old.dbId, previousStoragePath: old.storage_path }
+        : {}),
     };
     const next = [...cur];
     next[index] = slot;
@@ -800,7 +810,7 @@ function FormInner() {
               category: slot.category,
               slug: slug.trim(),
             });
-            uploadedRows.push({
+            const uploadedRow = {
               property_id: propertyId,
               category: slot.category,
               storage_path,
@@ -809,7 +819,21 @@ function FormInner() {
                 `${title.trim()} - ${CATEGORY_LABELS[slot.category]}`,
               sort_order: i,
               floor_plan_id: slot.floor_plan_id,
-            });
+            };
+            if (slot.replaceDbId) {
+              const { error } = await supabase
+                .from("property_images")
+                .update({
+                  storage_path,
+                  alt_text: uploadedRow.alt_text,
+                  sort_order: i,
+                  floor_plan_id: slot.floor_plan_id,
+                })
+                .eq("id", slot.replaceDbId);
+              if (error) throw error;
+            } else {
+              uploadedRows.push(uploadedRow);
+            }
           } else if (slot.kind === "existing") {
             // Update if changed
             const { error } = await supabase
@@ -844,7 +868,7 @@ function FormInner() {
         }
       }
       for (const row of uploadedRows) referenced.add(row.storage_path);
-      try {
+      if (canDelete) try {
         await sweepPropertyFolder(slug.trim(), referenced);
       } catch (sweepErr: any) {
         // Save succeeded; only the orphan cleanup failed. Surface a warning
@@ -1010,7 +1034,7 @@ function FormInner() {
           </h1>
         </div>
         <div className="flex gap-2">
-          {isEdit && (
+          {isEdit && canDelete && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="outline" className="text-destructive">
@@ -1469,6 +1493,7 @@ function FormInner() {
                       slot={slot}
                       title={`${group.label} ${i + 1}`}
                       altPrefill={`${title || "Property"} - ${group.label}`}
+                      canRemove={canDelete || slot?.kind === "pending"}
                       uploading={false}
                       onFile={(file) => {
                         if (slot) replaceSlot(group.category, i, file);
@@ -1594,6 +1619,7 @@ function FormInner() {
                       slot={img ?? null}
                       title={fp.name || `Level ${idx + 1}`}
                       altPrefill={`${title || "Property"} - ${fp.name || "Floor plan"}`}
+                      canRemove={canDelete || img?.kind === "pending"}
                       uploading={false}
                       onFile={(file) => setFloorPlanImage(fp.id, file)}
                       onRemove={() => removeFloorPlanImage(fp.id)}

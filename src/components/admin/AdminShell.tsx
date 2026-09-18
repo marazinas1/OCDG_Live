@@ -33,8 +33,7 @@ export default function AdminShell({
             </Link>
           </header>
           <main className="flex-1 px-4 py-6 md:px-6 md:py-8">
-            {/* Single content width for every admin screen. */}
-            <div className="mx-auto w-full max-w-7xl">{children}</div>
+            <div className="w-full">{children}</div>
           </main>
         </div>
       </div>

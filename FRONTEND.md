@@ -8,7 +8,7 @@ rules and history) and `PLAN.md` (roadmap).
 - TanStack Start v1 + React 19, SSR on for every public route.
 - Vite build, Tailwind v4 (CSS-first, tokens in `src/styles.css`, no
   `tailwind.config.js`), shadcn/ui components.
-- Lovable Cloud (Supabase) for database, auth, storage, analytics.
+- Lovable Cloud for database, auth, storage, analytics.
 
 ## Routing
 
@@ -54,6 +54,7 @@ src/lib/content-resolver.ts   resolveText / resolveOptionalText / resolveMedia
 - Motion: ScrollReveal fade-in, parallax headers, Ken Burns hero. All of it
   is suppressed by the `prefers-reduced-motion` block in `src/styles.css`.
 - Fonts load via `<link>` in `src/routes/__root.tsx`, never `@import` in CSS.
+- Urbanist (300–800) is the only typeface across the public site, auth and admin.
 
 ## SEO
 
@@ -82,19 +83,23 @@ Menu order is fixed: Workspace (Dashboard, Inquiries, Analytics) → Manage
 of this project yet.
 
 Settings tabs mirror the public menu: Business & appearance (business details,
-logo, favicon, logo size, and maintenance mode as a collapsible block inside
+logo, favicon, logo size, and maintenance mode as an always-visible final card inside
 it), then Home, Developments, Gallery, Testimonials, About, and Contact last.
 Each page tab edits both the texts and the images of that page.
 
 Tabs everywhere use the shared `src/components/admin/AdminTabs.tsx` treatment:
-bordered container, stable height, active trigger changes its whole surface,
-no arbitrary radius. Repeating records (testimonials) are expandable rows with
+transparent horizontal row, stable height and a 3 px primary underline for the
+active trigger. Repeating records (testimonials) are expandable rows with
 inline editing, an "Expand all / Collapse all" control and a "Shown on site"
 switch.
 
-Documented exception to the Deerva standard: admin content is capped at
-`max-w-7xl` in `AdminShell`, on purpose, so every admin screen has the same
-width. Do not "fix" this to full width.
+Admin pages use the full shell content width. Only dialogs, public previews and
+intrinsically short fields may use a maximum width.
+
+Developer and Owner can access every admin area. Editor can access Dashboard,
+Properties, Testimonials and public-page Settings tabs. Editor cannot access
+Inquiries, Analytics, Users, Business & appearance, maintenance or destructive
+actions. Security is enforced by database policies as well as reflected in UI.
 
 Behaviour rules: every list has a plain-language empty state, destructive
 actions confirm and say what is lost, saves show a toast, and unsaved changes

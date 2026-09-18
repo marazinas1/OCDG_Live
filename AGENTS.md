@@ -115,3 +115,10 @@ skaito, prie naujo framework'o:
 ## Žinoma pasikartojanti problema
 
 Šis Lovable projektas kartkartėmis sugeneruoja Drizzle migracijas (drizzle/ katalogas, drizzle.config.ts) vietoj įprastų supabase/migrations/*.sql failų, nepaisant to, kad projekto istorija visada naudojo pastaruosius. Tai įvyko bent tris kartus. Kai schema keitimas paprašomas, VISADA patikrink po darbo, ar migracija atsirado supabase/migrations/, o ne drizzle/. Jei atsirado drizzle/, sutvarkyk tuo pačiu būdu: nukopijuok SQL turinį pažodžiui į supabase/migrations/, tada pašalink drizzle artefaktus.
+
+## Dabartinis dizaino ir admin standartas
+
+- Visa vieša svetainė, auth ir admin naudoja Urbanist 300–800; serif šriftų nėra.
+- Admin turinys naudoja visą shell plotį, be `max-w-7xl` išimties.
+- Editor gali valdyti Properties, Testimonials ir viešų puslapių turinį, bet nemato Inquiries, Analytics, Users ar Business & appearance ir negali trinti.
+- Settings Maintenance yra visada matoma paskutinė Business & appearance kortelė, ne collapsible blokas.

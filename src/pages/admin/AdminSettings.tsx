@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useBlocker } from "@tanstack/react-router";
-import { ArrowDown, ArrowUp, ChevronDown, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,11 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { AdminTabsList, AdminTabsTrigger } from "@/components/admin/AdminTabs";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import {
   FALLBACK_LOGO,
@@ -58,6 +53,7 @@ import {
 } from "@/lib/content/pages";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { canManageBusiness, useAdminAuth } from "@/hooks/admin/useAdminAuth";
 
 const PAGES = [
   "global",
@@ -164,6 +160,7 @@ function AssetSlot({
   progress,
   onPick,
   onRemove,
+  canRemove = true,
 }: {
   label: string;
   help: string;
@@ -175,6 +172,7 @@ function AssetSlot({
   progress: number;
   onPick: (file: File) => void;
   onRemove: () => void;
+  canRemove?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -195,7 +193,7 @@ function AssetSlot({
           >
             {hasUpload ? "Replace" : "Upload"}
           </Button>
-          {hasUpload && (
+          {hasUpload && canRemove && (
             <Button type="button" variant="ghost" size="sm" disabled={busy} onClick={onRemove}>
               Remove
             </Button>
@@ -316,6 +314,9 @@ function partnersFromBundle(bundle: ContentBundle): PartnerDraft[] {
 const ordinal = (index: number) => String(index + 1).padStart(2, "0");
 
 function SettingsBody() {
+  const auth = useAdminAuth();
+  const isManager = auth.status === "admin" && canManageBusiness(auth.role);
+  const [activeTab, setActiveTab] = useState("homepage");
   const { bundle, isLoading } = usePageContent(PAGES);
   const saveText = useSaveText();
   const saveMedia = useSaveMedia();
@@ -330,6 +331,10 @@ function SettingsBody() {
   const [ctaLabel, setCtaLabel] = useState("");
   const [quote, setQuote] = useState("");
   const [quoteAttribution, setQuoteAttribution] = useState("");
+
+  useEffect(() => {
+    if (isManager) setActiveTab((current) => current === "homepage" ? "business" : current);
+  }, [isManager]);
 
   const [about, setAbout] = useState({
     heroEyebrow: "",
@@ -609,7 +614,9 @@ function SettingsBody() {
       await saveText.mutateAsync({
         page,
         entries,
-        ...(preserveBlank ? { preserveBlank } : {}),
+        ...((preserveBlank || !isManager)
+          ? { preserveBlank: preserveBlank ?? entries.map((entry) => entry.slot) }
+          : {}),
       });
       toast({ title: "Saved", description });
 
@@ -758,6 +765,12 @@ function SettingsBody() {
         { slot: "partners_heading", value: about.partnersHeading },
       ]);
 
+      if (!isManager) {
+        await invalidate();
+        toast({ title: "Saved", description: "About page updated." });
+        return;
+      }
+
       // Replace the partner block wholesale: clear every numbered slot, then
       // write the current list back starting at 01.
       const clearText = await supabase
@@ -884,10 +897,10 @@ function SettingsBody() {
         )}
       </div>
 
-      <Tabs defaultValue="business" className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <AdminTabsList>
           {[
-            { value: "business", label: "Business & appearance" },
+            ...(isManager ? [{ value: "business", label: "Business & appearance" }] : []),
             { value: "homepage", label: "Home" },
             { value: "developments", label: "Developments" },
             { value: "gallery", label: "Gallery" },
@@ -902,7 +915,7 @@ function SettingsBody() {
         </AdminTabsList>
 
 
-      <TabsContent value="business" className="space-y-4">
+      {isManager && <TabsContent value="business" className="space-y-4">
         <p className="text-xs text-muted-foreground">
           Name, contact details and social links. These appear in the footer, on the contact page
           and in search results.
@@ -1033,6 +1046,7 @@ function SettingsBody() {
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
+            canRemove={isManager}
           />
         ))}
 
@@ -1074,19 +1088,10 @@ function SettingsBody() {
         </div>
         </div>
 
-        <Collapsible className="rounded-lg border border-border bg-card">
-          <CollapsibleTrigger className="flex w-full items-center justify-between gap-4 p-5 text-left">
-            <span>
-              <span className="block text-sm font-medium text-foreground">Maintenance mode</span>
-              <span className="mt-1 block text-xs text-muted-foreground">
-                {maintenanceOn ? "Currently on — visitors see the holding page." : "Currently off — the site is public."}
-              </span>
-            </span>
-            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-5 border-t border-border p-5">
+        <section className="space-y-5 rounded-lg border border-border bg-card p-5">
           <div className="flex items-start justify-between gap-6">
             <div>
+              <h2 className="text-sm font-medium text-foreground">Maintenance mode</h2>
               <p className="text-xs text-muted-foreground">
                 Visitors see a short holding page instead of the site. You stay signed in and keep
                 seeing the real site, with a reminder bar at the top.
@@ -1118,9 +1123,8 @@ function SettingsBody() {
           >
             {textSaving ? "Saving…" : "Save message"}
           </Button>
-          </CollapsibleContent>
-        </Collapsible>
-      </TabsContent>
+        </section>
+      </TabsContent>}
       <TabsContent value="homepage" className="space-y-4">
         {HOME_SLOTS.map((slot) => (
           <AssetSlot
@@ -1135,6 +1139,7 @@ function SettingsBody() {
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
+            canRemove={isManager}
           />
         ))}
 
@@ -1323,6 +1328,7 @@ function SettingsBody() {
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
+            canRemove={isManager}
           />
         ))}
 
@@ -1473,7 +1479,7 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+        {isManager ? <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Trusted Collaborators</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
@@ -1594,7 +1600,11 @@ function SettingsBody() {
             <Plus className="mr-2 h-4 w-4" />
             Add partner
           </Button>
-        </div>
+        </div> : (
+          <div className="rounded-lg border border-border bg-muted p-5 text-sm text-muted-foreground">
+            Partner records are read only for Editors. An Owner or Developer can add, reorder, or remove them.
+          </div>
+        )}
 
         <p className="text-xs text-muted-foreground">
           Leave a field empty to fall back to the default wording shown in grey.

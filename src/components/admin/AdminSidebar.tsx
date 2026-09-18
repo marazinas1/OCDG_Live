@@ -24,6 +24,7 @@ type NavItem = {
   url: string;
   icon: typeof LayoutDashboard;
   match: (p: string) => boolean;
+  managerOnly?: boolean;
 };
 
 /** Fixed menu order: daily work first, content next, settings last. */
@@ -32,8 +33,8 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     label: "Workspace",
     items: [
       { title: "Dashboard", url: "/admin", icon: LayoutDashboard, match: (p) => p === "/admin" },
-      { title: "Inquiries", url: "/admin/inquiries", icon: Inbox, match: (p) => p.startsWith("/admin/inquiries") },
-      { title: "Analytics", url: "/admin/analytics", icon: BarChart3, match: (p) => p.startsWith("/admin/analytics") },
+      { title: "Inquiries", url: "/admin/inquiries", icon: Inbox, match: (p) => p.startsWith("/admin/inquiries"), managerOnly: true },
+      { title: "Analytics", url: "/admin/analytics", icon: BarChart3, match: (p) => p.startsWith("/admin/analytics"), managerOnly: true },
     ],
   },
   {
@@ -46,7 +47,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: "Settings",
     items: [
-      { title: "Users", url: "/admin/users", icon: UserCog, match: (p) => p.startsWith("/admin/users") },
+      { title: "Users", url: "/admin/users", icon: UserCog, match: (p) => p.startsWith("/admin/users"), managerOnly: true },
       { title: "Settings", url: "/admin/settings", icon: Settings, match: (p) => p.startsWith("/admin/settings") },
     ],
   },
@@ -69,7 +70,8 @@ export default function AdminSidebar({
   const navigate = useNavigate();
   const { state, isMobile, setOpenMobile } = useSidebar();
   const collapsed = state === "collapsed";
-  const { data: unreadCount = 0 } = useUnreadInquiryCount();
+  const isManager = role === "developer" || role === "owner";
+  const { data: unreadCount = 0 } = useUnreadInquiryCount(isManager);
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -90,7 +92,7 @@ export default function AdminSidebar({
             <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map((item) => (
+                {group.items.filter((item) => isManager || !item.managerOnly).map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild

@@ -453,7 +453,7 @@ function AnalyticsInner() {
 
 export default function AdminAnalytics() {
   return (
-    <AdminProtected>
+    <AdminProtected allowedRoles={["developer", "owner"]}>
       <AnalyticsInner />
     </AdminProtected>
   );

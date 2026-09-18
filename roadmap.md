@@ -1,9 +1,9 @@
-- [ ] Pakeisti visą OCDG šriftų sistemą į Halliday Architects naudojamą Urbanist
-- [ ] Pašalinti serif nutekėjimą į admin ir auth ekranus
-- [ ] Pakeisti admin turinį į visą galimą plotį
-- [ ] Užbaigti AdminTabs ir Maintenance pagal aktyvų Deerva standartą
-- [ ] Įleisti editor rolę su permission-aware navigacija ir veiksmais
-- [ ] Suderinti turinio RLS su editor teisėmis, išlaikant owner/developer apsaugas
-- [ ] Užbaigti admin loading/accessibility/read-only būsenas
-- [ ] Atnaujinti AGENTS.md ir FRONTEND.md
-- [ ] Patikrinti public ir admin desktop/mobile bei automatines patikras
+- [x] Pakeisti visą OCDG šriftų sistemą į Halliday Architects naudojamą Urbanist
+- [x] Pašalinti serif nutekėjimą į admin ir auth ekranus
+- [x] Pakeisti admin turinį į visą galimą plotį
+- [x] Užbaigti AdminTabs ir Maintenance pagal aktyvų Deerva standartą
+- [x] Įleisti editor rolę su permission-aware navigacija ir veiksmais
+- [x] Suderinti turinio RLS su editor teisėmis, išlaikant owner/developer apsaugas
+- [x] Užbaigti admin loading/accessibility/read-only būsenas
+- [x] Atnaujinti AGENTS.md ir FRONTEND.md
+- [x] Patikrinti public ir admin desktop/mobile bei automatines patikras

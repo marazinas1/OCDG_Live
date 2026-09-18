@@ -66,6 +66,7 @@ import {
 } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
+import { canDeleteContent, useAdminAuth } from "@/hooks/admin/useAdminAuth";
 
 type ViewMode = "grid" | "table";
 type StatusFilter = "all" | PropertyStatus;
@@ -76,6 +77,8 @@ type SortKey = "newest" | "title-asc" | "listed-desc";
 const VIEW_STORAGE_KEY = "admin-properties-view";
 
 function AdminPropertiesInner() {
+  const auth = useAdminAuth();
+  const canDelete = auth.status === "admin" && canDeleteContent(auth.role);
   const { data, isLoading, error, refetch } = useProperties();
   const updateStatus = useUpdatePropertyStatus();
   const updatePublished = useUpdatePropertyPublished();
@@ -272,7 +275,7 @@ function AdminPropertiesInner() {
         <TableView items={filtered} {...handlers} />
       )}
 
-      <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
+      <AlertDialog open={canDelete && !!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete property?</AlertDialogTitle>
@@ -342,6 +345,8 @@ function RowActions({
   onDelete,
   onCopy,
 }: { p: PropertyListItem } & Pick<RowHandlers, "onDelete" | "onCopy">) {
+  const auth = useAdminAuth();
+  const canDelete = auth.status === "admin" && canDeleteContent(auth.role);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -362,13 +367,13 @@ function RowActions({
             </a>
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem
+        {canDelete && <DropdownMenuItem
           onClick={() => onDelete({ id: p.id, title: p.title })}
           className="text-destructive focus:text-destructive"
         >
           <Trash2 className="h-4 w-4" />
           Delete
-        </DropdownMenuItem>
+        </DropdownMenuItem>}
       </DropdownMenuContent>
     </DropdownMenu>
   );

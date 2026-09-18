@@ -13,8 +13,8 @@
  */
 
 @theme inline {
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Urbanist', system-ui, sans-serif;
+  --font-serif: 'Urbanist', system-ui, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -274,13 +274,12 @@
     color: hsl(var(--foreground));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Urbanist', system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    letter-spacing: -0.025em;
+    font-family: 'Urbanist', system-ui, sans-serif;
+    font-weight: 700;
   }
 }
 
@@ -457,20 +456,20 @@
 
   /* Typography */
   .heading-display {
-    @apply text-4xl md:text-5xl lg:text-6xl font-normal;
-    font-family: 'Playfair Display', serif;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+    font-family: 'Urbanist', system-ui, sans-serif;
     line-height: 1.1;
   }
 
   .heading-section {
-    @apply text-3xl md:text-4xl font-normal;
-    font-family: 'Playfair Display', serif;
+    @apply text-3xl md:text-4xl font-bold;
+    font-family: 'Urbanist', system-ui, sans-serif;
     line-height: 1.2;
   }
 
   .heading-card {
-    @apply text-xl md:text-2xl font-normal;
-    font-family: 'Playfair Display', serif;
+    @apply text-xl md:text-2xl font-semibold;
+    font-family: 'Urbanist', system-ui, sans-serif;
   }
 
   .text-body {

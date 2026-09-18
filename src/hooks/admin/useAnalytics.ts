@@ -67,7 +67,7 @@ function isoDay(offsetDays: number): string {
 }
 
 /** Aggregated first-party analytics. Admin-only at the database level. */
-export function useAnalytics(range: AnalyticsRange) {
+export function useAnalytics(range: AnalyticsRange, enabled = true) {
   return useQuery({
     queryKey: ["admin-analytics", range],
     queryFn: async (): Promise<AnalyticsSummary> => {
@@ -79,6 +79,7 @@ export function useAnalytics(range: AnalyticsRange) {
       return { ...EMPTY, ...((data as unknown as AnalyticsSummary) ?? {}) };
     },
     staleTime: 60_000,
+    enabled,
   });
 }
 
