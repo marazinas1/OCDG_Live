@@ -542,16 +542,6 @@ function SettingsBody() {
     enableBeforeUnload: isDirty,
   });
 
-  useEffect(() => {
-    if (!isDirty) return;
-    const warn = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = "";
-    };
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, [isDirty]);
-
   const mediaFor = (slot: SlotDef): PageMediaRow | null => findMedia(bundle, slot.page, slot.slot);
 
   const urlFor = (slot: SlotDef) => {

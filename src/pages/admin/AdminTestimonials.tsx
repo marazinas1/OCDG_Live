@@ -180,7 +180,16 @@ function AdminTestimonialsInner() {
             <Button type="submit" disabled={!quote.trim() || !author.trim() || save.isPending}>
               {save.isPending ? "Saving…" : "Add"}
             </Button>
-            <Button type="button" variant="ghost" onClick={() => setShowAddForm(false)}>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                setQuote("");
+                setAuthor("");
+                setDetail("");
+                setShowAddForm(false);
+              }}
+            >
               Cancel
             </Button>
           </div>

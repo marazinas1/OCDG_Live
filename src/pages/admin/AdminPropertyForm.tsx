@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams, useBeforeUnload } from "@/lib/router-compat";
+import { useNavigate, useParams } from "@/lib/router-compat";
 import { useQueryClient } from "@tanstack/react-query";
 import { useBlocker } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -505,19 +505,6 @@ function FormInner() {
       setSlug(slugify(title));
     }
   }, [title, slugTouched]);
-
-  // Warn on navigation
-  useBeforeUnload(
-    useMemo(
-      () => (e: BeforeUnloadEvent) => {
-        if (dirty && !saving) {
-          e.preventDefault();
-          e.returnValue = "";
-        }
-      },
-      [dirty, saving],
-    ),
-  );
 
   // Slot helpers
   const setCategorySlots = (cat: string, slots: ImageSlot[]) => {
