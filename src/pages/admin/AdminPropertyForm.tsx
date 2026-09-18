@@ -46,6 +46,7 @@ import {
   uploadImage,
 } from "@/lib/admin/imageUpload";
 import { isValidSlug, slugify } from "@/lib/admin/slug";
+import { canDeleteContent, useAdminAuth } from "@/hooks/admin/useAdminAuth";
 import {
   PROPERTY_STATUSES,
   STATUS_LABELS,
@@ -302,6 +303,8 @@ function ImageSlotBox({
 }
 
 function FormInner() {
+  const auth = useAdminAuth();
+  const canDelete = auth.status === "admin" && canDeleteContent(auth.role);
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
   const navigate = useNavigate();
@@ -1010,7 +1013,7 @@ function FormInner() {
           </h1>
         </div>
         <div className="flex gap-2">
-          {isEdit && (
+          {isEdit && canDelete && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="outline" className="text-destructive">

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowDown, ArrowUp, ChevronDown, Loader2, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronDown, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useBlocker } from "@tanstack/react-router";
 
@@ -29,6 +29,7 @@ import {
   useUpdateTestimonialPublished,
   type AdminTestimonial,
 } from "@/hooks/admin/useAdminTestimonials";
+import { canDeleteContent, useAdminAuth } from "@/hooks/admin/useAdminAuth";
 
 const summarize = (quote: string) => {
   const flat = quote.replace(/\s+/g, " ").trim();
@@ -40,6 +41,8 @@ const summarize = (quote: string) => {
  * published state, order and a summary; editing opens inline.
  */
 function AdminTestimonialsInner() {
+  const auth = useAdminAuth();
+  const canDelete = auth.status === "admin" && canDeleteContent(auth.role);
   const { data: items = [], isLoading, error, refetch } = useAdminTestimonials();
   const save = useSaveTestimonial();
   const setPublished = useUpdateTestimonialPublished();
@@ -410,7 +413,7 @@ function AdminTestimonialsInner() {
                         >
                           {save.isPending ? "Saving…" : dirty ? "Save" : "Saved"}
                         </Button>
-                        <AlertDialog>
+                        {canDelete && <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button
                               type="button"
@@ -445,7 +448,7 @@ function AdminTestimonialsInner() {
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
-                        </AlertDialog>
+                        </AlertDialog>}
                       </div>
                     </div>
                   </div>
