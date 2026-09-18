@@ -289,7 +289,7 @@ function PublishBadge({ published }: { published: boolean }) {
       variant="secondary"
       className={cn(
         "border-transparent",
-        published ? "bg-emerald-500/15 text-emerald-700" : "bg-muted text-muted-foreground",
+        published ? "bg-success-surface text-success-strong" : "bg-muted text-muted-foreground",
       )}
     >
       {published ? "Published" : "Draft"}

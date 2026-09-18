@@ -58,8 +58,8 @@ function RoleBadge({ role }: { role: string | null }) {
     role === "developer"
       ? "bg-primary text-on-dark"
       : role === "owner"
-        ? "bg-emerald-100 text-emerald-800"
-        : "bg-sky-100 text-sky-800";
+        ? "bg-success-surface text-success-strong"
+        : "bg-info-surface text-info-strong";
   return (
     <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${tone}`}>
       {ROLE_LABELS[role] ?? role}

@@ -116,7 +116,7 @@ function StatCard({
       {change !== undefined && change !== null && (
         <p
           className={`mt-2 flex items-center gap-1 text-xs ${
-            positive ? "text-emerald-600" : "text-red-600"
+            positive ? "text-success-strong" : "text-destructive"
           }`}
         >
           {positive ? (

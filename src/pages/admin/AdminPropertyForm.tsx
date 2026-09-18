@@ -1057,9 +1057,9 @@ function FormInner() {
                 markDirty();
               }}
             />
-            {slugError && <p className="text-xs text-red-600">{slugError}</p>}
+            {slugError && <p className="text-xs text-destructive">{slugError}</p>}
             {slugState.status === "available" && slug && (
-              <p className="text-xs text-emerald-600">Slug is available.</p>
+              <p className="text-xs text-success-strong">Slug is available.</p>
             )}
             {slugState.status === "checking" && (
               <p className="text-xs text-muted-foreground">Checking…</p>
