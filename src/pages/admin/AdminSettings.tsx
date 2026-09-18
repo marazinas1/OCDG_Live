@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useBlocker } from "@tanstack/react-router";
 import { ArrowDown, ArrowUp, ChevronDown, Plus, Trash2 } from "lucide-react";
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";
@@ -536,15 +537,10 @@ function SettingsBody() {
   }, [snapshot]);
   const isDirty = savedSnapshot.current !== null && savedSnapshot.current !== snapshot;
 
-  useEffect(() => {
-    if (!isDirty) return;
-    const warn = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = "";
-    };
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, [isDirty]);
+  useBlocker({
+    shouldBlockFn: () => isDirty && !window.confirm("You have unsaved settings changes. Leave without saving?"),
+    enableBeforeUnload: isDirty,
+  });
 
   const mediaFor = (slot: SlotDef): PageMediaRow | null => findMedia(bundle, slot.page, slot.slot);
 

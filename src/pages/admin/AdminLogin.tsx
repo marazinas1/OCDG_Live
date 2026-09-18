@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import BrandLogo from "@/components/BrandLogo";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -81,7 +84,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <main className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-background-sand">
+    <main className="grid min-h-screen grid-cols-1 bg-background md:grid-cols-2">
       {/* Left — sign-in */}
       <div className="flex items-center justify-center px-6 py-16">
         <div className="w-full max-w-md">
@@ -91,48 +94,36 @@ const AdminLogin = () => {
           </div>
 
           <div className="mb-10">
-            <p className="text-xs tracking-[0.3em] uppercase text-muted-slate mb-4">
+            <p className="mb-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">
               Administrator
             </p>
-            <h1 className="text-3xl text-charcoal">Sign in</h1>
-            <div className="mt-6 h-px w-12 bg-charcoal/20" />
+            <h1 className="text-3xl font-semibold text-foreground">Sign in</h1>
+            <div className="mt-6 h-px w-12 bg-border" />
           </div>
 
-          <div className="bg-card border border-border-subtle rounded-lg p-8">
+          <div className="rounded-lg border border-border bg-card p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="block text-xs tracking-[0.2em] uppercase text-slate"
-                >
-                  Email
-                </label>
-                <input
+                <Label htmlFor="email">Email</Label>
+                <Input
                   id="email"
                   type="email"
                   autoComplete="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-background border border-input rounded-lg text-charcoal focus:outline-hidden focus:ring-1 focus:ring-charcoal transition"
                 />
               </div>
 
               <div className="space-y-2">
-                <label
-                  htmlFor="password"
-                  className="block text-xs tracking-[0.2em] uppercase text-slate"
-                >
-                  Password
-                </label>
-                <input
+                <Label htmlFor="password">Password</Label>
+                <Input
                   id="password"
                   type="password"
                   autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-background border border-input rounded-lg text-charcoal focus:outline-hidden focus:ring-1 focus:ring-charcoal transition"
                 />
               </div>
 
@@ -142,34 +133,35 @@ const AdminLogin = () => {
                 </p>
               )}
 
-              {notice && <p className="text-sm text-slate">{notice}</p>}
+              {notice && <p className="text-sm text-muted-foreground">{notice}</p>}
 
-              <button
+              <Button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center px-8 py-3 text-sm font-medium tracking-wider uppercase bg-charcoal text-on-dark rounded-lg hover:bg-charcoal/90 transition disabled:opacity-60"
+                className="w-full"
               >
                 {loading ? "Signing In…" : "Sign In"}
-              </button>
+              </Button>
             </form>
 
-            <button
+            <Button
               type="button"
+              variant="link"
               onClick={handleForgotPassword}
-              className="mt-4 w-full text-center text-sm text-muted-slate underline underline-offset-4 hover:text-charcoal transition"
+              className="mt-4 w-full text-muted-foreground"
             >
               Forgot password?
-            </button>
+            </Button>
           </div>
 
-          <p className="mt-8 text-xs tracking-[0.15em] uppercase text-muted-slate">
+          <p className="mt-8 text-xs uppercase tracking-[0.14em] text-muted-foreground">
             Authorized Personnel Only
           </p>
         </div>
       </div>
 
       {/* Right — branded panel */}
-      <aside className="hidden md:flex flex-col items-center justify-center bg-charcoal px-16 py-24">
+      <aside className="hidden flex-col items-center justify-center bg-primary px-16 py-24 md:flex">
         <BrandLogo variant="dark" className="h-8 w-auto" />
         <div className="mt-10 h-px w-12 bg-card/20" />
       </aside>

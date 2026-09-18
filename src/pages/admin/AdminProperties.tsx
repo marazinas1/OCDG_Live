@@ -76,7 +76,7 @@ type SortKey = "newest" | "title-asc" | "listed-desc";
 const VIEW_STORAGE_KEY = "admin-properties-view";
 
 function AdminPropertiesInner() {
-  const { data, isLoading } = useProperties();
+  const { data, isLoading, error, refetch } = useProperties();
   const updateStatus = useUpdatePropertyStatus();
   const updatePublished = useUpdatePropertyPublished();
   const deleteProperty = useDeleteProperty();
@@ -244,6 +244,9 @@ function AdminPropertiesInner() {
             <ListIcon className="h-4 w-4" />
           </ToggleGroupItem>
         </ToggleGroup>
+        <p className="w-full text-xs text-muted-foreground sm:w-auto sm:shrink-0">
+          Showing {filtered.length} of {rows.length}
+        </p>
       </div>
 
       {isLoading ? (
@@ -251,6 +254,13 @@ function AdminPropertiesInner() {
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="h-72 animate-pulse rounded-lg border border-border bg-card" />
           ))}
+        </div>
+      ) : error ? (
+        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-5 text-sm text-destructive">
+          <p>Properties could not be loaded.</p>
+          <Button type="button" variant="outline" size="sm" className="mt-3" onClick={() => void refetch()}>
+            Try again
+          </Button>
         </div>
       ) : rows.length === 0 ? (
         <EmptyState />

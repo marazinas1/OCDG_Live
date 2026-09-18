@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, ChevronDown, Loader2, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useBlocker } from "@tanstack/react-router";
 
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";
@@ -56,6 +57,26 @@ function AdminTestimonialsInner() {
     () => items.length > 0 && openIds.length === items.length,
     [items.length, openIds.length],
   );
+  const hasUnsavedChanges = useMemo(
+    () =>
+      Boolean(quote.trim() || author.trim() || detail.trim()) ||
+      items.some((item) => {
+        const edit = edits[item.id];
+        if (!edit) return false;
+        return (
+          (edit.quote ?? item.quote) !== item.quote ||
+          (edit.author_name ?? item.author_name) !== item.author_name ||
+          (edit.author_detail ?? item.author_detail ?? "") !== (item.author_detail ?? "")
+        );
+      }),
+    [author, detail, edits, items, quote],
+  );
+
+  useBlocker({
+    shouldBlockFn: () =>
+      hasUnsavedChanges && !window.confirm("You have unsaved testimonial changes. Leave without saving?"),
+    enableBeforeUnload: hasUnsavedChanges,
+  });
 
   const toggle = (id: string) =>
     setOpenIds((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
@@ -159,7 +180,16 @@ function AdminTestimonialsInner() {
             <Button type="submit" disabled={!quote.trim() || !author.trim() || save.isPending}>
               {save.isPending ? "Saving…" : "Add"}
             </Button>
-            <Button type="button" variant="ghost" onClick={() => setShowAddForm(false)}>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                setQuote("");
+                setAuthor("");
+                setDetail("");
+                setShowAddForm(false);
+              }}
+            >
               Cancel
             </Button>
           </div>
@@ -221,11 +251,12 @@ function AdminTestimonialsInner() {
             return (
               <li key={item.id} className="rounded-lg border border-border bg-card">
                 <div className="flex items-center gap-3 p-4">
-                  <button
+                   <Button
                     type="button"
+                     variant="ghost"
                     aria-expanded={open}
                     onClick={() => toggle(item.id)}
-                    className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                     className="h-auto min-w-0 flex-1 justify-start gap-3 whitespace-normal p-0 text-left hover:bg-transparent"
                   >
                     <ChevronDown
                       className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${
@@ -258,7 +289,7 @@ function AdminTestimonialsInner() {
                         #{index + 1} · {summarize(quoteValue)}
                       </span>
                     </span>
-                  </button>
+                   </Button>
 
                   <div className="flex shrink-0 items-center gap-1">
                     <Button
@@ -403,6 +434,7 @@ function AdminTestimonialsInner() {
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
                               <AlertDialogAction
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                 onClick={() =>
                                   remove.mutate(item.id, {
                                     onError: (e) => toast.error(e.message),
