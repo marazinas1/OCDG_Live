@@ -7,7 +7,7 @@ export const adminTabsListClass =
   "bg-transparent p-0 [scrollbar-width:thin]";
 
 export const adminTabsTriggerClass =
-  "relative -mb-px h-10 shrink-0 whitespace-nowrap rounded-none border-0 border-b-2 " +
+  "relative -mb-px h-10 shrink-0 whitespace-nowrap rounded-none border-0 border-b-[3px] " +
   "border-transparent bg-transparent px-1 py-2 text-sm font-medium text-muted-foreground shadow-none " +
   "transition-colors hover:text-foreground data-[state=active]:border-primary " +
   "data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none";

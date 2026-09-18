@@ -5,6 +5,7 @@ import BrandLogo from "@/components/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { STAFF_ROLES } from "@/hooks/admin/useAdminAuth";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const AdminLogin = () => {
         .from("user_roles")
         .select("role")
         .eq("user_id", session.user.id)
-        .in("role", ["developer", "owner"])
+        .in("role", STAFF_ROLES)
         .maybeSingle();
       if (active && roles) navigate("/admin", { replace: true });
     })();
@@ -70,7 +71,7 @@ const AdminLogin = () => {
       .from("user_roles")
       .select("role")
       .eq("user_id", data.session.user.id)
-      .in("role", ["developer", "owner"])
+      .in("role", STAFF_ROLES)
       .maybeSingle();
 
     if (roleError || !roleRow) {

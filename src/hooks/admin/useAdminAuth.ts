@@ -1,9 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-// `editor` exists in the role hierarchy; admin panel access itself still
-// requires developer/owner, but the label must render if that changes.
 export type AdminRole = "developer" | "owner" | "editor";
+
+export const STAFF_ROLES: AdminRole[] = ["developer", "owner", "editor"];
+export const MANAGER_ROLES: AdminRole[] = ["developer", "owner"];
+
+export function canManageBusiness(role: AdminRole) {
+  return role === "developer" || role === "owner";
+}
+
+export function canDeleteContent(role: AdminRole) {
+  return role === "developer" || role === "owner";
+}
 
 export type AdminAuthState =
   | { status: "loading" }
@@ -39,7 +48,7 @@ export function useAdminAuth(): AdminAuthState {
         .from("user_roles")
         .select("role")
         .eq("user_id", userData.user.id)
-        .in("role", ["developer", "owner"])
+        .in("role", STAFF_ROLES)
         .maybeSingle();
       if (!active) return;
       if (!roleRow) {
