@@ -233,11 +233,12 @@ function InquiriesBody() {
           {inquiries.map((inquiry) => {
             const unread = !inquiry.read_at;
             return (
-              <button
+              <Button
                 key={inquiry.id}
                 type="button"
+                variant="ghost"
                 onClick={() => setOpenId(inquiry.id)}
-                className={`w-full text-left px-4 py-4 hover:bg-muted transition-colors ${
+                className={`h-auto w-full justify-start rounded-none px-4 py-4 text-left whitespace-normal hover:bg-muted ${
                   unread ? "bg-muted/70" : ""
                 }`}
               >
@@ -276,7 +277,7 @@ function InquiriesBody() {
                     {formatDate(inquiry.created_at)}
                   </span>
                 </div>
-              </button>
+              </Button>
             );
           })}
         </div>
