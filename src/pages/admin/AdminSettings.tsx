@@ -1415,11 +1415,7 @@ function SettingsBody() {
               className="mt-2"
             />
           </div>
-        </div> : (
-          <div className="rounded-lg border border-border bg-muted p-5 text-sm text-muted-foreground">
-            Partner records are read only for Editors. An Owner or Developer can add, reorder, or remove them.
-          </div>
-        )}
+        </div>
 
         <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Leadership &amp; Our Promise</p>
