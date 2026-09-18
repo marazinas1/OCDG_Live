@@ -979,7 +979,16 @@ function FormInner() {
         <div>
           <button
             type="button"
-            onClick={() => navigate("/admin/properties")}
+            onClick={() => {
+              if (
+                dirty &&
+                !saving &&
+                !window.confirm("You have unsaved changes. Leave without saving?")
+              ) {
+                return;
+              }
+              navigate("/admin/properties");
+            }}
             className="text-sm text-muted-foreground hover:text-foreground"
           >
             ← Back to properties
