@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronDown, Plus, Trash2 } from "lucide-react";
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { AdminTabsList, AdminTabsTrigger } from "@/components/admin/AdminTabs";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import {
   FALLBACK_LOGO,
@@ -876,34 +882,28 @@ function SettingsBody() {
           immediately.
         </p>
         {isDirty && (
-          <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+          <p className="mt-3 rounded-md border border-warning-border bg-warning-surface px-3 py-2 text-xs text-warning-strong">
             You have unsaved changes. Use the save button in this section before leaving the page.
           </p>
         )}
       </div>
 
       <Tabs defaultValue="business" className="space-y-6">
-        <TabsList className="flex flex-wrap justify-start gap-2 h-auto bg-transparent p-0">
+        <AdminTabsList>
           {[
-            { value: "business", label: "Business" },
-            { value: "appearance", label: "Appearance" },
-            { value: "homepage", label: "Home texts" },
-            { value: "about", label: "About texts" },
-            { value: "contact", label: "Contact texts" },
-            { value: "developments", label: "Developments texts" },
-            { value: "gallery", label: "Gallery texts" },
-            { value: "testimonials", label: "Testimonials texts" },
-            { value: "maintenance", label: "Maintenance" },
+            { value: "business", label: "Business & appearance" },
+            { value: "homepage", label: "Home" },
+            { value: "developments", label: "Developments" },
+            { value: "gallery", label: "Gallery" },
+            { value: "testimonials", label: "Testimonials" },
+            { value: "about", label: "About" },
+            { value: "contact", label: "Contact" },
           ].map((t) => (
-            <TabsTrigger
-              key={t.value}
-              value={t.value}
-              className="rounded-[4px] px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 border border-border bg-transparent text-slate shadow-none hover:text-charcoal data-[state=active]:bg-charcoal data-[state=active]:text-on-dark data-[state=active]:border-charcoal data-[state=active]:shadow-none"
-            >
+            <AdminTabsTrigger key={t.value} value={t.value}>
               {t.label}
-            </TabsTrigger>
+            </AdminTabsTrigger>
           ))}
-        </TabsList>
+        </AdminTabsList>
 
 
       <TabsContent value="business" className="space-y-4">
