@@ -1024,10 +1024,6 @@ function SettingsBody() {
             These are used everywhere: the site header, the footer, this admin panel and the
             browser tab. Uploading an image saves it right away.
           </p>
-        <p className="text-xs text-muted-foreground">
-          Logo, favicon and logo size. Uploading an image saves it right away.
-        </p>
-
         {BRAND_SLOTS.map((slot) => (
           <AssetSlot
             key={slotKey(slot)}
@@ -1092,12 +1088,10 @@ function SettingsBody() {
             </span>
             <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
           </CollapsibleTrigger>
-          <CollapsibleContent className="border-t border-border p-5">
-        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+          <CollapsibleContent className="space-y-5 border-t border-border p-5">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <p className="text-sm font-medium text-foreground">Maintenance mode</p>
-              <p className="mt-1 text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 Visitors see a short holding page instead of the site. You stay signed in and keep
                 seeing the real site, with a reminder bar at the top.
               </p>
@@ -1128,7 +1122,6 @@ function SettingsBody() {
           >
             {textSaving ? "Saving…" : "Save message"}
           </Button>
-        </div>
           </CollapsibleContent>
         </Collapsible>
       </TabsContent>
