@@ -50,6 +50,19 @@
   --color-status-coming-soon-foreground: hsl(var(--status-coming-soon-foreground));
   --color-status-sold: hsl(var(--status-sold));
   --color-status-sold-foreground: hsl(var(--status-sold-foreground));
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-success-surface: hsl(var(--success-surface));
+  --color-success-strong: hsl(var(--success-strong));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-warning-surface: hsl(var(--warning-surface));
+  --color-warning-border: hsl(var(--warning-border));
+  --color-warning-strong: hsl(var(--warning-strong));
+  --color-info: hsl(var(--info));
+  --color-info-foreground: hsl(var(--info-foreground));
+  --color-info-surface: hsl(var(--info-surface));
+  --color-info-strong: hsl(var(--info-strong));
   --color-background-mist: hsl(var(--background-mist));
   --color-border: hsl(var(--border));
   --color-border-subtle: hsl(var(--border-subtle));
@@ -165,6 +178,22 @@
   --status-sold: 0 0% 10%;
   --status-sold-foreground: 0 0% 100%;
   --background-mist: 0 0% 98%;
+
+  /* Feedback palette — admin states (saved, warnings, informational notes).
+     Soft surfaces plus readable foregrounds; never used for brand accents. */
+  --success: 160 84% 39%;
+  --success-foreground: 0 0% 100%;
+  --success-surface: 160 60% 96%;
+  --success-strong: 160 84% 26%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 10%;
+  --warning-surface: 43 96% 95%;
+  --warning-border: 43 80% 80%;
+  --warning-strong: 28 74% 30%;
+  --info: 205 85% 45%;
+  --info-foreground: 0 0% 100%;
+  --info-surface: 205 80% 95%;
+  --info-strong: 205 85% 28%;
 
   /* Borders */
   --border: 220 10% 90%;
