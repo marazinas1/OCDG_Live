@@ -264,7 +264,7 @@ function AnalyticsInner() {
       </div>
 
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
           Could not load analytics. {error instanceof Error ? error.message : ""}
         </div>
       )}
