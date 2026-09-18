@@ -18,3 +18,10 @@
 
 ## Rules still in force
 - No publish until user explicitly approves
+
+## Admin refresh — current Deerva standards
+- [ ] Replace framed admin tabs with the current underline treatment
+- [ ] Unify admin buttons, tokens, headers, badges, and responsive spacing
+- [ ] Complete loading, empty, error, count, and retry states
+- [ ] Strengthen dirty-state protection in Settings and Testimonials
+- [ ] Verify every admin screen on desktop and mobile; do not publish
