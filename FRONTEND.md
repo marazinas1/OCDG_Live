@@ -54,7 +54,9 @@ src/lib/content-resolver.ts   resolveText / resolveOptionalText / resolveMedia
 - Motion: ScrollReveal fade-in, parallax headers, Ken Burns hero. All of it
   is suppressed by the `prefers-reduced-motion` block in `src/styles.css`.
 - Fonts load via `<link>` in `src/routes/__root.tsx`, never `@import` in CSS.
-- Urbanist (300–800) is the only typeface across the public site, auth and admin.
+- Public headings use Bodoni Moda (400–500, plus 400 italic for quotes); public
+  body copy and controls use Urbanist (300–800). Auth and admin use Urbanist
+  exclusively, and public serif rules must never leak into those surfaces.
 
 ## SEO
 

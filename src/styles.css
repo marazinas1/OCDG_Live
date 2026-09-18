@@ -14,7 +14,8 @@
 
 @theme inline {
   --font-sans: 'Urbanist', system-ui, sans-serif;
-  --font-serif: 'Urbanist', system-ui, sans-serif;
+  --font-serif: 'Bodoni Moda', Georgia, serif;
+  --font-display: 'Bodoni Moda', Georgia, serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -278,8 +279,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Urbanist', system-ui, sans-serif;
-    font-weight: 700;
+    font-family: inherit;
   }
 }
 
@@ -456,20 +456,20 @@
 
   /* Typography */
   .heading-display {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
-    font-family: 'Urbanist', system-ui, sans-serif;
+    @apply text-4xl md:text-5xl lg:text-6xl font-normal;
+    font-family: 'Bodoni Moda', Georgia, serif;
     line-height: 1.1;
   }
 
   .heading-section {
-    @apply text-3xl md:text-4xl font-bold;
-    font-family: 'Urbanist', system-ui, sans-serif;
+    @apply text-3xl md:text-4xl font-normal;
+    font-family: 'Bodoni Moda', Georgia, serif;
     line-height: 1.2;
   }
 
   .heading-card {
-    @apply text-xl md:text-2xl font-semibold;
-    font-family: 'Urbanist', system-ui, sans-serif;
+    @apply text-xl md:text-2xl font-medium;
+    font-family: 'Bodoni Moda', Georgia, serif;
   }
 
   .text-body {
