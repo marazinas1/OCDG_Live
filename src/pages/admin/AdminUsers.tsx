@@ -251,13 +251,13 @@ function AdminUsersInner() {
 
         {/* Manual handover fallback */}
         {handover && (
-          <div className="mt-6 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm">
+          <div className="mt-6 rounded-md border border-warning-border bg-warning-surface p-4 text-sm">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-medium text-amber-900">
+                <p className="font-medium text-warning-strong">
                   Hand these details to {handover.email}
                 </p>
-                <p className="text-amber-800 mt-1">
+                <p className="text-warning-strong mt-1">
                   No invitation email could be sent automatically. Share the link
                   {handover.password ? " (or the temporary password)" : ""} privately.
                 </p>
@@ -268,7 +268,7 @@ function AdminUsersInner() {
             </div>
             {handover.actionLink && (
               <div className="flex items-center gap-2 mt-3">
-                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
+                <code className="flex-1 truncate rounded-lg bg-card border border-warning-border px-3 py-2 text-xs text-foreground">
                   {handover.actionLink}
                 </code>
                 <Button
@@ -282,7 +282,7 @@ function AdminUsersInner() {
             )}
             {handover.password && (
               <div className="flex items-center gap-2 mt-2">
-                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
+                <code className="flex-1 truncate rounded-lg bg-card border border-warning-border px-3 py-2 text-xs text-foreground">
                   {handover.password}
                 </code>
                 <Button
