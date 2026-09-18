@@ -1017,9 +1017,13 @@ function SettingsBody() {
             {textSaving ? "Saving…" : "Save business details"}
           </Button>
         </div>
-      </TabsContent>
 
-      <TabsContent value="appearance" className="space-y-4">
+        <div className="space-y-4">
+          <h2 className="text-sm font-semibold text-foreground">Logo, favicon and logo size</h2>
+          <p className="text-xs text-muted-foreground">
+            These are used everywhere: the site header, the footer, this admin panel and the
+            browser tab. Uploading an image saves it right away.
+          </p>
         <p className="text-xs text-muted-foreground">
           Logo, favicon and logo size. Uploading an image saves it right away.
         </p>
@@ -1076,8 +1080,58 @@ function SettingsBody() {
             </Button>
           </div>
         </div>
-      </TabsContent>
+        </div>
 
+        <Collapsible className="rounded-lg border border-border bg-card">
+          <CollapsibleTrigger className="flex w-full items-center justify-between gap-4 p-5 text-left">
+            <span>
+              <span className="block text-sm font-medium text-foreground">Maintenance mode</span>
+              <span className="mt-1 block text-xs text-muted-foreground">
+                {maintenanceOn ? "Currently on — visitors see the holding page." : "Currently off — the site is public."}
+              </span>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="border-t border-border p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="text-sm font-medium text-foreground">Maintenance mode</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Visitors see a short holding page instead of the site. You stay signed in and keep
+                seeing the real site, with a reminder bar at the top.
+              </p>
+            </div>
+            <Switch
+              checked={maintenanceOn}
+              disabled={textSaving}
+              onCheckedChange={(next) => {
+                setMaintenanceOn(next);
+                void handleSaveMaintenance(next, maintenanceMessage);
+              }}
+            />
+          </div>
+          <div>
+            <Label htmlFor="maintenance-message">Message shown to visitors</Label>
+            <Textarea
+              id="maintenance-message"
+              value={maintenanceMessage}
+              onChange={(e) => setMaintenanceMessage(e.target.value)}
+              placeholder={MAINTENANCE_FALLBACK_MESSAGE}
+              rows={3}
+              className="mt-2"
+            />
+          </div>
+          <Button
+            onClick={() => handleSaveMaintenance(maintenanceOn, maintenanceMessage)}
+            disabled={textSaving}
+          >
+            {textSaving ? "Saving…" : "Save message"}
+          </Button>
+        </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </TabsContent>
       <TabsContent value="homepage" className="space-y-4">
         {HOME_SLOTS.map((slot) => (
           <AssetSlot
@@ -1643,46 +1697,6 @@ function SettingsBody() {
           </Button>
         </div>
       </TabsContent>
-
-      <TabsContent value="maintenance" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <p className="text-sm font-medium text-foreground">Maintenance mode</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Visitors see a short holding page instead of the site. You stay signed in and keep
-                seeing the real site, with a reminder bar at the top.
-              </p>
-            </div>
-            <Switch
-              checked={maintenanceOn}
-              disabled={textSaving}
-              onCheckedChange={(next) => {
-                setMaintenanceOn(next);
-                void handleSaveMaintenance(next, maintenanceMessage);
-              }}
-            />
-          </div>
-          <div>
-            <Label htmlFor="maintenance-message">Message shown to visitors</Label>
-            <Textarea
-              id="maintenance-message"
-              value={maintenanceMessage}
-              onChange={(e) => setMaintenanceMessage(e.target.value)}
-              placeholder={MAINTENANCE_FALLBACK_MESSAGE}
-              rows={3}
-              className="mt-2"
-            />
-          </div>
-          <Button
-            onClick={() => handleSaveMaintenance(maintenanceOn, maintenanceMessage)}
-            disabled={textSaving}
-          >
-            {textSaving ? "Saving…" : "Save message"}
-          </Button>
-        </div>
-      </TabsContent>
-
       <TabsContent value="developments" className="space-y-4">
         <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-xs text-muted-foreground">
