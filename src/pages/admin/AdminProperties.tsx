@@ -247,7 +247,11 @@ function AdminPropertiesInner() {
       </div>
 
       {isLoading ? (
-        <div className="py-16 text-center text-muted-foreground">Loading…</div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-hidden>
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="h-72 animate-pulse rounded-lg border border-border bg-card" />
+          ))}
+        </div>
       ) : rows.length === 0 ? (
         <EmptyState />
       ) : filtered.length === 0 ? (
@@ -289,7 +293,7 @@ function PublishBadge({ published }: { published: boolean }) {
       variant="secondary"
       className={cn(
         "border-transparent",
-        published ? "bg-emerald-500/15 text-emerald-700" : "bg-muted text-muted-foreground",
+        published ? "bg-success-surface text-success-strong" : "bg-muted text-muted-foreground",
       )}
     >
       {published ? "Published" : "Draft"}

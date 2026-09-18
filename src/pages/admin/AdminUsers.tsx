@@ -58,8 +58,8 @@ function RoleBadge({ role }: { role: string | null }) {
     role === "developer"
       ? "bg-primary text-on-dark"
       : role === "owner"
-        ? "bg-emerald-100 text-emerald-800"
-        : "bg-sky-100 text-sky-800";
+        ? "bg-success-surface text-success-strong"
+        : "bg-info-surface text-info-strong";
   return (
     <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${tone}`}>
       {ROLE_LABELS[role] ?? role}
@@ -251,13 +251,13 @@ function AdminUsersInner() {
 
         {/* Manual handover fallback */}
         {handover && (
-          <div className="mt-6 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm">
+          <div className="mt-6 rounded-md border border-warning-border bg-warning-surface p-4 text-sm">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-medium text-amber-900">
+                <p className="font-medium text-warning-strong">
                   Hand these details to {handover.email}
                 </p>
-                <p className="text-amber-800 mt-1">
+                <p className="text-warning-strong mt-1">
                   No invitation email could be sent automatically. Share the link
                   {handover.password ? " (or the temporary password)" : ""} privately.
                 </p>
@@ -268,7 +268,7 @@ function AdminUsersInner() {
             </div>
             {handover.actionLink && (
               <div className="flex items-center gap-2 mt-3">
-                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
+                <code className="flex-1 truncate rounded-lg bg-card border border-warning-border px-3 py-2 text-xs text-foreground">
                   {handover.actionLink}
                 </code>
                 <Button
@@ -282,7 +282,7 @@ function AdminUsersInner() {
             )}
             {handover.password && (
               <div className="flex items-center gap-2 mt-2">
-                <code className="flex-1 truncate rounded-lg bg-card border border-amber-200 px-3 py-2 text-xs text-foreground">
+                <code className="flex-1 truncate rounded-lg bg-card border border-warning-border px-3 py-2 text-xs text-foreground">
                   {handover.password}
                 </code>
                 <Button
@@ -311,7 +311,7 @@ function AdminUsersInner() {
         )}
 
         {error && (
-          <p className="px-6 py-8 text-sm text-red-600">{(error as Error).message}</p>
+          <p className="px-6 py-8 text-sm text-destructive">{(error as Error).message}</p>
         )}
 
         {!isLoading && !error && (
@@ -419,7 +419,7 @@ function AdminUsersInner() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
                       disabled={readOnly}
                       title={
                         isSelf
@@ -474,7 +474,7 @@ function AdminUsersInner() {
               onClick={confirmPending}
               className={
                 pending?.kind === "delete"
-                  ? "bg-red-600 hover:bg-red-700 text-on-dark"
+                  ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
                   : undefined
               }
             >

@@ -284,7 +284,7 @@ function ImageSlotBox({
                 variant="ghost"
                 size="sm"
                 disabled={uploading}
-                className="text-red-600 hover:text-red-700"
+                className="text-destructive hover:text-destructive"
                 onClick={onRemove}
               >
                 <X className="w-3.5 h-3.5 mr-1" />
@@ -979,7 +979,16 @@ function FormInner() {
         <div>
           <button
             type="button"
-            onClick={() => navigate("/admin/properties")}
+            onClick={() => {
+              if (
+                dirty &&
+                !saving &&
+                !window.confirm("You have unsaved changes. Leave without saving?")
+              ) {
+                return;
+              }
+              navigate("/admin/properties");
+            }}
             className="text-sm text-muted-foreground hover:text-foreground"
           >
             ← Back to properties
@@ -992,7 +1001,7 @@ function FormInner() {
           {isEdit && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" className="text-red-600">
+                <Button variant="outline" className="text-destructive">
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete
                 </Button>
@@ -1009,7 +1018,7 @@ function FormInner() {
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleDelete}
-                    className="bg-red-600 hover:bg-red-700"
+                    className="bg-destructive hover:bg-destructive/90"
                   >
                     Delete
                   </AlertDialogAction>
@@ -1026,6 +1035,13 @@ function FormInner() {
           </Button>
         </div>
       </div>
+
+      {dirty && !saving && (
+        <p className="rounded-md border border-warning-border bg-warning-surface px-3 py-2 text-xs text-warning-strong">
+          You have unsaved changes. Use “{isEdit ? "Save changes" : "Create property"}” before
+          leaving this page.
+        </p>
+      )}
 
       {/* Basics */}
       <Card>
@@ -1057,9 +1073,9 @@ function FormInner() {
                 markDirty();
               }}
             />
-            {slugError && <p className="text-xs text-red-600">{slugError}</p>}
+            {slugError && <p className="text-xs text-destructive">{slugError}</p>}
             {slugState.status === "available" && slug && (
-              <p className="text-xs text-emerald-600">Slug is available.</p>
+              <p className="text-xs text-success-strong">Slug is available.</p>
             )}
             {slugState.status === "checking" && (
               <p className="text-xs text-muted-foreground">Checking…</p>
@@ -1522,7 +1538,7 @@ function FormInner() {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="text-red-600"
+                    className="text-destructive"
                     onClick={() => removeFloorPlan(fp.id)}
                   >
                     <X className="w-4 h-4 mr-1" />

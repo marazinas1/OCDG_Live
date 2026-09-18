@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronDown, Plus, Trash2 } from "lucide-react";
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { AdminTabsList, AdminTabsTrigger } from "@/components/admin/AdminTabs";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import {
   FALLBACK_LOGO,
@@ -876,34 +882,28 @@ function SettingsBody() {
           immediately.
         </p>
         {isDirty && (
-          <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+          <p className="mt-3 rounded-md border border-warning-border bg-warning-surface px-3 py-2 text-xs text-warning-strong">
             You have unsaved changes. Use the save button in this section before leaving the page.
           </p>
         )}
       </div>
 
       <Tabs defaultValue="business" className="space-y-6">
-        <TabsList className="flex flex-wrap justify-start gap-2 h-auto bg-transparent p-0">
+        <AdminTabsList>
           {[
-            { value: "business", label: "Business" },
-            { value: "appearance", label: "Appearance" },
-            { value: "homepage", label: "Home texts" },
-            { value: "about", label: "About texts" },
-            { value: "contact", label: "Contact texts" },
-            { value: "developments", label: "Developments texts" },
-            { value: "gallery", label: "Gallery texts" },
-            { value: "testimonials", label: "Testimonials texts" },
-            { value: "maintenance", label: "Maintenance" },
+            { value: "business", label: "Business & appearance" },
+            { value: "homepage", label: "Home" },
+            { value: "developments", label: "Developments" },
+            { value: "gallery", label: "Gallery" },
+            { value: "testimonials", label: "Testimonials" },
+            { value: "about", label: "About" },
+            { value: "contact", label: "Contact" },
           ].map((t) => (
-            <TabsTrigger
-              key={t.value}
-              value={t.value}
-              className="rounded-[4px] px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 border border-border bg-transparent text-slate shadow-none hover:text-charcoal data-[state=active]:bg-charcoal data-[state=active]:text-on-dark data-[state=active]:border-charcoal data-[state=active]:shadow-none"
-            >
+            <AdminTabsTrigger key={t.value} value={t.value}>
               {t.label}
-            </TabsTrigger>
+            </AdminTabsTrigger>
           ))}
-        </TabsList>
+        </AdminTabsList>
 
 
       <TabsContent value="business" className="space-y-4">
@@ -1017,13 +1017,13 @@ function SettingsBody() {
             {textSaving ? "Saving…" : "Save business details"}
           </Button>
         </div>
-      </TabsContent>
 
-      <TabsContent value="appearance" className="space-y-4">
-        <p className="text-xs text-muted-foreground">
-          Logo, favicon and logo size. Uploading an image saves it right away.
-        </p>
-
+        <div className="space-y-4">
+          <h2 className="text-sm font-semibold text-foreground">Logo, favicon and logo size</h2>
+          <p className="text-xs text-muted-foreground">
+            These are used everywhere: the site header, the footer, this admin panel and the
+            browser tab. Uploading an image saves it right away.
+          </p>
         {BRAND_SLOTS.map((slot) => (
           <AssetSlot
             key={slotKey(slot)}
@@ -1076,8 +1076,55 @@ function SettingsBody() {
             </Button>
           </div>
         </div>
-      </TabsContent>
+        </div>
 
+        <Collapsible className="rounded-lg border border-border bg-card">
+          <CollapsibleTrigger className="flex w-full items-center justify-between gap-4 p-5 text-left">
+            <span>
+              <span className="block text-sm font-medium text-foreground">Maintenance mode</span>
+              <span className="mt-1 block text-xs text-muted-foreground">
+                {maintenanceOn ? "Currently on — visitors see the holding page." : "Currently off — the site is public."}
+              </span>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-5 border-t border-border p-5">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="text-xs text-muted-foreground">
+                Visitors see a short holding page instead of the site. You stay signed in and keep
+                seeing the real site, with a reminder bar at the top.
+              </p>
+            </div>
+            <Switch
+              checked={maintenanceOn}
+              disabled={textSaving}
+              onCheckedChange={(next) => {
+                setMaintenanceOn(next);
+                void handleSaveMaintenance(next, maintenanceMessage);
+              }}
+            />
+          </div>
+          <div>
+            <Label htmlFor="maintenance-message">Message shown to visitors</Label>
+            <Textarea
+              id="maintenance-message"
+              value={maintenanceMessage}
+              onChange={(e) => setMaintenanceMessage(e.target.value)}
+              placeholder={MAINTENANCE_FALLBACK_MESSAGE}
+              rows={3}
+              className="mt-2"
+            />
+          </div>
+          <Button
+            onClick={() => handleSaveMaintenance(maintenanceOn, maintenanceMessage)}
+            disabled={textSaving}
+          >
+            {textSaving ? "Saving…" : "Save message"}
+          </Button>
+          </CollapsibleContent>
+        </Collapsible>
+      </TabsContent>
       <TabsContent value="homepage" className="space-y-4">
         {HOME_SLOTS.map((slot) => (
           <AssetSlot
@@ -1643,46 +1690,6 @@ function SettingsBody() {
           </Button>
         </div>
       </TabsContent>
-
-      <TabsContent value="maintenance" className="space-y-4">
-        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <p className="text-sm font-medium text-foreground">Maintenance mode</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Visitors see a short holding page instead of the site. You stay signed in and keep
-                seeing the real site, with a reminder bar at the top.
-              </p>
-            </div>
-            <Switch
-              checked={maintenanceOn}
-              disabled={textSaving}
-              onCheckedChange={(next) => {
-                setMaintenanceOn(next);
-                void handleSaveMaintenance(next, maintenanceMessage);
-              }}
-            />
-          </div>
-          <div>
-            <Label htmlFor="maintenance-message">Message shown to visitors</Label>
-            <Textarea
-              id="maintenance-message"
-              value={maintenanceMessage}
-              onChange={(e) => setMaintenanceMessage(e.target.value)}
-              placeholder={MAINTENANCE_FALLBACK_MESSAGE}
-              rows={3}
-              className="mt-2"
-            />
-          </div>
-          <Button
-            onClick={() => handleSaveMaintenance(maintenanceOn, maintenanceMessage)}
-            disabled={textSaving}
-          >
-            {textSaving ? "Saving…" : "Save message"}
-          </Button>
-        </div>
-      </TabsContent>
-
       <TabsContent value="developments" className="space-y-4">
         <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-xs text-muted-foreground">
