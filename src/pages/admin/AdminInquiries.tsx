@@ -130,7 +130,7 @@ function InquiriesBody() {
   const [filter, setFilter] = useState<InquiryFilter>("all");
   const [search, setSearch] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
-  const { data: inquiries, isLoading } = useInquiries(filter, search);
+  const { data: inquiries, isLoading, error, refetch } = useInquiries(filter, search);
   const update = useUpdateInquiry();
 
   const selected = useMemo(
@@ -197,6 +197,9 @@ function InquiriesBody() {
             <SelectItem value="archived">Archived</SelectItem>
           </SelectContent>
         </Select>
+        <p className="self-center text-xs text-muted-foreground">
+          {inquiries?.length ?? 0} {(inquiries?.length ?? 0) === 1 ? "inquiry" : "inquiries"}
+        </p>
       </div>
 
       {isLoading ? (
@@ -207,6 +210,13 @@ function InquiriesBody() {
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="h-[76px] animate-pulse bg-muted/40" />
           ))}
+        </div>
+      ) : error ? (
+        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-5 text-sm text-destructive">
+          <p>Inquiries could not be loaded.</p>
+          <Button type="button" variant="outline" size="sm" className="mt-3" onClick={() => void refetch()}>
+            Try again
+          </Button>
         </div>
       ) : !inquiries || inquiries.length === 0 ? (
         <div className="border border-border rounded-lg bg-card p-10 text-center">

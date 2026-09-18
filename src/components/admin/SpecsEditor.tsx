@@ -62,7 +62,7 @@ export default function SpecsEditor({
             placeholder="Description"
             rows={2}
           />
-          <Button type="button" variant="ghost" size="icon" onClick={() => remove(i)}>
+          <Button type="button" variant="ghost" size="icon" aria-label={`Remove spec ${i + 1}`} title="Remove spec" onClick={() => remove(i)}>
             <X className="w-4 h-4" />
           </Button>
         </div>

@@ -35,13 +35,13 @@ export default function StringListEditor({
             onChange={(e) => update(i, e.target.value)}
             placeholder={placeholder}
           />
-          <Button type="button" variant="ghost" size="icon" onClick={() => move(i, -1)}>
+          <Button type="button" variant="ghost" size="icon" aria-label={`Move item ${i + 1} up`} title="Move up" disabled={i === 0} onClick={() => move(i, -1)}>
             <ArrowUp className="w-4 h-4" />
           </Button>
-          <Button type="button" variant="ghost" size="icon" onClick={() => move(i, 1)}>
+          <Button type="button" variant="ghost" size="icon" aria-label={`Move item ${i + 1} down`} title="Move down" disabled={i === value.length - 1} onClick={() => move(i, 1)}>
             <ArrowDown className="w-4 h-4" />
           </Button>
-          <Button type="button" variant="ghost" size="icon" onClick={() => remove(i)}>
+          <Button type="button" variant="ghost" size="icon" aria-label={`Remove item ${i + 1}`} title="Remove" onClick={() => remove(i)}>
             <X className="w-4 h-4" />
           </Button>
         </div>
