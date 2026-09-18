@@ -295,7 +295,7 @@ function InquiriesBody() {
 
 export default function AdminInquiries() {
   return (
-    <AdminProtected>
+    <AdminProtected allowedRoles={["developer", "owner"]}>
       <InquiriesBody />
     </AdminProtected>
   );

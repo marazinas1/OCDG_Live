@@ -498,7 +498,7 @@ function AdminUsersInner() {
 
 export default function AdminUsers() {
   return (
-    <AdminProtected>
+    <AdminProtected allowedRoles={["developer", "owner"]}>
       <AdminUsersInner />
     </AdminProtected>
   );
