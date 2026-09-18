@@ -62,7 +62,7 @@ function HoldingPage({ message }: { message: string }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-20 text-center">
-      <BrandLogo className="mb-10 h-10 w-auto" />
+      <BrandLogo className="mb-10 h-8 w-auto" />
       <h1 className="heading-section text-charcoal mb-4">We'll be back shortly</h1>
       <p className="text-body max-w-xl">{message}</p>
       <div className="mt-10 space-y-1 text-sm text-muted-slate">

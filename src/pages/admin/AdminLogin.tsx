@@ -87,7 +87,7 @@ const AdminLogin = () => {
         <div className="w-full max-w-md">
           {/* The branded panel is hidden on small screens, so show the mark here. */}
           <div className="md:hidden mb-10">
-            <BrandLogo className="h-10 w-auto" />
+            <BrandLogo className="h-8 w-auto" />
           </div>
 
           <div className="mb-10">
@@ -170,7 +170,7 @@ const AdminLogin = () => {
 
       {/* Right — branded panel */}
       <aside className="hidden md:flex flex-col items-center justify-center bg-charcoal px-16 py-24">
-        <BrandLogo variant="dark" className="h-16 w-auto" />
+        <BrandLogo variant="dark" className="h-8 w-auto" />
         <div className="mt-10 h-px w-12 bg-card/20" />
       </aside>
     </main>

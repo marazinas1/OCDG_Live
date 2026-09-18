@@ -64,7 +64,7 @@ const GlobalNav = () => {
             <Link to="/" onClick={handleLogoClick} className="flex items-center flex-shrink-0">
               <BrandLogo
                 variant={isScrolled ? "light" : "dark"}
-                className={`h-7 sm:h-8 md:h-10 w-auto max-h-[50px] object-contain transition-all duration-300 ${
+                className={`h-8 w-auto object-contain transition-all duration-300 ${
                   !isScrolled ? "drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : ""
                 }`}
               />
