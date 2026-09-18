@@ -1351,7 +1351,7 @@ function SettingsBody() {
           </div>
         </div>
 
-        {isManager ? <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Our Story</p>
           <div>
             <Label htmlFor="story-label">Small label</Label>
@@ -1478,7 +1478,7 @@ function SettingsBody() {
           </div>
         </div>
 
-        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+        {isManager ? <div className="space-y-5 rounded-lg border border-border bg-card p-5">
           <p className="text-sm font-medium text-foreground">Trusted Collaborators</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
@@ -1599,7 +1599,11 @@ function SettingsBody() {
             <Plus className="mr-2 h-4 w-4" />
             Add partner
           </Button>
-        </div>
+        </div> : (
+          <div className="rounded-lg border border-border bg-muted p-5 text-sm text-muted-foreground">
+            Partner records are read only for Editors. An Owner or Developer can add, reorder, or remove them.
+          </div>
+        )}
 
         <p className="text-xs text-muted-foreground">
           Leave a field empty to fall back to the default wording shown in grey.
