@@ -29,13 +29,15 @@ Nauja struktūra:
 
 ```text
 Business & appearance   (verslo duomenys + logotipas + favicon + Maintenance kaip suskleidžiamas blokas)
-Home texts
-Developments texts
-Gallery texts
-Testimonials texts
-About texts
-Contact texts           (visada paskutinis)
+Home
+Developments
+Gallery
+Testimonials
+About
+Contact                 (visada paskutinis)
 ```
+
+Tabų pavadinimai be „texts“, nes kiekviename puslapio tabe redaguojami ir tekstai, ir nuotraukos.
 
 Tai tiksliai atkartoja viešo meniu tvarką. Jokio turinio neprarandama — laukai tie patys, tik pergrupuoti.
 
