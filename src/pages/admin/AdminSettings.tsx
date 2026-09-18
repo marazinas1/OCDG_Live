@@ -316,6 +316,7 @@ const ordinal = (index: number) => String(index + 1).padStart(2, "0");
 function SettingsBody() {
   const auth = useAdminAuth();
   const isManager = auth.status === "admin" && canManageBusiness(auth.role);
+  const [activeTab, setActiveTab] = useState("homepage");
   const { bundle, isLoading } = usePageContent(PAGES);
   const saveText = useSaveText();
   const saveMedia = useSaveMedia();
@@ -330,6 +331,10 @@ function SettingsBody() {
   const [ctaLabel, setCtaLabel] = useState("");
   const [quote, setQuote] = useState("");
   const [quoteAttribution, setQuoteAttribution] = useState("");
+
+  useEffect(() => {
+    if (isManager) setActiveTab((current) => current === "homepage" ? "business" : current);
+  }, [isManager]);
 
   const [about, setAbout] = useState({
     heroEyebrow: "",
@@ -892,7 +897,7 @@ function SettingsBody() {
         )}
       </div>
 
-      <Tabs defaultValue={isManager ? "business" : "homepage"} className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <AdminTabsList>
           {[
             ...(isManager ? [{ value: "business", label: "Business & appearance" }] : []),

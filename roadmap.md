@@ -6,4 +6,4 @@
 - [x] Suderinti turinio RLS su editor teisėmis, išlaikant owner/developer apsaugas
 - [x] Užbaigti admin loading/accessibility/read-only būsenas
 - [x] Atnaujinti AGENTS.md ir FRONTEND.md
-- [ ] Patikrinti public ir admin desktop/mobile bei automatines patikras
+- [x] Patikrinti public ir admin desktop/mobile bei automatines patikras
