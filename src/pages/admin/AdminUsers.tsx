@@ -49,21 +49,21 @@ function formatLastSignIn(value: string | null) {
 function RoleBadge({ role }: { role: string | null }) {
   if (!role) {
     return (
-      <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+      <Badge variant="secondary" className="border-transparent bg-muted text-muted-foreground">
         No access
-      </span>
+      </Badge>
     );
   }
   const tone =
     role === "developer"
-      ? "bg-primary text-on-dark"
+      ? "bg-primary text-primary-foreground"
       : role === "owner"
         ? "bg-success-surface text-success-strong"
         : "bg-info-surface text-info-strong";
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${tone}`}>
+    <Badge variant="secondary" className={`border-transparent ${tone}`}>
       {ROLE_LABELS[role] ?? role}
-    </span>
+    </Badge>
   );
 }
 
@@ -76,7 +76,7 @@ function AdminUsersInner() {
   const auth = useAdminAuth();
   const callerId = auth.status === "admin" ? auth.userId : null;
 
-  const { data: users, isLoading, error } = useAdminUsers();
+  const { data: users, isLoading, error, refetch } = useAdminUsers();
   const invite = useInviteUser();
   const setRole = useSetUserRole();
   const revoke = useRevokeUser();
@@ -274,6 +274,8 @@ function AdminUsersInner() {
                 <Button
                   variant="outline"
                   size="sm"
+                  aria-label="Copy invitation link"
+                  title="Copy invitation link"
                   onClick={() => copy("Link", handover.actionLink!)}
                 >
                   <Copy className="w-4 h-4" />
@@ -288,6 +290,8 @@ function AdminUsersInner() {
                 <Button
                   variant="outline"
                   size="sm"
+                  aria-label="Copy temporary password"
+                  title="Copy temporary password"
                   onClick={() => copy("Password", handover.password!)}
                 >
                   <Copy className="w-4 h-4" />
@@ -311,7 +315,12 @@ function AdminUsersInner() {
         )}
 
         {error && (
-          <p className="px-6 py-8 text-sm text-destructive">{(error as Error).message}</p>
+          <div className="px-6 py-8 text-sm text-destructive">
+            <p>{(error as Error).message}</p>
+            <Button type="button" variant="outline" size="sm" className="mt-3" onClick={() => void refetch()}>
+              Try again
+            </Button>
+          </div>
         )}
 
         {!isLoading && !error && (
@@ -347,9 +356,9 @@ function AdminUsersInner() {
                       )}
                       {!u.confirmed && <Badge variant="outline">Invited</Badge>}
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {u.role ? ROLE_LABELS[u.role] ?? u.role : "No access"} ·{" "}
-                      {formatLastSignIn(u.lastSignInAt)}
+                    <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                      <RoleBadge role={u.role} />
+                      <span>{formatLastSignIn(u.lastSignInAt)}</span>
                     </div>
                   </div>
 

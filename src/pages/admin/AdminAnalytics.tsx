@@ -212,7 +212,7 @@ function BreakdownList({
 
 function AnalyticsInner() {
   const [range, setRange] = useState<AnalyticsRange>(30);
-  const { data, isLoading, error } = useAnalytics(range);
+  const { data, isLoading, error, refetch } = useAnalytics(range);
   const { data: titles = {} } = usePropertyTitles();
 
 
@@ -240,7 +240,7 @@ function AnalyticsInner() {
   const conversion = totalVisitors ? ((leads / totalVisitors) * 100).toFixed(1) : "0.0";
 
   return (
-    <div className="p-6 md:p-8">
+    <div>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="mb-1 text-2xl font-semibold text-foreground">Analytics</h1>
@@ -265,15 +265,20 @@ function AnalyticsInner() {
 
       {error && (
         <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
-          Could not load analytics. {error instanceof Error ? error.message : ""}
+          <p>Could not load analytics. {error instanceof Error ? error.message : ""}</p>
+          <Button type="button" variant="outline" size="sm" className="mt-3" onClick={() => void refetch()}>
+            Try again
+          </Button>
         </div>
       )}
 
       {isLoading ? (
-        <div className="rounded-lg border border-border bg-card p-10 text-center text-sm text-muted-foreground">
-          Loading analytics…
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Loading analytics">
+          {[0, 1, 2, 3].map((item) => (
+            <div key={item} className="h-28 animate-pulse rounded-lg border border-border bg-card" />
+          ))}
         </div>
-      ) : (
+      ) : error ? null : (
         <>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <StatCard
@@ -323,36 +328,42 @@ function AnalyticsInner() {
                 <AreaChart data={chartData} margin={{ left: -20, right: 8, top: 8 }}>
                   <defs>
                     <linearGradient id="views" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#0f172a" stopOpacity={0.25} />
-                      <stop offset="100%" stopColor="#0f172a" stopOpacity={0} />
+                      <stop offset="0%" stopColor="hsl(var(--foreground))" stopOpacity={0.25} />
+                      <stop offset="100%" stopColor="hsl(var(--foreground))" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="visitors" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#64748b" stopOpacity={0.25} />
-                      <stop offset="100%" stopColor="#64748b" stopOpacity={0} />
+                      <stop offset="0%" stopColor="hsl(var(--muted-foreground))" stopOpacity={0.25} />
+                      <stop offset="100%" stopColor="hsl(var(--muted-foreground))" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                   <XAxis
                     dataKey="label"
-                    tick={{ fontSize: 11, fill: "#94a3b8" }}
+                    tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                     tickLine={false}
                     axisLine={false}
                     minTickGap={24}
                   />
                   <YAxis
                     allowDecimals={false}
-                    tick={{ fontSize: 11, fill: "#94a3b8" }}
+                    tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                     tickLine={false}
                     axisLine={false}
                   />
                   <Tooltip
-                    contentStyle={{ fontSize: 12, borderRadius: 6, borderColor: "#e2e8f0" }}
+                    contentStyle={{
+                      fontSize: 12,
+                      borderRadius: "var(--radius)",
+                      borderColor: "hsl(var(--border))",
+                      backgroundColor: "hsl(var(--card))",
+                      color: "hsl(var(--foreground))",
+                    }}
                   />
                   <Area
                     type="monotone"
                     dataKey="views"
                     name="Views"
-                    stroke="#0f172a"
+                    stroke="hsl(var(--foreground))"
                     fill="url(#views)"
                     strokeWidth={2}
                   />
@@ -360,7 +371,7 @@ function AnalyticsInner() {
                     type="monotone"
                     dataKey="visitors"
                     name="Visitors"
-                    stroke="#64748b"
+                    stroke="hsl(var(--muted-foreground))"
                     fill="url(#visitors)"
                     strokeWidth={2}
                   />

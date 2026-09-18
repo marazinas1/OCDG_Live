@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, useBeforeUnload } from "@/lib/router-compat";
 import { useQueryClient } from "@tanstack/react-query";
+import { useBlocker } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Trash2, Plus, X, ArrowUp, ArrowDown, Loader2 } from "lucide-react";
 
@@ -13,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
   SelectContent,
@@ -304,7 +306,7 @@ function FormInner() {
   const isEdit = !!id;
   const navigate = useNavigate();
   const qc = useQueryClient();
-  const { data: existing, isLoading } = useProperty(id);
+  const { data: existing, isLoading, error, refetch } = useProperty(id);
 
   // Form state
   const [title, setTitle] = useState("");
@@ -362,6 +364,11 @@ function FormInner() {
   const markDirty = () => setDirty(true);
 
   const [saving, setSaving] = useState(false);
+
+  useBlocker({
+    shouldBlockFn: () => dirty && !saving && !window.confirm("You have unsaved changes. Leave without saving?"),
+    enableBeforeUnload: dirty && !saving,
+  });
 
   // Slug uniqueness
   const slugState = useSlugAvailability(slug, id);
@@ -963,7 +970,24 @@ function FormInner() {
   };
 
   if (isEdit && isLoading) {
-    return <div className="py-16 text-center text-muted-foreground">Loading…</div>;
+    return (
+      <div className="space-y-6" aria-label="Loading property">
+        <Skeleton className="h-8 w-56" />
+        <Skeleton className="h-64 w-full" />
+        <Skeleton className="h-64 w-full" />
+      </div>
+    );
+  }
+
+  if (isEdit && error) {
+    return (
+      <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-5 text-sm text-destructive">
+        <p>The property could not be loaded.</p>
+        <Button type="button" variant="outline" size="sm" className="mt-3" onClick={() => void refetch()}>
+          Try again
+        </Button>
+      </div>
+    );
   }
 
   const slugError =
@@ -977,8 +1001,9 @@ function FormInner() {
     <div className="space-y-6 pb-32">
       <div className="flex items-center justify-between">
         <div>
-          <button
+          <Button
             type="button"
+            variant="link"
             onClick={() => {
               if (
                 dirty &&
@@ -989,10 +1014,10 @@ function FormInner() {
               }
               navigate("/admin/properties");
             }}
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="h-auto p-0 text-sm text-muted-foreground"
           >
             ← Back to properties
-          </button>
+          </Button>
           <h1 className="text-2xl font-semibold text-foreground mt-2">
             {isEdit ? "Edit property" : "New property"}
           </h1>
@@ -1472,9 +1497,11 @@ function FormInner() {
                     />
                   ))}
                   {showAdd && group.allowExtra && (
-                    <button
+                    <Button
                       type="button"
-                      className="aspect-[4/3] border-2 border-dashed border-border rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted"
+                      variant="outline"
+                      aria-label={`Add ${group.label.toLowerCase()} image`}
+                      className="aspect-[4/3] h-auto border-2 border-dashed text-muted-foreground"
                       onClick={() => {
                         const input = document.createElement("input");
                         input.type = "file";
@@ -1486,8 +1513,8 @@ function FormInner() {
                         input.click();
                       }}
                     >
-                      <Plus className="w-6 h-6" />
-                    </button>
+                      <Plus className="h-6 w-6" />
+                    </Button>
                   )}
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useBlocker } from "@tanstack/react-router";
 import { ArrowDown, ArrowUp, ChevronDown, Plus, Trash2 } from "lucide-react";
 import AdminProtected from "@/components/admin/AdminProtected";
 import { Button } from "@/components/ui/button";
@@ -535,6 +536,11 @@ function SettingsBody() {
     if (savedSnapshot.current === null) savedSnapshot.current = snapshot;
   }, [snapshot]);
   const isDirty = savedSnapshot.current !== null && savedSnapshot.current !== snapshot;
+
+  useBlocker({
+    shouldBlockFn: () => isDirty && !window.confirm("You have unsaved settings changes. Leave without saving?"),
+    enableBeforeUnload: isDirty,
+  });
 
   useEffect(() => {
     if (!isDirty) return;
