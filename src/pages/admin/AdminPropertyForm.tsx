@@ -1036,6 +1036,13 @@ function FormInner() {
         </div>
       </div>
 
+      {dirty && !saving && (
+        <p className="rounded-md border border-warning-border bg-warning-surface px-3 py-2 text-xs text-warning-strong">
+          You have unsaved changes. Use “{isEdit ? "Save changes" : "Create property"}” before
+          leaving this page.
+        </p>
+      )}
+
       {/* Basics */}
       <Card>
         <CardHeader>
