@@ -561,7 +561,7 @@ function FormInner() {
     if (old.kind === "existing" && canDelete) {
       setDeletedStoragePaths((p) => [...p, old.storage_path]);
       setDeletedDbIds((p) => [...p, old.dbId]);
-    } else {
+    } else if (old.kind === "pending") {
       URL.revokeObjectURL(old.previewUrl);
     }
     const slot: ImageSlot = {
