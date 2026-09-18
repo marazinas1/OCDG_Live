@@ -200,11 +200,22 @@ function InquiriesBody() {
       </div>
 
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">Loading…</p>
+        <div
+          className="border border-border rounded-lg bg-card divide-y divide-border overflow-hidden"
+          aria-hidden
+        >
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-[76px] animate-pulse bg-muted/40" />
+          ))}
+        </div>
       ) : !inquiries || inquiries.length === 0 ? (
         <div className="border border-border rounded-lg bg-card p-10 text-center">
           <p className="text-sm text-muted-foreground">
-            {filter === "archived" ? "Nothing archived." : "No inquiries yet."}
+            {filter === "archived"
+              ? "Nothing archived yet. Archived inquiries stay here, they are never deleted."
+              : search
+                ? "No inquiries match that name or email."
+                : "No inquiries yet. New messages from the contact forms land here."}
           </p>
         </div>
       ) : (
