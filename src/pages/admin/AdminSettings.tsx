@@ -160,6 +160,7 @@ function AssetSlot({
   progress,
   onPick,
   onRemove,
+  canRemove = true,
 }: {
   label: string;
   help: string;
@@ -171,6 +172,7 @@ function AssetSlot({
   progress: number;
   onPick: (file: File) => void;
   onRemove: () => void;
+  canRemove?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -191,7 +193,7 @@ function AssetSlot({
           >
             {hasUpload ? "Replace" : "Upload"}
           </Button>
-          {hasUpload && (
+          {hasUpload && canRemove && (
             <Button type="button" variant="ghost" size="sm" disabled={busy} onClick={onRemove}>
               Remove
             </Button>
@@ -607,7 +609,9 @@ function SettingsBody() {
       await saveText.mutateAsync({
         page,
         entries,
-        ...(preserveBlank ? { preserveBlank } : {}),
+        ...((preserveBlank || !isManager)
+          ? { preserveBlank: preserveBlank ?? entries.map((entry) => entry.slot) }
+          : {}),
       });
       toast({ title: "Saved", description });
 
@@ -755,6 +759,12 @@ function SettingsBody() {
         { slot: "partners_label", value: about.partnersLabel },
         { slot: "partners_heading", value: about.partnersHeading },
       ]);
+
+      if (!isManager) {
+        await invalidate();
+        toast({ title: "Saved", description: "About page updated." });
+        return;
+      }
 
       // Replace the partner block wholesale: clear every numbered slot, then
       // write the current list back starting at 01.
@@ -1031,6 +1041,7 @@ function SettingsBody() {
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
+            canRemove={isManager}
           />
         ))}
 
@@ -1123,10 +1134,11 @@ function SettingsBody() {
             progress={progress}
             onPick={(file) => handleUpload(slot, file)}
             onRemove={() => handleRemove(slot)}
+            canRemove={isManager}
           />
         ))}
 
-        <div className="space-y-5 rounded-lg border border-border bg-card p-5">
+        {isManager && <div className="space-y-5 rounded-lg border border-border bg-card p-5">
 
           <div>
             <Label htmlFor="hero-eyebrow">Small line above the headline</Label>
@@ -1292,7 +1304,7 @@ function SettingsBody() {
           <Button onClick={handleSaveHome} disabled={textSaving}>
             {textSaving ? "Saving…" : "Save homepage content"}
           </Button>
-        </div>
+        </div>}
       </TabsContent>
 
       <TabsContent value="about" className="space-y-4">
