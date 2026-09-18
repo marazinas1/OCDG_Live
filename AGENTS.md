@@ -118,7 +118,7 @@ skaito, prie naujo framework'o:
 
 ## Dabartinis dizaino ir admin standartas
 
-- Visa vieša svetainė, auth ir admin naudoja Urbanist 300–800; serif šriftų nėra.
+- Viešos svetainės antraštės naudoja Bodoni Moda 400–500, o tekstai ir valdikliai — Urbanist 300–800. Auth ir admin visur naudoja tik Urbanist.
 - Admin turinys naudoja visą shell plotį, be `max-w-7xl` išimties.
 - Editor gali valdyti Properties, Testimonials ir viešų puslapių turinį, bet nemato Inquiries, Analytics, Users ar Business & appearance ir negali trinti.
 - Settings Maintenance yra visada matoma paskutinė Business & appearance kortelė, ne collapsible blokas.
