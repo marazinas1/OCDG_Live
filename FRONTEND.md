@@ -77,9 +77,24 @@ optimisation path; replacing or deleting an image deletes the old object.
 
 ## Admin panel
 
-Menu order is fixed: Daily (Overview, Inquiries, Analytics) → Manage
-(Properties, Testimonials) → Settings (Users, Settings). Settings tabs are
-Business, Appearance, then one tab per public page, then Maintenance.
+Menu order is fixed: Workspace (Dashboard, Inquiries, Analytics) → Manage
+(Properties, Testimonials) → Settings (Users, Settings). Articles are not part
+of this project yet.
+
+Settings tabs mirror the public menu: Business & appearance (business details,
+logo, favicon, logo size, and maintenance mode as a collapsible block inside
+it), then Home, Developments, Gallery, Testimonials, About, and Contact last.
+Each page tab edits both the texts and the images of that page.
+
+Tabs everywhere use the shared `src/components/admin/AdminTabs.tsx` treatment:
+bordered container, stable height, active trigger changes its whole surface,
+no arbitrary radius. Repeating records (testimonials) are expandable rows with
+inline editing, an "Expand all / Collapse all" control and a "Shown on site"
+switch.
+
+Documented exception to the Deerva standard: admin content is capped at
+`max-w-7xl` in `AdminShell`, on purpose, so every admin screen has the same
+width. Do not "fix" this to full width.
 
 Behaviour rules: every list has a plain-language empty state, destructive
 actions confirm and say what is lost, saves show a toast, and unsaved changes
