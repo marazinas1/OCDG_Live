@@ -311,7 +311,7 @@ function AdminUsersInner() {
         )}
 
         {error && (
-          <p className="px-6 py-8 text-sm text-red-600">{(error as Error).message}</p>
+          <p className="px-6 py-8 text-sm text-destructive">{(error as Error).message}</p>
         )}
 
         {!isLoading && !error && (
@@ -419,7 +419,7 @@ function AdminUsersInner() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
                       disabled={readOnly}
                       title={
                         isSelf
@@ -474,7 +474,7 @@ function AdminUsersInner() {
               onClick={confirmPending}
               className={
                 pending?.kind === "delete"
-                  ? "bg-red-600 hover:bg-red-700 text-on-dark"
+                  ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
                   : undefined
               }
             >

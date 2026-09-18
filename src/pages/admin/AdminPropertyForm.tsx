@@ -284,7 +284,7 @@ function ImageSlotBox({
                 variant="ghost"
                 size="sm"
                 disabled={uploading}
-                className="text-red-600 hover:text-red-700"
+                className="text-destructive hover:text-destructive"
                 onClick={onRemove}
               >
                 <X className="w-3.5 h-3.5 mr-1" />
@@ -992,7 +992,7 @@ function FormInner() {
           {isEdit && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" className="text-red-600">
+                <Button variant="outline" className="text-destructive">
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete
                 </Button>
@@ -1009,7 +1009,7 @@ function FormInner() {
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleDelete}
-                    className="bg-red-600 hover:bg-red-700"
+                    className="bg-destructive hover:bg-destructive/90"
                   >
                     Delete
                   </AlertDialogAction>
@@ -1522,7 +1522,7 @@ function FormInner() {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="text-red-600"
+                    className="text-destructive"
                     onClick={() => removeFloorPlan(fp.id)}
                   >
                     <X className="w-4 h-4 mr-1" />
